@@ -67,15 +67,36 @@ namespace TransportationService.Utility
          //return coll.FindAll<Bus>();
          return new List<Bus>(); // TODO do correctly...
       }
-      public List<Stop> GetAvailableStops()
+      public List<Stop> GetAvailableStops()//pass in a list of stops already in the route.
       {
          var coll = _database.GetCollection(_stopCollectionName);
-         return new List<Stop>(); // TODO do correctly...
-      }
-      public List<Employee> GetAvailableEmployees()
-      {
-         var coll = _database.GetCollection(_employeeCollectionName);
-         return new List<Employee>(); // TODO do correctly...
+         return new List<Stop>()
+         {
+            new Stop(){
+               Id = ObjectId.GenerateNewId(),
+               StopId = 1,
+              StreetName = "pumpkin",
+              StreetNumber = 23
+            },
+            new Stop(){
+               Id = ObjectId.GenerateNewId(),
+               StopId = 2,
+              StreetName = "squash",
+              StreetNumber = 9
+            },
+            new Stop(){
+               Id = ObjectId.GenerateNewId(),
+               StopId = 4,
+              StreetName = "ravioli",
+              StreetNumber = 25
+            },
+            new Stop(){
+               Id = ObjectId.GenerateNewId(),
+               StopId = 10,
+              StreetName = "squirt",
+              StreetNumber = 16
+            }
+         };
       }
 
    }

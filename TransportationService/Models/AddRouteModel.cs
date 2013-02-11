@@ -10,6 +10,5 @@ namespace TransportationService.Models
    {
       public List<Bus> AvailableBuses { get; set; }
       public List<Stop> AvailableStops { get; set; }
-      public List<Employee> AvailableEmployees { get; set; }
    }
 }

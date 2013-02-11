@@ -18,8 +18,7 @@ namespace TransportationService.Controllers
          AddRouteModel model = new AddRouteModel()
          {
             AvailableBuses = db.GetAvailableBuses(),
-            AvailableStops = db.GetAvailableStops(),
-            AvailableEmployees = db.GetAvailableEmployees()
+            AvailableStops = db.GetAvailableStops()
          };
          return PartialView("AddRoute", model);
       }

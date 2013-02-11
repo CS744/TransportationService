@@ -30,7 +30,8 @@ namespace TransportationService.Utility
       public ObjectId Id { get; set; }
       public string LiscensePlate { get; set; }
       public int Capacity { get; set; }
-      public BusStatus status { get; set; }
+      public BusStatus Status { get; set; }
+      public long BusId { get; set; }
       //public ObjectId RouteId { get; set; }
    }
 
