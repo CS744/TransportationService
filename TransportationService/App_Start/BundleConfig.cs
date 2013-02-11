@@ -14,7 +14,8 @@ namespace MvcApplication1
          bundles.Add(new ScriptBundle("~/bundles/TransportationService").Include(
             "~/Scripts/Logon.js",
             "~/Scripts/bootstrap.js",
-            "~/Scripts/userManager.js"
+            "~/Scripts/userManager.js",
+            "~/Scripts/AdminActions.js"
          ));
 
          //bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(

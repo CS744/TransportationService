@@ -14,8 +14,6 @@ namespace TransportationService.Utility
       public string Username { get; set; }
       [JsonPropertyAttribute("email")]
       public string Email { get; set; }
-      [JsonPropertyAttribute("type")]
-      public UserType Type { get; set; }
    }
    public static class JsonUtility
    {
@@ -25,8 +23,7 @@ namespace TransportationService.Utility
          return new UserJson()
          {
             Username = user.Username,
-            Email = user.Email,
-            Type = user.Type
+            Email = user.Email
          };
       }
    }

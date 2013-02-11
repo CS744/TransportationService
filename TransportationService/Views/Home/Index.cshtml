@@ -1,9 +1,18 @@
-﻿@model TransportationService.Utility.Bus
-@{
+﻿@{
     ViewBag.Title = "Home";
 }
 @*
 Here's a comment.
 *@
-<div>I know this wouldn't be how it would look, but it's an example.</div>
-<button id="buttonToRegister" class="btn">pop up modal</button>
+<div>
+    <div>Please Enter You Username And Password</div>
+    <div>
+        <input id="usernameText" type="text" placeholder="Enter Username" />
+    </div>
+    <div>
+        <input id="passwordText" type="password" placeholder="Enter Password" />
+    </div>
+    <div>
+        <button class="btn" onclick="logIn();">Log In</button>
+    </div>
+</div>

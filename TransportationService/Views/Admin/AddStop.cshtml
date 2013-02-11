@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "AddStop";
+}
+
+<div id="modal" class="modal hide">
+    <div class="modal-header">Please Enter a Stop</div>
+    <div class="modal-body">
+        <div>
+            <input id="streetText" type="text" placeholder="Enter Street Name." />
+        </div>
+        <div>
+            <input id="numberText" type="text" placeholder="Enter Street Number." />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" onclick="addNewStop()">Save Stop</button>
+        <button class="btn" onclick="$(#modal').modal('hide')">Cancel</button>
+    </div>
+</div>

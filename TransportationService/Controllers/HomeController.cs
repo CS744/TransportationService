@@ -16,29 +16,25 @@ namespace TransportationService.Controllers
 
       public ActionResult Index()
       {
-         Bus bus = new Bus()
-         {
-            Capacity = 5,
-            Id = ObjectId.GenerateNewId(),
-            LiscensePlate = "ABC 123",
-         };
-         DatabaseInterface db = new DatabaseInterface();
-         db.SaveBus(bus);
-
-         return View(bus);
-      }
-
-      public ActionResult RegisterUser(string username, string password)
-      {
          User user = new User()
          {
+            Email = "weisse.simon@gmail.com",
             Id = ObjectId.GenerateNewId(),
-            Username = username,
-            Password = password,
-            Email = "emailAddressNotImplemented@gmail.com",
-            Type = UserType.Driver
+            Password = "Soupy",
+            Username = "Simon"
          };
-         //will save user.
+         DatabaseInterface db = new DatabaseInterface();
+         db.SaveUser(user);
+
+         return View();
+      }
+
+      public ActionResult LogIn(string username, string password)
+      {
+
+         DatabaseInterface db = new DatabaseInterface();
+         User user = db.getUser(username,password);
+
          var model = new OutputViewModel()
          {
             Username = user.Username

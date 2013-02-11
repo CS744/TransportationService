@@ -1,0 +1,24 @@
+﻿@model TransportationService.Models.AddRouteModel
+@{
+    ViewBag.Title = "AddRoute";
+}
+
+<div id="modal" class="modal hide">
+    <div class="modal-header">Please Enter You Username And Password</div>
+    <div class="modal-body" style="max-height:600px">
+        <div>
+            <input id="usernameText" type="text" placeholder="Enter Username" />
+        </div>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Employees <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <div onclick="alert('youhaveclicked.')">Employee1</div>
+                <div onclick="alert('youhaveclicked.')">Employee2</div>
+                <div onclick="alert('youhaveclicked.')">Employee3</div>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" onclick="addNewRoute();">Add Route</button>
+    </div>
+</div>

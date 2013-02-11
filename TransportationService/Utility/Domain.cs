@@ -9,11 +9,6 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace TransportationService.Utility
 {
-   public enum UserType
-   {
-      Admin = 0,
-      Driver
-   }
    public enum BusStatus
    {
       Active = 0,
@@ -27,7 +22,6 @@ namespace TransportationService.Utility
       public string Username { get; set; }
       public string Password { get; set; }
       public string Email { get; set; }
-      public UserType Type { get; set; }
    }
 
    public class Bus
@@ -37,7 +31,7 @@ namespace TransportationService.Utility
       public string LiscensePlate { get; set; }
       public int Capacity { get; set; }
       public BusStatus status { get; set; }
-      Route Route { get; set; }
+      //public ObjectId RouteId { get; set; }
    }
 
    public class Employee
@@ -46,16 +40,25 @@ namespace TransportationService.Utility
       public ObjectId Id { get; set; }
       public long SocialSecurityNumber { get; set; }
       public string Position { get; set; }
-      public ObjectId RouteId { get; set; }
+      //public ObjectId RouteId { get; set; }
    }
-   public class Route : List<int>
+   public class Route : List<Stop>
    {
       [BsonId]
       public ObjectId Id { get; set; }
-      List<ObjectId> Employees { get; set; }
-      public Route(List<int> r)
+      public List<Employee> Employees { get; set; }
+      public Bus Bus { get; set; }
+      public Route(List<Stop> r)
          : base(r)
       {
       }
+   }
+   public class Stop
+   {
+      [BsonId]
+      public ObjectId Id { get; set; }
+      public string StreetName { get; set; }
+      public int StreetNumber { get; set; }
+      public int StopId { get; set; }
    }
 }
