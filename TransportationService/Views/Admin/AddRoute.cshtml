@@ -3,10 +3,10 @@
     ViewBag.Title = "AddRoute";
 }
 
-<div id="modal" class="modal hide">
+<div id="modal" class="modal hide smallModal">
     <div class="modal-header">Please Enter You Username And Password</div>
     <div class="modal-body" style="max-height: 600px; overflow: visible;">
-        <div class="dropdown">
+        @*        <div class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Employees <b class="caret"></b></a>
             <ul class="dropdown-menu">
                 @foreach (TransportationService.Utility.Bus bus in Model.AvailableBuses)
@@ -14,14 +14,20 @@
                     <div onclick="">Bus @bus.BusId</div>
                 }
             </ul>
+        </div>*@
+        <div>
+            <div id="added-stops">
+                <div class="added-stop">Start</div>
+            </div>
+            <i class='added-stop icon-arrow-right'></i><i class="icon-flag"></i>
         </div>
         <div class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Stops<b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Stops</a>
             <ul class="dropdown-menu">
                 @foreach (TransportationService.Utility.Stop stop in Model.AvailableStops)
                 {
-                    @* Stop 5, Ferry-19 *@
-                    <div onclick="">Stop @stop.StopId, @stop.StreetName-@stop.StreetNumber</div>
+@* Stop 5, Ferry-19 *@
+                    <div class="dropdown-item" onclick="addStopToRoute(this)" data-stopId="@stop.StopId">Stop @stop.StopId, @stop.StreetName-@stop.StreetNumber</div>
                 }
             </ul>
         </div>

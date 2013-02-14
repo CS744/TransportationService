@@ -4,13 +4,17 @@
 @*
 Here's a comment.
 *@
-<div>
-    <div>Please Enter You Username And Password</div>
+<div id="loginContainer">
+    <div>Transportation Service</div>
     <div>
         <input id="usernameText" type="text" placeholder="Enter Username" />
     </div>
     <div>
         <input id="passwordText" type="password" placeholder="Enter Password" />
+    </div>
+    <div style="overflow:hidden;height:30px;">
+        <div id="login-error">
+        </div>
     </div>
     <div>
         <button class="btn" onclick="logIn();">Log In</button>

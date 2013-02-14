@@ -9,7 +9,19 @@ function logIn() {
         password: password
     }
     $.post("/Home/LogIn", request, function (data) {
-        userManager.currentUser = data.user;
-        $("#mainArea").replaceWith(data.html);
+        if (data.error) {
+            var loginError = $("#login-error");
+            loginError.addClass("showerror");
+            loginError.html(data.message);
+            setTimeout(function () {
+                loginError.removeClass("showerror");
+            }, 2500);
+        }
+        else {
+            userManager.currentUser = data.user;
+            $("#mainArea-header").html(data.headerText);
+            $("#mainArea").replaceWith(data.html);
+            $("#sign-out-text").removeClass('hidden');
+        }
     });
 }

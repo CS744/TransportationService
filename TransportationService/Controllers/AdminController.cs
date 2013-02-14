@@ -11,7 +11,7 @@ namespace TransportationService.Controllers
 {
    public class AdminController : TransportationBaseController
    {
-      public Random ran;
+      public Random ran = new Random();
       public ActionResult AddRoute()
       {
          DatabaseInterface db = new DatabaseInterface();
@@ -38,6 +38,21 @@ namespace TransportationService.Controllers
          DatabaseInterface db = new DatabaseInterface();
          db.SaveStop(stop);
          return Json(new{});
+      }
+      public ActionResult AddNewRoute(List<int> stopIds)
+      {
+         DatabaseInterface db = new DatabaseInterface();
+         List<Stop> stops = new List<Stop>();
+         foreach(int id in stopIds){
+            stops.Add(db.GetStopByStopId(id));
+         }
+         Route route = new Route()
+         {
+            Stops = stops,
+            Id = ObjectId.GenerateNewId()
+         };
+         db.SaveRoute(route);
+         return Json(new { });
       }
    }
 }

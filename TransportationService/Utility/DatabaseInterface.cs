@@ -15,6 +15,7 @@ namespace TransportationService.Utility
       const string _stopCollectionName = "Stops";
       const string _employeeCollectionName = "Employees";
       const string _busCollectionName = "Buses";
+      const string _routeCollectionName = "Routes";
 
 
 
@@ -59,6 +60,12 @@ namespace TransportationService.Utility
          var query = Query.EQ("_id", id);
          return coll.FindOneAs<Stop>(query);
       }
+      public Stop GetStopByStopId(int id)
+      {
+         var coll = _database.GetCollection(_stopCollectionName);
+         var query = Query.EQ("StopId", id);
+         return coll.FindOneAs<Stop>(query);
+      }
 
       public List<Bus> GetAvailableBuses()
       {
@@ -70,34 +77,12 @@ namespace TransportationService.Utility
       public List<Stop> GetAvailableStops()//pass in a list of stops already in the route.
       {
          var coll = _database.GetCollection(_stopCollectionName);
-         return new List<Stop>()
-         {
-            new Stop(){
-               Id = ObjectId.GenerateNewId(),
-               StopId = 1,
-              StreetName = "pumpkin",
-              StreetNumber = 23
-            },
-            new Stop(){
-               Id = ObjectId.GenerateNewId(),
-               StopId = 2,
-              StreetName = "squash",
-              StreetNumber = 9
-            },
-            new Stop(){
-               Id = ObjectId.GenerateNewId(),
-               StopId = 4,
-              StreetName = "ravioli",
-              StreetNumber = 25
-            },
-            new Stop(){
-               Id = ObjectId.GenerateNewId(),
-               StopId = 10,
-              StreetName = "squirt",
-              StreetNumber = 16
-            }
-         };
+         return coll.FindAllAs<Stop>().ToList();
       }
-
+      public void SaveRoute(Route route)
+      {
+         var coll = _database.GetCollection(_routeCollectionName);
+         coll.Save(route);
+      }
    }
 }

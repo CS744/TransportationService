@@ -34,7 +34,12 @@ namespace TransportationService.Controllers
 
          DatabaseInterface db = new DatabaseInterface();
          User user = db.getUser(username,password);
-
+         if(user == null){
+            return Json(new{
+               error = true,
+               message = "username and password were not correct."
+            });
+         }
          var model = new OutputViewModel()
          {
             Username = user.Username
@@ -43,7 +48,8 @@ namespace TransportationService.Controllers
          return Json(new
          {
             user = JsonUtility.ToUserJson(user),
-            html = RenderPartialViewToString("ExampleView", model)
+            headerText = "Welcome, " + model.Username,
+            html = RenderPartialViewToString("AdminView", model)
          });
       }
    }

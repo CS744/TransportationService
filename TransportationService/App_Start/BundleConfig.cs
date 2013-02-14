@@ -15,7 +15,8 @@ namespace MvcApplication1
             "~/Scripts/Logon.js",
             "~/Scripts/bootstrap.js",
             "~/Scripts/userManager.js",
-            "~/Scripts/AdminActions.js"
+            "~/Scripts/AdminActions.js",
+            "~/Scripts/routeManager.js"
          ));
 
          //bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
@@ -27,7 +28,8 @@ namespace MvcApplication1
 
          bundles.Add(new StyleBundle("~/Content/css").Include(
             "~/Content/site.css",
-            "~/Content/bootstrap.css"
+            "~/Content/bootstrap.css",
+            "~/Content/font-awesome.css"
          ));
 
          //bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

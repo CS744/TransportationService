@@ -145,10 +145,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="font\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\buslogo.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\AdminActions.js" />
+    <Content Include="Scripts\routeManager.js" />
     <Content Include="Scripts\userManager.js" />
     <Content Include="Scripts\Logon.js" />
     <Content Include="Scripts\jquery-1.9.0.min.js" />
@@ -177,9 +181,6 @@
     <Content Include="Views\Home\Example.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\ExampleView.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Utility\GetRegisterModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +188,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Admin\AddStop.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\AdminView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="font\fontawesome-webfont.eot" />
+    <Content Include="font\fontawesome-webfont.ttf" />
+    <Content Include="font\fontawesome-webfont.woff" />
+    <Content Include="font\FontAwesome.otf" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -2,10 +2,19 @@
 
 
 function addRoute() {
-    console.log("supposed to be adding route");
     $.post("/Admin/AddRoute", {}, function (data) {
+
         $("#modal").replaceWith(data);
         $("#modal").modal();
+    });
+}
+function addNewRoute() {
+    var request = {
+        stopIds: route.stops
+    }
+    jQuery.ajaxSettings.traditional = true;
+    $.post("/Admin/AddNewRoute", request, function (data) {
+        $("#modal").modal('hide');
     });
 }
 
@@ -28,4 +37,13 @@ function addNewStop() {
         $("#streetText").val("");
         $("#numberText").val("");
     });
+}
+
+function addStopToRoute(elem) {
+    var stopId = elem.dataset['stopid'];
+    var html = "<i class='added-stop icon-arrow-right'></i><div class='added-stop'>" + stopId + "</div>";
+    var addedStops = $("#added-stops");
+    addedStops.html(addedStops.html() + html);
+    $(elem).remove();
+    route.addStop(stopId);
 }

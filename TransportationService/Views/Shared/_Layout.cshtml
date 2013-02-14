@@ -8,9 +8,19 @@
     @Styles.Render("~/Content/css")
 </head>
 <body>
-    <div id="mainArea">
-        @Scripts.Render("~/bundles/TransportationService")
-        @RenderBody()
+    <div id="top-header">
+        <img id="bus-logo" src="~/Images/busLogo.png" />
+        <div id="header-text">Transportation Service</div>
+        <div id="sign-out-text" class="hidden">Sign Out</div>
+    </div>
+    <div id="content">
+        <div id="mainArea-header">
+            Welcome to Transportation Service
+        </div>
+        <div id="mainArea">
+            @Scripts.Render("~/bundles/TransportationService")
+            @RenderBody()
+        </div>
     </div>
     <div id="modal" class="modal hide"></div>
 </body>

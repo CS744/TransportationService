@@ -43,16 +43,13 @@ namespace TransportationService.Utility
       public string Position { get; set; }
       //public ObjectId RouteId { get; set; }
    }
-   public class Route : List<Stop>
+   public class Route
    {
       [BsonId]
       public ObjectId Id { get; set; }
-      public List<Employee> Employees { get; set; }
-      public Bus Bus { get; set; }
-      public Route(List<Stop> r)
-         : base(r)
-      {
-      }
+      public List<Stop> Stops { get; set; }
+      //public List<Employee> Employees { get; set; }
+      //public Bus Bus { get; set; }
    }
    public class Stop
    {
