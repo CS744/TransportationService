@@ -4,12 +4,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <script src="/Scripts/jquery-1.9.0.min.js"></script>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @RenderBody()
-    @Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false)
+    <div id="top-header">
+        <img id="bus-logo" src="~/Images/busLogo.png" />
+        <div id="header-text">Transportation Service</div>
+        <div id="sign-out-text" class="hidden">Sign Out</div>
+    </div>
+    <div id="content">
+        <div id="mainArea-header">
+            Welcome to Transportation Service
+        </div>
+        <div id="mainArea">
+            @Scripts.Render("~/bundles/TransportationService")
+            @RenderBody()
+        </div>
+    </div>
+    <div id="modal" class="modal hide"></div>
 </body>
 </html>

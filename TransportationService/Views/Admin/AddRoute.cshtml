@@ -1,0 +1,46 @@
+﻿@model TransportationService.Models.AddRouteModel
+@{
+    ViewBag.Title = "AddRoute";
+}
+
+<div id="modal" class="modal hide smallModal">
+    <div class="modal-header">Add a New Route</div>
+    <div class="modal-body" style="max-height: 600px; overflow: visible;">
+        @*        <div class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Employees <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                @foreach (TransportationService.Utility.Bus bus in Model.AvailableBuses)
+                {
+                    <div onclick="">Bus @bus.BusId</div>
+                }
+            </ul>
+        </div>*@
+        <div>
+            <label for="routeNameText">Route Name:</label>
+            <input id="routeNameText" type="text" placeholder="Enter Route Name" />
+        </div>
+        <div>
+            <label for="driverNameText">Driver Name:</label>
+            <input id="driverNameText" type="text" placeholder="Enter Driver's Name" />
+        </div>
+        <div>
+            <div id="added-stops">
+                <div class="added-stop">Start</div>
+            </div>
+            <i class='added-stop icon-arrow-right'></i><i class="icon-flag"></i>
+        </div>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Stops</a>
+            <ul class="dropdown-menu">
+                @foreach (TransportationService.Utility.Stop stop in Model.AvailableStops)
+                {
+                    <div class="dropdown-item" onclick="addStopToRoute(this)" data-stopId="@stop.StopId">Stop @stop.StopId, @stop.Location</div>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" onclick="addNewRoute();">Add Route</button>
+        <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
+    </div>
+</div>

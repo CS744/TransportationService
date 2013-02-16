@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "AddStop";
+}
+
+<div id="modal" class="modal hide smallModal">
+    <div class="modal-header">Add a New Stop</div>
+    <div class="modal-body">
+        <div>
+            <label for="locationText">Please provide the intersection or address</label>
+            <input id="locationText" type="text" placeholder="Enter Location" />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" onclick="addNewStop(false)">Add Stop</button>
+        <button class="btn" onclick="addNewStop(true)">Add and Add Another</button>
+        <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
+    </div>
+</div>

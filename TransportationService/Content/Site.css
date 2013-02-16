@@ -1,61 +1,129 @@
 ﻿body {
-    font-size: .85em;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
-    color: #232323;
-    background-color: #fff;
+	font-size: .85em;
+	font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+	color: #232323;
+	background-color: #fff;
 }
 
-header, footer, nav, section {
-    display: block;
+/* Header Style */
+#top-header {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	height: 40px;
+	background: #222;
 }
 
-
-/* Styles for basic forms
------------------------------------------------------------*/
-fieldset {
-    border: 1px solid #ddd;
-    padding: 0 1.4em 1.4em 1.4em;
-    margin: 0 0 1.5em 0;
+#bus-logo {
+	height: 30px;
+	margin: 5px;
 }
 
-legend {
-    font-size: 1.2em;
+#header-text {
+	font-size: 15px;
+	margin: 9px;
+	margin-left: 20px;
+	position: fixed;
+	top: 0px;
+	left: 80px;
+	color: #eee;
+}
+
+#sign-out-text {
+	-webkit-transition: opacity linear .5s;
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	margin: 10px;
+	margin-right: 20px;
+	font-size: 11px;
+	opacity: 0.55;
+	color: #eee;
+	cursor: pointer;
+}
+
+	#sign-out-text:hover {
+		opacity: .9;
+	}
+
+
+/* All Pages */
+#content {
+	border: solid 1px #444;
+	border-radius: 11px;
+	margin-top: 50px;
+	margin-left: 50px;
+	margin-right: 50px;
+	padding-bottom: 25px;
+}
+
+#mainArea {
+	padding-top: 10px;
+	min-width: 300px;
+	margin-left: 50px;
+	margin-right: 50px;
+	text-align: center;
+}
+
+#mainArea-header {
+	padding: 15px;
+	min-width: 300px;
+	border-radius: 10px 10px 0px 0px;
+	background: #444;
+	text-align: center;
+	color: #eee;
+}
+
+.hidden {
+	opacity: 0 !important;
+}
+
+/* Log in Style. */
+#loginContainer {
+}
+
+.smallModal {
+	width: 400px !important;
+	left: 50% !important;
+	margin-left: -200px !important;
+}
+
+#login-error {
+	border: 1px solid red;
+	border-radius: 6px;
+	background: #f09595;
+	color: red;
+	font-size: 12px;
     font-weight: bold;
+	-webkit-transition: margin-top linear .3s;
+	margin-top: -30px;
+	height: 20px;
+	width: 190px;
+	margin-left: -webkit-calc(50% - 95px);
 }
 
-textarea {
-    min-height: 75px;
+	#login-error.showerror {
+		margin-top: 0px;
+	}
+
+/* add route */
+.dropdown-item {
+	opacity: .8;
+	padding: 5px;
+	margin-left: 10px;
 }
 
-.editor-label {
-    margin: 1em 0 0 0;
+	.dropdown-item:hover {
+		opacity: 1;
+	}
+
+#added-stops {
+	display: inline;
 }
 
-.editor-field {
-    margin: 0.5em 0 0 0;
-}
-
-
-/* Styles for validation helpers
------------------------------------------------------------*/
-.field-validation-error {
-    color: #f00;
-}
-
-.field-validation-valid {
-    display: none;
-}
-
-.input-validation-error {
-    border: 1px solid #f00;
-    background-color: #fee;
-}
-
-.validation-summary-errors {
-    font-weight: bold;
-    color: #f00;
-}
-
-.validation-summary-valid {
-    display: none;
+.added-stop {
+	padding: 3px;
+	font-size: 10px;
+	display: inline;
 }

@@ -5,28 +5,52 @@ using System.Web;
 using System.Web.Mvc;
 using TransportationService.Utility;
 using MongoDB.Bson;
+using TransportationService.Models;
 
 namespace TransportationService.Controllers
 {
-   public class HomeController : Controller
+   public class HomeController : TransportationBaseController
    {
       //
       // GET: /Home/
 
       public ActionResult Index()
       {
-         Bus bus = new Bus()
-         {
-            Capacity = 5,
-            Id = ObjectId.GenerateNewId(),
-            LiscensePlate = "ABC 123",
-            Name = "Best Bus Ever"
-         };
-         DatabaseInterface db = new DatabaseInterface();
-         db.SaveBus(bus);
+          //User user = new User()
+          //{
+          //    Email = "weisse.simon@gmail.com",
+          //    Id = ObjectId.GenerateNewId(),
+          //    Password = "Soupy",
+          //    Username = "Simon"
+          //};
+         //DatabaseInterface db = new DatabaseInterface();
+         //db.SaveUser(user);
 
-         return View(bus);
+         return View();
       }
 
+      public ActionResult LogIn(string username, string password)
+      {
+
+         DatabaseInterface db = new DatabaseInterface();
+         User user = db.getUser(username,password);
+         if(user == null){
+            return Json(new{
+               error = true,
+               message = "Invalid username or password"
+            });
+         }
+         var model = new OutputViewModel()
+         {
+            Username = user.Username
+         };
+
+         return Json(new
+         {
+            user = JsonUtility.ToUserJson(user),
+            headerText = "Welcome, " + model.Username,
+            html = RenderPartialViewToString("AdminView", model)
+         });
+      }
    }
 }
