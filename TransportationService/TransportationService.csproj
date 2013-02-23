@@ -152,6 +152,7 @@
     <Content Include="Images\buslogo.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\AdminActions.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\routeManager.js" />
     <Content Include="Scripts\userManager.js" />
     <Content Include="Scripts\Logon.js" />

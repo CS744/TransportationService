@@ -133,6 +133,5 @@ C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\bin
 C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\bin\System.Web.WebPages.xml
 C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\bin\System.Web.WebPages.Deployment.xml
 C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\bin\System.Web.WebPages.Razor.xml
-C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\obj\Debug\TransportationService.csprojResolveAssemblyReference.cache
 C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\obj\Debug\MvcApplication1.dll
 C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\obj\Debug\MvcApplication1.pdb

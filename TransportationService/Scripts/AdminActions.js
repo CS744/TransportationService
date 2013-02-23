@@ -17,7 +17,22 @@ function addNewRoute() {
     }
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/AddNewRoute", request, function (data) {
-        $("#modal").modal('hide');
+        if (data == "true") {
+            $("#routeSuccessMessage").show();
+            window.setTimeout(function () {
+                $("#routeSuccessMessage").fadeTo(500, 0).slideUp(500, function () {
+                    $(this).hide();
+                });
+            }, 3000);
+            $("#modal").modal('hide');
+        } else {
+            $("#routeFailureMessage").show();
+            window.setTimeout(function () {
+                $("#routeFailureMessage").fadeTo(500, 0).slideUp(500, function () {
+                    $(this).hide();
+                });
+            }, 3000);
+        }
     });
 }
 
@@ -36,11 +51,41 @@ function addNewStop(addAnother) {
     }
     if (addAnother) {
         $.post("/Admin/AddNewStop", request, function (data) {
-            $("#locationText").val("");
+            if (data == "true") {
+                $("#locationText").val("");
+                $("#stopSuccessModalMessage").show();
+                window.setTimeout(function () {
+                    $("#stopSuccessModalMessage").fadeTo(500, 0).slideUp(500, function () {
+                        $(this).hide();
+                    });
+                }, 3000);
+            } else {
+                $("#stopFailureMessage").show();
+                window.setTimeout(function () {
+                    $("#stopFailureMessage").fadeTo(500, 0).slideUp(500, function () {
+                        $(this).hide();
+                    });
+                }, 3000);
+            }
         });
     } else {
         $.post("/Admin/AddNewStop", request, function (data) {
-            $("#modal").modal('hide');
+            if (data == "true") {
+                $("#stopSuccessMessage").show();
+                window.setTimeout(function () {
+                    $("#stopSuccessMessage").fadeTo(500, 0).slideUp(500, function () {
+                        $(this).hide();
+                    });
+                }, 3000);
+                $("#modal").modal('hide');
+            } else {
+                $("#stopFailureMessage").show();
+                window.setTimeout(function () {
+                    $("#stopFailureMessage").fadeTo(500, 0).slideUp(500, function () {
+                        $(this).hide();
+                    });
+                }, 3000);
+            }
         });
     }
 }
