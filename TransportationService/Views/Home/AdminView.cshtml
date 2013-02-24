@@ -5,4 +5,25 @@
 <div id="mainArea">
     <button class="btn" onclick="addRoute()">Add Route</button>
     <button class="btn" onclick="addStop()">Add Stop</button>
+    <button class="btn" onclick="addBus()">Add Bus</button>
 </div>
+<div class="alert alert-success" id="stopSuccessMessage">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    The stop was successfully added!
+</div>
+<div class="alert alert-success" id="routeSuccessMessage">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    The route was successfully added!
+</div>
+<div class="alert alert-success" id="busSuccessMessage">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    The bus was successfully added!
+</div>
+<script>
+    $(document).ready(function () {
+        $("#stopSuccessMessage").hide();
+        $("#routeSuccessMessage").hide();
+        $("#busSuccessMessage").hide();
+        $("#usernameText").focus()
+    });
+</script>

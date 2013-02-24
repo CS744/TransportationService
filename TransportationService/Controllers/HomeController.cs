@@ -16,15 +16,15 @@ namespace TransportationService.Controllers
 
       public ActionResult Index()
       {
-         User user = new User()
-         {
-            Email = "weisse.simon@gmail.com",
-            Id = ObjectId.GenerateNewId(),
-            Password = "Soupy",
-            Username = "Simon"
-         };
-         DatabaseInterface db = new DatabaseInterface();
-         db.SaveUser(user);
+          //User user = new User()
+          //{
+          //    Email = "weisse.simon@gmail.com",
+          //    Id = ObjectId.GenerateNewId(),
+          //    Password = "Soupy",
+          //    Username = "Simon"
+          //};
+         //DatabaseInterface db = new DatabaseInterface();
+         //db.SaveUser(user);
 
          return View();
       }
@@ -37,7 +37,7 @@ namespace TransportationService.Controllers
          if(user == null){
             return Json(new{
                error = true,
-               message = "username and password were not correct."
+               message = "Invalid username or password"
             });
          }
          var model = new OutputViewModel()

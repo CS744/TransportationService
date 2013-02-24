@@ -79,10 +79,56 @@ namespace TransportationService.Utility
          var coll = _database.GetCollection(_stopCollectionName);
          return coll.FindAllAs<Stop>().ToList();
       }
+      public List<Route> GetAvailableRoutes()
+      {
+          var coll = _database.GetCollection(_routeCollectionName);
+          return coll.FindAllAs<Route>().ToList();
+      }
       public void SaveRoute(Route route)
       {
          var coll = _database.GetCollection(_routeCollectionName);
          coll.Save(route);
+      }
+      public Boolean IsStopLocationUnique(string location)
+      {
+          List<Stop> stops = GetAvailableStops();
+          foreach (Stop s in stops)
+          {
+              if (String.Equals(s.Location, location))
+                  return false;
+          }
+          return true;
+      }
+      public Boolean IsRouteNameUnique(string name)
+      {
+          List<Route> routes = GetAvailableRoutes();
+          foreach (Route r in routes)
+          {
+              if (String.Equals(r.Name, name))
+                  return false;
+          }
+          return true;
+      }
+      public int GetNextStopId()
+      {
+          List<Stop> stops = GetAvailableStops();
+          if (stops.OrderBy(s => s.StopId).LastOrDefault() == null)
+              return 1;
+          return stops.OrderBy(s => s.StopId).LastOrDefault().StopId + 1;
+      }
+      public int GetNextRouteId()
+      {
+          List<Route> routes = GetAvailableRoutes();
+          if (routes.OrderBy(r => r.RouteId).LastOrDefault() == null)
+              return 1;
+          return routes.OrderBy(r => r.RouteId).LastOrDefault().RouteId + 1;
+      }
+      public int GetNextBusId()
+      {
+          List<Bus> buses = GetAvailableBuses();
+          if (buses.OrderBy(b => b.BusId).LastOrDefault() == null)
+              return 1;
+          return buses.OrderBy(b => b.BusId).LastOrDefault().BusId + 1;
       }
    }
 }

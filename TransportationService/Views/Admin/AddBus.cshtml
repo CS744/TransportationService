@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "AddBus";
+}
+
+<div id="modal" class="modal hide smallModal">
+    <div class="modal-header">Add a New Bus</div>
+    <div class="modal-body">
+        <div class="alert alert-success" id="busSuccessModalMessage">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                 The bus was successfully added!
+        </div>
+        <div class="alert alert-error" id="busFailureMessage">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                 <Strong>Error: </Strong> The bus already exists.
+        </div>
+        <div>
+            <label for="capacityText">Please provide the capacity</label>
+            <input id="capacityText" type="text" placeholder="Enter Capacity" />
+        </div>
+        <div>
+            <label for="licenseText">Please provide the license plate</label>
+            <input id="licenseText" type="text" placeholder="Enter Lisence" />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" onclick="addNewBus(false)">Add Bus</button>
+        <button class="btn btn-success" onclick="addNewBus(true)">Add and Add Another</button>
+        <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#busSuccessModalMessage").hide();
+        $("#busFailureMessage").hide();
+    });
+</script>

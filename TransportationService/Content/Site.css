@@ -93,8 +93,9 @@
 	border: 1px solid red;
 	border-radius: 6px;
 	background: #f09595;
-	color: #b77;
-	font-size: 9px;
+	color: red;
+	font-size: 12px;
+    font-weight: bold;
 	-webkit-transition: margin-top linear .3s;
 	margin-top: -30px;
 	height: 20px;

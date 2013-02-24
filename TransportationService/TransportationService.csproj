@@ -152,6 +152,7 @@
     <Content Include="Images\buslogo.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\AdminActions.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\routeManager.js" />
     <Content Include="Scripts\userManager.js" />
     <Content Include="Scripts\Logon.js" />
@@ -197,6 +198,9 @@
     <Content Include="font\fontawesome-webfont.ttf" />
     <Content Include="font\fontawesome-webfont.woff" />
     <Content Include="font\FontAwesome.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\AddBus.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

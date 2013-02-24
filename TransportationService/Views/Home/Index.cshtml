@@ -17,6 +17,16 @@ Here's a comment.
         </div>
     </div>
     <div>
-        <button class="btn" onclick="logIn();">Log In</button>
+        <button id="logInButton" class="btn" onclick="logIn();">Log In</button>
     </div>
+    <script>
+        $(document).ready(function () {
+            $("input").keypress(function (event) {
+                if (event.which == 13) {
+                    $("#logInButton").click();
+                }
+            });
+            $("#usernameText").focus()
+        });
+    </script>
 </div>

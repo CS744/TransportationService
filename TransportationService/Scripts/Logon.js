@@ -15,7 +15,7 @@ function logIn() {
             loginError.html(data.message);
             setTimeout(function () {
                 loginError.removeClass("showerror");
-            }, 2500);
+            }, 10000);
         }
         else {
             userManager.currentUser = data.user;

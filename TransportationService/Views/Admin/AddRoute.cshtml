@@ -4,8 +4,12 @@
 }
 
 <div id="modal" class="modal hide smallModal">
-    <div class="modal-header">Please Enter You Username And Password</div>
+    <div class="modal-header">Add a New Route</div>
     <div class="modal-body" style="max-height: 600px; overflow: visible;">
+        <div class="alert alert-error" id="routeFailureMessage">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                 <Strong>Error: </Strong> The route name already exists. Please enter a unique route name.
+        </div>
         @*        <div class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Employees <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -16,23 +20,39 @@
             </ul>
         </div>*@
         <div>
-            <div id="added-stops">
-                <div class="added-stop">Start</div>
-            </div>
-            <i class='added-stop icon-arrow-right'></i><i class="icon-flag"></i>
+            <label for="routeNameText">Route Name:</label>
+            <input id="routeNameText" type="text" placeholder="Enter Route Name" />
         </div>
-        <div class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Stops</a>
-            <ul class="dropdown-menu">
-                @foreach (TransportationService.Utility.Stop stop in Model.AvailableStops)
-                {
-@* Stop 5, Ferry-19 *@
-                    <div class="dropdown-item" onclick="addStopToRoute(this)" data-stopId="@stop.StopId">Stop @stop.StopId, @stop.StreetName-@stop.StreetNumber</div>
-                }
-            </ul>
+        <div>
+            <label for="driverNameText">Driver Name:</label>
+            <input id="driverNameText" type="text" placeholder="Enter Driver's Name" />
+        </div>
+        <div id="stopSection">
+            <div>
+                <div id="added-stops">
+                    <div class="added-stop">Start</div>
+                </div>
+                <i class='added-stop icon-arrow-right'></i><i class="icon-flag"></i>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Stops</a>
+                <ul class="dropdown-menu">
+                    @foreach (TransportationService.Utility.Stop stop in Model.AvailableStops)
+                    {
+                        <div class="dropdown-item" onclick="addStopToRoute(this)" data-stopId="@stop.StopId">Stop @stop.StopId, @stop.Location</div>
+                    }
+                </ul>
+            </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn" onclick="addNewRoute();">Add Route</button>
+        <button class="btn btn-success" onclick="addNewRoute();">Add Route</button>
+        <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $("#routeSuccessModalMessage").hide();
+        $("#routeFailureMessage").hide();
+    });
+</script>
