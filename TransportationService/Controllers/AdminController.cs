@@ -42,7 +42,8 @@ namespace TransportationService.Controllers
                 LiscensePlate = license,
                 BusId = db.GetNextBusId(),
                 Status = BusStatus.Active,
-                Capacity = capacity
+                Capacity = capacity,
+                AssignedTo = -1
 
             };
             db.SaveBus(bus);
@@ -63,7 +64,7 @@ namespace TransportationService.Controllers
             db.SaveStop(stop);
             return Json("true");
         }
-        public ActionResult AddNewRoute(List<int> stopIds, string driverName, string routeName)
+        public ActionResult AddNewRoute(List<int> stopIds, string driverName, string routeName, int BusId)
         {
             DatabaseInterface db = new DatabaseInterface();
             if (!db.IsRouteNameUnique(routeName))
@@ -81,7 +82,8 @@ namespace TransportationService.Controllers
                 DriverName = driverName,
                 Name = routeName,
                 RouteId = db.GetNextRouteId(),
-                Id = ObjectId.GenerateNewId()
+                Id = ObjectId.GenerateNewId(),
+                Bus = db.GetBusByBusId(BusId)
             };
             db.SaveRoute(route);
             return Json("true");

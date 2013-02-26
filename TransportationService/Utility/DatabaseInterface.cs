@@ -67,12 +67,19 @@ namespace TransportationService.Utility
          return coll.FindOneAs<Stop>(query);
       }
 
+      public Bus GetBusByBusId(int id)
+      {
+          var coll = _database.GetCollection(_busCollectionName);
+          var query = Query.EQ("BusId", id);
+          return coll.FindOneAs<Bus>(query);
+      }
+
       public List<Bus> GetAvailableBuses()
       {
          var coll = _database.GetCollection(_busCollectionName);
          //var query = Query.EQ("_id", id);
          //return coll.FindAll<Bus>();
-         return new List<Bus>(); // TODO do correctly...
+         return coll.FindAllAs<Bus>().ToList();
       }
       public List<Stop> GetAvailableStops()//pass in a list of stops already in the route.
       {

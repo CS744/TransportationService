@@ -32,6 +32,7 @@ namespace TransportationService.Utility
         public int Capacity { get; set; }
         public BusStatus Status { get; set; }
         public int BusId { get; set; }
+        public int AssignedTo { get; set; }
         //public ObjectId RouteId { get; set; }
     }
 
@@ -52,7 +53,7 @@ namespace TransportationService.Utility
         public string Name { get; set; }
         public int RouteId { get; set; }
         //public List<Employee> Employees { get; set; }
-        //public Bus Bus { get; set; }
+        public Bus Bus { get; set; }
     }
     public class Stop
     {

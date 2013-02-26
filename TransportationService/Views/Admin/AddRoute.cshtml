@@ -27,6 +27,25 @@
             <label for="driverNameText">Driver Name:</label>
             <input id="driverNameText" type="text" placeholder="Enter Driver's Name" />
         </div>
+        <div>
+            <label for="busText">Pick a bus:</label>
+            <select id="busText" >
+                @foreach (TransportationService.Utility.Bus bus in Model.AvailableBuses)
+                {
+                    <option value="@bus.BusId">Bus @bus.BusId,Bus Capacity: @bus.Capacity,Bus Lisence: @bus.LiscensePlate,Bus Status: @bus.Status  </option>
+                }
+            </select>
+        @*<div id="busSection">
+            <div class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Assign a Bus: </a>
+            <ul class="dropdown-menu">
+                @foreach (TransportationService.Utility.Bus bus in Model.AvailableBuses)
+                {
+                    <div class="dropdown-item" onclick="assignBusToRoute(this)" data-busId="@bus.BusId">Bus @bus.BusId,Bus Capacity: @bus.Capacity,Bus Lisence: @bus.LiscensePlate,Bus Status: @bus.Status  </div>
+                }
+            </ul>
+        </div>*@
+        </div>
         <div id="stopSection">
             <div>
                 <div id="added-stops">

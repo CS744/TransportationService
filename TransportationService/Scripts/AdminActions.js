@@ -10,10 +10,12 @@ function addRoute() {
 function addNewRoute() {
     var routeName = $("#routeNameText").val()
     var driverName = $("#driverNameText").val()
+    var busText = $("#busText").val()
     var request = {
         stopIds: route.stops,
         routeName: routeName,
-        driverName: driverName
+        driverName: driverName,
+        busId: parseInt(busText)
     }
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/AddNewRoute", request, function (data) {
