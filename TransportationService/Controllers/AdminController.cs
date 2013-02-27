@@ -33,8 +33,8 @@ namespace TransportationService.Controllers
         public ActionResult AddNewBus(int capacity, string license)
         {
             DatabaseInterface db = new DatabaseInterface();
-            //if (!db.IsStopLocationUnique(location))
-            //    return Json("false");
+            if (!db.IsLicenseUnique(license))
+                return Json("false");
 
             Bus bus = new Bus()
             {
@@ -64,11 +64,12 @@ namespace TransportationService.Controllers
             db.SaveStop(stop);
             return Json("true");
         }
-        public ActionResult AddNewRoute(List<int> stopIds, string driverName, string routeName, int BusId)
+        public ActionResult AddNewRoute(List<int> stopIds, string driverName, string routeName, int busId)
         {
             DatabaseInterface db = new DatabaseInterface();
             if (!db.IsRouteNameUnique(routeName))
                 return Json("false");
+            int routeId = db.GetNextRouteId();
             List<Stop> stops = new List<Stop>();
             foreach (int id in stopIds)
             {
@@ -76,14 +77,15 @@ namespace TransportationService.Controllers
             }
             List<Route> routes = new List<Route>();
             routes = db.GetAvailableRoutes();
+            db.AssignBusToRoute(busId, routeId);
             Route route = new Route()
             {
                 Stops = stops,
                 DriverName = driverName,
                 Name = routeName,
-                RouteId = db.GetNextRouteId(),
+                RouteId = routeId,
                 Id = ObjectId.GenerateNewId(),
-                Bus = db.GetBusByBusId(BusId)
+                Bus = db.GetBusByBusId(busId)
             };
             db.SaveRoute(route);
             return Json("true");

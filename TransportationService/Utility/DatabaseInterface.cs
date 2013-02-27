@@ -74,6 +74,11 @@ namespace TransportationService.Utility
           return coll.FindOneAs<Bus>(query);
       }
 
+      public void AssignBusToRoute(int busId, int routeId)
+      {
+          _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("AssignedTo", routeId));
+      }
+
       public List<Bus> GetAvailableBuses()
       {
          var coll = _database.GetCollection(_busCollectionName);
@@ -112,6 +117,16 @@ namespace TransportationService.Utility
           foreach (Route r in routes)
           {
               if (String.Equals(r.Name, name))
+                  return false;
+          }
+          return true;
+      }
+      public Boolean IsLicenseUnique(string license)
+      {
+          List<Bus> buses = GetAvailableBuses();
+          foreach (Bus b in buses)
+          {
+              if (String.Equals(b.LiscensePlate, license))
                   return false;
           }
           return true;

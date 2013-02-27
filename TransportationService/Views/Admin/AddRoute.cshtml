@@ -8,7 +8,7 @@
     <div class="modal-body" style="max-height: 600px; overflow: visible;">
         <div class="alert alert-error" id="routeFailureMessage">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-                 <Strong>Error: </Strong> The route name already exists. Please enter a unique route name.
+            <strong>Error: </strong>The route name already exists. Please enter a unique route name.
         </div>
         @*        <div class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Employees <b class="caret"></b></a>
@@ -28,14 +28,17 @@
             <input id="driverNameText" type="text" placeholder="Enter Driver's Name" />
         </div>
         <div>
-            <label for="busText">Pick a bus:</label>
-            <select id="busText" >
+            <label for="busList">Select a Bus:</label>
+            <select id="busList">
                 @foreach (TransportationService.Utility.Bus bus in Model.AvailableBuses)
                 {
-                    <option value="@bus.BusId">Bus @bus.BusId,Bus Capacity: @bus.Capacity,Bus Lisence: @bus.LiscensePlate,Bus Status: @bus.Status  </option>
+                    if (bus.AssignedTo == -1)
+                    {
+                        <option value="@bus.BusId">Bus @bus.BusId (Capacity: @bus.Capacity, License: @bus.LiscensePlate, Status: @bus.Status )</option>
+                    }
                 }
             </select>
-        @*<div id="busSection">
+            @*<div id="busSection">
             <div class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Assign a Bus: </a>
             <ul class="dropdown-menu">

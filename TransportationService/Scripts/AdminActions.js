@@ -10,7 +10,7 @@ function addRoute() {
 function addNewRoute() {
     var routeName = $("#routeNameText").val()
     var driverName = $("#driverNameText").val()
-    var busText = $("#busText").val()
+    var busText = $("#busList").val()
     var request = {
         stopIds: route.stops,
         routeName: routeName,
