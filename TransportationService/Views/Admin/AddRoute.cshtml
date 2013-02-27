@@ -10,6 +10,7 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>Error: </strong>The route name already exists. Please enter a unique route name.
         </div>
+
         @*        <div class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Employees <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -34,7 +35,7 @@
                 {
                     if (bus.AssignedTo == -1)
                     {
-                        <option value="@bus.BusId">Bus @bus.BusId (Capacity: @bus.Capacity, License: @bus.LiscensePlate, Status: @bus.Status )</option>
+                    <option value="@bus.BusId">Bus @bus.BusId (Capacity: @bus.Capacity, License: @bus.LiscensePlate, Status: @bus.Status )</option>
                     }
                 }
             </select>

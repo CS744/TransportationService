@@ -1,0 +1,43 @@
+﻿#notify-popover {
+	-webkit-transition: opacity linear .2s, top linear .4s;
+	-moz-transition: opacity linear .2s, top linear .4s;
+	-o-transition: opacity linear .2s, top linear .4s;
+	transition: opacity linear .2s, top linear .4s;
+	display: block;
+	position: fixed;
+	top: 3px;
+	left: 3px;
+	z-index: 10000;
+	background: white;
+	opacity: .95;
+	width: auto;
+	height: auto;
+	padding: 10px;
+	max-width: 500px;
+	min-width: 300px;
+	border: 1px solid #bbb;
+	cursor: pointer;
+	padding: 5px 5px 0px 5px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+}
+
+	#notify-popover.aboveScreen {
+		top: -30px;
+		opacity: 0;
+	}
+
+	#notify-popover > .notify-child {
+		margin-bottom: 5px;
+		display: inline;
+		font-size: 12px;
+		padding: 0px 0px 0px 10px;
+	}
+
+		#notify-popover > .notify-child:hover {
+			opacity: .4;
+		}

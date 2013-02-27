@@ -20,19 +20,12 @@ function addNewRoute() {
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/AddNewRoute", request, function (data) {
         if (data == "true") {
-            $("#routeSuccessMessage").show();
-            window.setTimeout(function () {
-                $("#routeSuccessMessage").fadeTo(500, 0).slideUp(500, function () {
-                    $(this).hide();
-                });
-            }, 3000);
+            $.notify.addMessage("The route was successfully added!", { type: "success", time: 3000 });
             $("#modal").modal('hide');
         } else {
-            $("#routeFailureMessage").show();
-            window.setTimeout(function () {
-                $("#routeFailureMessage").fadeTo(500, 0).slideUp(500, function () {
-                    $(this).hide();
-                });
+            rollDown($("#routeFailureMessage"));
+            setTimeout(function () {
+                rollUp($("#routeFailureMessage"));
             }, 3000);
         }
     });
@@ -55,37 +48,23 @@ function addNewStop(addAnother) {
         $.post("/Admin/AddNewStop", request, function (data) {
             if (data == "true") {
                 $("#locationText").val("");
-                $("#stopSuccessModalMessage").show();
-                window.setTimeout(function () {
-                    $("#stopSuccessModalMessage").fadeTo(500, 0).slideUp(500, function () {
-                        $(this).hide();
-                    });
-                }, 3000);
+                $.notify.addMessage("The stop was successfully added!", { type: "success", time: 3000 });
             } else {
-                $("#stopFailureMessage").show();
-                window.setTimeout(function () {
-                    $("#stopFailureMessage").fadeTo(500, 0).slideUp(500, function () {
-                        $(this).hide();
-                    });
+                rollDown($("#stopFailureMessage"));
+                setTimeout(function () {
+                    rollUp($("#stopFailureMessage"));
                 }, 3000);
             }
         });
     } else {
         $.post("/Admin/AddNewStop", request, function (data) {
             if (data == "true") {
-                $("#stopSuccessMessage").show();
-                window.setTimeout(function () {
-                    $("#stopSuccessMessage").fadeTo(500, 0).slideUp(500, function () {
-                        $(this).hide();
-                    });
-                }, 3000);
+                $.notify.addMessage("The stop was successfully added!", { type: "success", time: 3000 });
                 $("#modal").modal('hide');
             } else {
-                $("#stopFailureMessage").show();
-                window.setTimeout(function () {
-                    $("#stopFailureMessage").fadeTo(500, 0).slideUp(500, function () {
-                        $(this).hide();
-                    });
+                rollDown($("#stopFailureMessage"));
+                setTimeout(function () {
+                    rollUp($("#stopFailureMessage"));
                 }, 3000);
             }
         });
@@ -122,37 +101,23 @@ function addNewBus(addAnother) {
             if (data == "true") {
                 $("#capacityText").val("");
                 $("#licenseText").val("");
-                $("#busSuccessModalMessage").show();
-                window.setTimeout(function () {
-                    $("#busSuccessModalMessage").fadeTo(500, 0).slideUp(500, function () {
-                        $(this).hide();
-                    });
-                }, 3000);
+                $.notify.addMessage("The bus was successfully added!", { type: "success", time: 3000 });
             } else {
-                $("#busFailureMessage").show();
-                window.setTimeout(function () {
-                    $("#busFailureMessage").fadeTo(500, 0).slideUp(500, function () {
-                        $(this).hide();
-                    });
+                rollDown($("#busFailureMessage"));
+                setTimeout(function () {
+                    rollUp($("#busFailureMessage"));
                 }, 3000);
             }
         });
     } else {
         $.post("/Admin/AddNewBus", request, function (data) {
             if (data == "true") {
-                $("#busSuccessMessage").show();
-                window.setTimeout(function () {
-                    $("#busSuccessMessage").fadeTo(500, 0).slideUp(500, function () {
-                        $(this).hide();
-                    });
-                }, 3000);
+                $.notify.addMessage("The bus was successfully added!", { type: "success", time: 3000 });
                 $("#modal").modal('hide');
             } else {
-                $("#busFailureMessage").show();
-                window.setTimeout(function () {
-                    $("#busFailureMessage").fadeTo(500, 0).slideUp(500, function () {
-                        $(this).hide();
-                    });
+                rollDown($("#busFailureMessage"));
+                setTimeout(function () {
+                    rollUp($("#busFailureMessage"));
                 }, 3000);
             }
         });

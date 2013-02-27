@@ -47,6 +47,10 @@
 		opacity: .9;
 	}
 
+	#sign-out-text.hidden {
+		cursor: default;
+	}
+
 
 /* All Pages */
 #content {
@@ -95,7 +99,7 @@
 	background: #f09595;
 	color: red;
 	font-size: 12px;
-    font-weight: bold;
+	font-weight: bold;
 	-webkit-transition: margin-top linear .3s;
 	margin-top: -30px;
 	height: 20px;

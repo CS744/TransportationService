@@ -25,3 +25,15 @@ function logIn() {
         }
     });
 }
+$(document).ready(function () {
+    $("#sign-out-text").click(function () {
+        if (!this.classList.contains("hidden")) {
+            $.post("/Home/LogOut", {}, function (data) {
+                $("#mainArea").html(data);
+                $("#sign-out-text").addClass('hidden');
+                userManager.currentUser = undefined;
+                $("#mainArea-header").html("Welcome to Transportation Service");
+            });
+        }
+    });
+});

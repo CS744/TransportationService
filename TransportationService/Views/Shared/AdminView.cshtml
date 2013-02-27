@@ -1,0 +1,21 @@
+﻿@model TransportationService.Models.OutputViewModel
+@{
+    ViewBag.Title = Model.Username;
+}
+<div id="mainArea">
+    <button class="btn" onclick="addRoute()">Add Route</button>
+    <button class="btn" onclick="addStop()">Add Stop</button>
+    <button class="btn" onclick="addBus()">Add Bus</button>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#usernameText").focus();
+        $.post("/Admin/RefreshAdmin", {}, function (data) {
+            if (data.error == undefined || data.error != true) {
+                userManager.currentUser = data.user;
+                $("#mainArea-header").html(data.headerText);
+                $("#sign-out-text").removeClass('hidden');
+            }
+        });
+    });
+</script>
