@@ -4,7 +4,7 @@
 
 <div id="modal" class="modal hide smallModal">
     <div class="modal-header">Add a New Bus</div>
-    <div class="modal-body">
+    <div class="modal-body" style="min-height: 200px; max-height: 400px; overflow: visible;">
         <div class="alert alert-success" id="busSuccessModalMessage">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             The bus was successfully added!
@@ -22,6 +22,18 @@
             <label for="licenseText">Please provide the license plate</label>
             <input id="licenseText" type="text" placeholder="Enter License" />
         </div>
+        <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
+            <label>Please select the state the bus is registered in</label>
+            <input type="hidden" id="selectedState" >
+            <a class="bfh-selectbox-toggle" role="button" data-toggle="bfh-selectbox" href="#">
+                <span class="bfh-selectbox-option input-medium" data-option="">--State--</span>
+                <b class="caret"></b>
+            </a>
+            <div class="bfh-selectbox-options">
+                <ul role="options" id="statesList">
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-success" onclick="addNewBus(false)">Add Bus</button>
@@ -33,5 +45,13 @@
     $(document).ready(function () {
         $("#busSuccessModalMessage").hide();
         $("#busFailureMessage").hide();
+        for (var state in BFHStatesList) {
+            $("#statesList").append('<li><a href="#"><input type="hidden" value="' + state + '">' + BFHStatesList[state] + '</a></li>')
+        }
+        $("#statesList > li > a").click(function (e) {
+            e.preventDefault();
+            var state = $('input[type="hidden"]', this).val();
+            $("#selectedState").val(state);
+        });
     });
 </script>

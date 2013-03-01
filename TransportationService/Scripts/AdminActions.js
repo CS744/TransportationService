@@ -90,11 +90,15 @@ function addBus() {
 }
 
 function addNewBus(addAnother) {
+    alert("starting");
+    var state = $("#selectedState").val();
+    alert("fml" + state);
     var capacity = $("#capacityText").val();
     var license = $("#licenseText").val();
     var request = {
         capacity: parseInt(capacity),
-        license: license
+        license: license,
+        state: state
     }
     if (addAnother) {
         $.post("/Admin/AddNewBus", request, function (data) {

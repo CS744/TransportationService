@@ -43,7 +43,7 @@ namespace TransportationService.Controllers
       {
          return PartialView("AddBus");
       }
-      public ActionResult AddNewBus(int capacity, string license)
+      public ActionResult AddNewBus(int capacity, string license, string state)
       {
          DatabaseInterface db = new DatabaseInterface();
          if (!db.IsLicenseUnique(license))
@@ -56,6 +56,7 @@ namespace TransportationService.Controllers
             BusId = db.GetNextBusId(),
             Status = BusStatus.Active,
             Capacity = capacity,
+            State = state,
             AssignedTo = -1
 
          };

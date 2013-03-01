@@ -153,6 +153,21 @@
     <Compile Include="Utility\SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-formhelpers.css" />
+    <Content Include="Scripts\bootstrap-formhelpers-datepicker.en_US.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-datepicker.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-fonts.codes.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-fonts.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-fontsizes.codes.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-fontsizes.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-googlefonts.codes.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-googlefonts.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-phone.format.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-phone.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-selectbox.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-states.en_US.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-states.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-timepicker.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\utility.css" />
     <Content Include="Content\font-awesome.css" />
@@ -234,7 +249,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>64618</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:49776/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
