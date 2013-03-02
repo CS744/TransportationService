@@ -8,15 +8,21 @@ function addRoute() {
     });
 }
 function addNewRoute() {
-    var routeName = $("#routeNameText").val()
-    var driverName = $("#driverNameText").val()
-    var busText = $("#busList").val()
+    var routeName = $("#routeNameText").val();
+    var driverName = $("#driverNameText").val();
+    var busText = $("#busList").val();
+    var isToWork = true;
+    if ($("#toHomeButton").hasClass('active')) {
+        isToWork = false;
+    }
     var request = {
         stopIds: route.stops,
         routeName: routeName,
         driverName: driverName,
-        busId: parseInt(busText)
+        busId: parseInt(busText),
+        startsAtWork: isToWork
     }
+    alert("still working");
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/AddNewRoute", request, function (data) {
         if (data == "true") {
@@ -90,9 +96,7 @@ function addBus() {
 }
 
 function addNewBus(addAnother) {
-    alert("starting");
     var state = $("#selectedState").val();
-    alert("fml" + state);
     var capacity = $("#capacityText").val();
     var license = $("#licenseText").val();
     var request = {

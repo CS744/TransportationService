@@ -138,12 +138,19 @@ namespace TransportationService.Utility
               return 1;
           return stops.OrderBy(s => s.StopId).LastOrDefault().StopId + 1;
       }
-      public int GetNextRouteId()
+      public int GetNextLowRouteId()
       {
           List<Route> routes = GetAvailableRoutes();
           if (routes.OrderBy(r => r.RouteId).LastOrDefault() == null)
               return 1;
           return routes.OrderBy(r => r.RouteId).LastOrDefault().RouteId + 1;
+      }
+      public int GetNextHighRouteId()
+      {
+          List<Route> routes = GetAvailableRoutes();
+          if (routes.OrderBy(r => r.RouteId).LastOrDefault() == null)
+              return 999;
+          return routes.OrderBy(r => r.RouteId).LastOrDefault().RouteId - 1;
       }
       public int GetNextBusId()
       {

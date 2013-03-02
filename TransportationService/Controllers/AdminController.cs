@@ -78,12 +78,16 @@ namespace TransportationService.Controllers
          db.SaveStop(stop);
          return Json("true");
       }
-      public ActionResult AddNewRoute(List<int> stopIds, string driverName, string routeName, int busId)
+      public ActionResult AddNewRoute(List<int> stopIds, string driverName, string routeName, int busId, bool startsAtWork)
       {
          DatabaseInterface db = new DatabaseInterface();
          if (!db.IsRouteNameUnique(routeName))
             return Json("false");
-         int routeId = db.GetNextRouteId();
+         int routeId;
+         if (startsAtWork)
+             routeId = db.GetNextLowRouteId();
+         else
+             routeId = db.GetNextHighRouteId();
          List<Stop> stops = new List<Stop>();
          foreach (int id in stopIds)
          {
