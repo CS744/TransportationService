@@ -16,6 +16,7 @@ namespace TransportationService.Utility
       const string _employeeCollectionName = "Employees";
       const string _busCollectionName = "Buses";
       const string _routeCollectionName = "Routes";
+      const string _driverCollectionName = "Drivers";
 
 
 
@@ -48,6 +49,18 @@ namespace TransportationService.Utility
          var coll = _database.GetCollection(_usersCollectionName);
          var query = Query.And(Query.EQ("Username", username), Query.EQ("Password", password));
          return coll.FindOneAs<User>(query);
+      }
+
+      public void SaveEmployee(Employee employee)
+      {
+          var coll = _database.GetCollection(_employeeCollectionName);
+          coll.Save(employee);
+      }
+
+      public void SaveDriver(Driver driver)
+      {
+          var coll = _database.GetCollection(_driverCollectionName);
+          coll.Save(driver);
       }
       public void SaveStop(Stop stop)
       {
@@ -91,6 +104,16 @@ namespace TransportationService.Utility
          var coll = _database.GetCollection(_stopCollectionName);
          return coll.FindAllAs<Stop>().ToList();
       }
+      public List<Driver> GetAvailableDrivers()
+      {
+          var coll = _database.GetCollection(_driverCollectionName);
+          return coll.FindAllAs<Driver>().ToList();
+      }
+      public List<Employee> GetAvailableEmployees()
+      {
+          var coll = _database.GetCollection(_employeeCollectionName);
+          return coll.FindAllAs<Employee>().ToList();
+      }
       public List<Route> GetAvailableRoutes()
       {
           var coll = _database.GetCollection(_routeCollectionName);
@@ -127,6 +150,26 @@ namespace TransportationService.Utility
           foreach (Bus b in buses)
           {
               if (String.Equals(b.LiscensePlate, license))
+                  return false;
+          }
+          return true;
+      }
+      public Boolean IsDriverLicenseUnique(string license)
+      {
+          List<Driver> drivers = GetAvailableDrivers();
+          foreach (Driver d in drivers)
+          {
+              if (String.Equals(d.DriverLicense, license))
+                  return false;
+          }
+          return true;
+      }
+      public Boolean IsSocialSecurityNumberUnique(string ssn)
+      {
+          List<Employee> employees = GetAvailableEmployees();
+          foreach (Employee e in employees)
+          {
+              if (String.Equals(e.SocialSecurityNumber, ssn))
                   return false;
           }
           return true;

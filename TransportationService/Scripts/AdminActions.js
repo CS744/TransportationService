@@ -131,3 +131,92 @@ function addNewBus(addAnother) {
         });
     }
 }
+
+function addDriver() {
+    console.log("supposed to be adding driver");
+    $.post("/Admin/AddDriver", {}, function (data) {
+        $("#modal").replaceWith(data);
+        $("#modal").modal();
+    });
+}
+
+function addNewDriver(addAnother) {
+    var name = $("#nameText").val();
+    var license = $("#licenseText").val();
+    var request = {
+        name: name,
+        license: license
+    }
+    if (addAnother) {
+        $.post("/Admin/AddNewDriver", request, function (data) {
+            if (data == "true") {
+                $("#nameText").val("");
+                $("#licenseText").val("");
+                $.notify.addMessage("The driver was successfully added!", { type: "success", time: 3000 });
+            } else {
+                rollDown($("#driverFailureMessage"));
+                setTimeout(function () {
+                    rollUp($("#driverFailureMessage"));
+                }, 3000);
+            }
+        });
+    } else {
+        $.post("/Admin/AddNewDriver", request, function (data) {
+            if (data == "true") {
+                $.notify.addMessage("The driver was successfully added!", { type: "success", time: 3000 });
+                $("#modal").modal('hide');
+            } else {
+                rollDown($("#driverFailureMessage"));
+                setTimeout(function () {
+                    rollUp($("#driverFailureMessage"));
+                }, 3000);
+            }
+        });
+    }
+}
+
+function addEmployee() {
+    console.log("supposed to be adding employee");
+    $.post("/Admin/AddEmployee", {}, function (data) {
+        $("#modal").replaceWith(data);
+        $("#modal").modal();
+    });
+}
+
+function addNewEmployee(addAnother) {
+    var ssn = $("#ssnText").val();
+    var position = $("#positionText").val();
+    var name = $("#nameText").val();
+    var request = {
+        ssn: ssn,
+        position: position,
+        name: name
+    }
+    if (addAnother) {
+        $.post("/Admin/AddNewEmployee", request, function (data) {
+            if (data == "true") {
+                $("#ssnText").val("");
+                $("#positionText").val("");
+                $("#nameText").val("");
+                $.notify.addMessage("The employee was successfully added!", { type: "success", time: 3000 });
+            } else {
+                rollDown($("#employeeFailureMessage"));
+                setTimeout(function () {
+                    rollUp($("#employeeFailureMessage"));
+                }, 3000);
+            }
+        });
+    } else {
+        $.post("/Admin/AddNewEmployee", request, function (data) {
+            if (data == "true") {
+                $.notify.addMessage("The employee was successfully added!", { type: "success", time: 3000 });
+                $("#modal").modal('hide');
+            } else {
+                rollDown($("#employeeFailureMessage"));
+                setTimeout(function () {
+                    rollUp($("#employeeFailureMessage"));
+                }, 3000);
+            }
+        });
+    }
+}

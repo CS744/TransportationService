@@ -43,6 +43,7 @@ namespace TransportationService.Controllers
       {
          return PartialView("AddBus");
       }
+
       public ActionResult AddNewBus(int capacity, string license, string state)
       {
          DatabaseInterface db = new DatabaseInterface();
@@ -62,6 +63,48 @@ namespace TransportationService.Controllers
          };
          db.SaveBus(bus);
          return Json("true");
+      }
+      public ActionResult AddDriver()
+      {
+          return PartialView("AddDriver");
+      }
+      public ActionResult AddEmployee()
+      {
+          return PartialView("AddEmployee");
+      }
+
+      public ActionResult AddNewDriver(string name, string license)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          if (!db.IsDriverLicenseUnique(license))
+              return Json("false");
+
+          Driver driver = new Driver()
+          {
+              Id = ObjectId.GenerateNewId(),
+              DriverLicense = license,
+              Name = name
+
+          };
+          db.SaveDriver(driver);
+          return Json("true");
+      }
+      public ActionResult AddNewEmployee(string ssn, string position, string name)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          if (!db.IsSocialSecurityNumberUnique(ssn))
+              return Json("false");
+
+          Employee employee = new Employee()
+          {
+              Id = ObjectId.GenerateNewId(),
+              SocialSecurityNumber = ssn,
+              Position = position,
+              Name = name
+
+          };
+          db.SaveEmployee(employee);
+          return Json("true");
       }
       public ActionResult AddNewStop(string location)
       {

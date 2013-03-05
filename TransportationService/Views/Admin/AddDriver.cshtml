@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "AddDriver";
+}
+
+<div id="modal" class="modal hide smallModal">
+    <div class="modal-header">Add a New Driver</div>
+    <div class="modal-body">
+        <div class="alert alert-success" id="driverSuccessModalMessage">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            The driver was successfully added!
+        </div>
+        <div class="alert alert-error" id="driverFailureMessage">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Error: </strong>The driver's license already exists. Please enter a unique license.
+        </div>
+
+        <div>
+            <label for="nameText">Please provide the driver's name</label>
+            <input id="nameText" type="text" placeholder="Enter driver's name" />
+        </div>
+        <div>
+            <label for="licenseText">Please provide the driver's license</label>
+            <input id="licenseText" type="text" placeholder="Enter License" />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" onclick="addNewDriver(false)">Add Driver</button>
+        <button class="btn btn-success" onclick="addNewDriver(true)">Add and Add Another</button>
+        <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#driverSuccessModalMessage").hide();
+        $("#driverFailureMessage").hide();
+    });
+</script>
+

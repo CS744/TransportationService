@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "AddEmployee";
+}
+
+<div id="modal" class="modal hide smallModal">
+    <div class="modal-header">Add a New Employee</div>
+    <div class="modal-body">
+        <div class="alert alert-success" id="employeeSuccessModalMessage">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            The employee was successfully added!
+        </div>
+        <div class="alert alert-error" id="employeeFailureMessage">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Error: </strong>The social security number already exists. Please enter a unique social security number.
+        </div>
+
+        <div>
+            <label for="ssnText">Please provide the social security number</label>
+            <input id="ssnText" type="text" placeholder="Enter SSN" />
+        </div>
+        <div>
+            <label for="positionText">Please provide the employee's position</label>
+            <input id="positionText" type="text" placeholder="Enter Position" />
+        </div>
+        <div>
+            <label for="nameText">Please provide the employee's name</label>
+            <input id="nameText" type="text" placeholder="Enter Name" />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" onclick="addNewEmployee(false)">Add Employee</button>
+        <button class="btn btn-success" onclick="addNewEmployee(true)">Add and Add Another</button>
+        <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#employeeSuccessModalMessage").hide();
+        $("#employeeFailureMessage").hide();
+    });
+</script>
+
