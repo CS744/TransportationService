@@ -22,6 +22,25 @@
             <label for="licenseText">Please provide the driver's license</label>
             <input id="licenseText" type="text" placeholder="Enter License" />
         </div>
+        <div>
+            <label for="genderText">Please provide the gender of the driver</label>
+            <select id="genderText">
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+            </select>
+        </div>
+        <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
+            <label>Please select the state the driver is registered in</label>
+            <input type="text" id="selectedState" style="display: none">
+            <a class="bfh-selectbox-toggle" role="button" data-toggle="bfh-selectbox" href="#">
+                <span class="bfh-selectbox-option input-medium" data-option="">--State--</span>
+                <b class="caret"></b>
+            </a>
+            <div class="bfh-selectbox-options">
+                <ul role="options" id="statesList">
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-success" onclick="addNewDriver(false)">Add Driver</button>
@@ -33,6 +52,14 @@
     $(document).ready(function () {
         $("#driverSuccessModalMessage").hide();
         $("#driverFailureMessage").hide();
+        for (var state in BFHStatesList) {
+            $("#statesList").append('<li><a href="#"><input type="hidden" value="' + state + '">' + BFHStatesList[state] + '</a></li>')
+        }
+        $("#statesList > li > a").click(function (e) {
+            e.preventDefault();
+            var state = $('input[type="hidden"]', this).val();
+            $("#selectedState").val(state);
+        });
     });
 </script>
 

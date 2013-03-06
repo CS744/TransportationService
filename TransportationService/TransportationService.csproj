@@ -153,6 +153,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddEmployeeModel.cs" />
     <Compile Include="Models\AddRouteModel.cs" />
     <Compile Include="Models\OutputViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

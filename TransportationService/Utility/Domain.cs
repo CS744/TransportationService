@@ -44,6 +44,12 @@ namespace TransportationService.Utility
         public string SocialSecurityNumber { get; set; }
         public string Position { get; set; }
         public string Name { get; set; }
+        public string Email { get; set; }
+        public string Gender { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public int EmployeeId { get; set; }
+        public Route route { get; set; }
         //public ObjectId RouteId { get; set; }
     }
 
@@ -54,6 +60,8 @@ namespace TransportationService.Utility
         public string Name { get; set; }
         public string DriverLicense { get; set; }
         public int AssignedTo { get; set; }
+        public string Gender { get; set; }
+        public string State { get; set; }
     }
     public class Route
     {

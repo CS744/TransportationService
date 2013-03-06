@@ -71,10 +71,15 @@ namespace TransportationService.Controllers
       }
       public ActionResult AddEmployee()
       {
-          return PartialView("AddEmployee");
+          DatabaseInterface db = new DatabaseInterface();
+          AddEmployeeModel model = new AddEmployeeModel()
+          {
+              AvailableRoutes = db.GetAvailableRoutes()
+          };
+          return PartialView("AddEmployee", model);
       }
 
-      public ActionResult AddNewDriver(string name, string license)
+      public ActionResult AddNewDriver(string gender, string state, string name, string license)
       {
           DatabaseInterface db = new DatabaseInterface();
           if (!db.IsDriverLicenseUnique(license))
@@ -85,13 +90,15 @@ namespace TransportationService.Controllers
               Id = ObjectId.GenerateNewId(),
               DriverLicense = license,
               Name = name,
-              AssignedTo = -1
+              AssignedTo = -1,
+              Gender = gender,
+              State = state
 
           };
           db.SaveDriver(driver);
           return Json("true");
       }
-      public ActionResult AddNewEmployee(string ssn, string position, string name)
+      public ActionResult AddNewEmployee(string gender, string email, string phone, string address, int routeId, string ssn, string position, string name)
       {
           DatabaseInterface db = new DatabaseInterface();
           if (!db.IsSocialSecurityNumberUnique(ssn))
@@ -102,7 +109,13 @@ namespace TransportationService.Controllers
               Id = ObjectId.GenerateNewId(),
               SocialSecurityNumber = ssn,
               Position = position,
-              Name = name
+              Name = name,
+              Gender = gender,
+              Email = email,
+              Phone = phone,
+              Address = address,
+              route = db.GetRouteByRouteId(routeId),
+              EmployeeId = db.GetNextEmployeeId()
 
           };
           db.SaveEmployee(employee);

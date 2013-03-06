@@ -94,6 +94,13 @@ namespace TransportationService.Utility
           return coll.FindOneAs<Driver>(query);
       }
 
+      public Route GetRouteByRouteId(int id)
+      {
+          var coll = _database.GetCollection(_routeCollectionName);
+          var query = Query.EQ("RouteId", id);
+          return coll.FindOneAs<Route>(query);
+      }
+
       public void AssignBusToRoute(int busId, int routeId)
       {
           _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("AssignedTo", routeId));
@@ -213,6 +220,14 @@ namespace TransportationService.Utility
           if (buses.OrderBy(b => b.BusId).LastOrDefault() == null)
               return 1;
           return buses.OrderBy(b => b.BusId).LastOrDefault().BusId + 1;
+      }
+
+      public int GetNextEmployeeId()
+      {
+          List<Employee> employees = GetAvailableEmployees();
+          if (employees.OrderBy(e => e.EmployeeId).LastOrDefault() == null)
+              return 1;
+          return employees.OrderBy(e => e.EmployeeId).LastOrDefault().EmployeeId + 1;
       }
    }
 }

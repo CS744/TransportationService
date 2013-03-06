@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TransportationService.Models.AddEmployeeModel
+@{
     ViewBag.Title = "AddEmployee";
 }
 
@@ -26,6 +27,34 @@
             <label for="nameText">Please provide the employee's name</label>
             <input id="nameText" type="text" placeholder="Enter Name" />
         </div>
+        <div>
+            <label for="genderText">Please provide the gender of the employee</label>
+            <select id="genderText">
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+            </select>
+        </div>
+        <div>
+            <label for="emailText">Please provide the employee's email</label>
+            <input id="emailText" type="text" placeholder="Enter Email" />
+        </div>
+        <div>
+            <label for="phoneText">Please provide the employee's phone</label>
+            <input id="phoneText" type="text" placeholder="Enter Phone Number" />
+        </div>
+        <div>
+            <label for="addressText">Please provide the employee's address</label>
+            <input id="addressText" type="text" placeholder="Enter Address" />
+        </div>
+        <div>
+            <label for="routeList">Select a Route:</label>
+            <select id="routeList">
+                @foreach (TransportationService.Utility.Route route in Model.AvailableRoutes)
+                {
+                    <option value="@route.RouteId">Route @route.RouteId (Name: @route.Name )</option>
+                }
+            </select>
+
     </div>
     <div class="modal-footer">
         <button class="btn btn-success" onclick="addNewEmployee(false)">Add Employee</button>

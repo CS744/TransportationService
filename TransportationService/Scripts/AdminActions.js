@@ -140,9 +140,13 @@ function addDriver() {
 }
 
 function addNewDriver(addAnother) {
+    var state = $("#selectedState").val();
+    var gender = $("#genderText").val();
     var name = $("#nameText").val();
     var license = $("#licenseText").val();
     var request = {
+        gender: gender,
+        state: state,
         name: name,
         license: license
     }
@@ -183,10 +187,20 @@ function addEmployee() {
 }
 
 function addNewEmployee(addAnother) {
+    var gender = $("#genderText").val();
+    var email = $("#emailText").val();
+    var phone = $("#phoneText").val();
+    var address = $("#addressText").val();
+    var routeId = $("#routeList").val();
     var ssn = $("#ssnText").val();
     var position = $("#positionText").val();
     var name = $("#nameText").val();
     var request = {
+        gender: gender,
+        email: email,
+        phone: phone,
+        address: address,
+        routeId: parseInt(routeId),
         ssn: ssn,
         position: position,
         name: name
