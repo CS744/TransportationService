@@ -53,13 +53,14 @@ namespace TransportationService.Utility
         public ObjectId Id { get; set; }
         public string Name { get; set; }
         public string DriverLicense { get; set; }
+        public int AssignedTo { get; set; }
     }
     public class Route
     {
         [BsonId]
         public ObjectId Id { get; set; }
         public List<Stop> Stops { get; set; }
-        public string DriverName { get; set; }
+        public Driver Driver { get; set; }
         public string Name { get; set; }
         public int RouteId { get; set; }
         //public List<Employee> Employees { get; set; }

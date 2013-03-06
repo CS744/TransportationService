@@ -25,8 +25,16 @@
             <input id="routeNameText" type="text" placeholder="Enter Route Name" />
         </div>
         <div>
-            <label for="driverNameText">Driver Name:</label>
-            <input id="driverNameText" type="text" placeholder="Enter Driver's Name" />
+            <label for="driverList">Select a Driver:</label>
+            <select id="driverList">
+                @foreach (TransportationService.Utility.Driver driver in Model.AvailableDrivers)
+                {
+                    if (driver.AssignedTo == -1)
+                    {
+                    <option value="@driver.DriverLicense">@driver.Name (License #: @driver.DriverLicense)</option>
+                    }
+                }
+            </select>
         </div>
         <div>
             <label for="busList">Select a Bus:</label>
@@ -39,21 +47,11 @@
                     }
                 }
             </select>
-            @*<div id="busSection">
-            <div class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Assign a Bus: </a>
-            <ul class="dropdown-menu">
-                @foreach (TransportationService.Utility.Bus bus in Model.AvailableBuses)
-                {
-                    <div class="dropdown-item" onclick="assignBusToRoute(this)" data-busId="@bus.BusId">Bus @bus.BusId,Bus Capacity: @bus.Capacity,Bus Lisence: @bus.LiscensePlate,Bus Status: @bus.Status  </div>
-                }
-            </ul>
-        </div>*@
             <div id="startsFromSection">
                 <label>Indicate if the route takes employees to work or to their home:</label>
                 <div class="btn-group" data-toggle="buttons-radio">
-                    <button type="button" class="btn btn-primary" id="toWorkButton"><i class="icon-building" /> To Work</button>
-                    <button type="button" class="btn btn-primary" id="toHomeButton"><i class="icon-home"/> To Home</button>
+                    <button type="button" class="btn btn-primary" id="toWorkButton"><i class="icon-building" />To Work</button>
+                    <button type="button" class="btn btn-primary" id="toHomeButton"><i class="icon-home" />To Home</button>
                 </div>
             </div>
         </div>

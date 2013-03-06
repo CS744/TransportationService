@@ -31,7 +31,8 @@ namespace TransportationService.Controllers
          AddRouteModel model = new AddRouteModel()
          {
             AvailableBuses = db.GetAvailableBuses(),
-            AvailableStops = db.GetAvailableStops()
+            AvailableStops = db.GetAvailableStops(),
+            AvailableDrivers = db.GetAvailableDrivers()
          };
          return PartialView("AddRoute", model);
       }
@@ -83,7 +84,8 @@ namespace TransportationService.Controllers
           {
               Id = ObjectId.GenerateNewId(),
               DriverLicense = license,
-              Name = name
+              Name = name,
+              AssignedTo = -1
 
           };
           db.SaveDriver(driver);
@@ -121,7 +123,7 @@ namespace TransportationService.Controllers
          db.SaveStop(stop);
          return Json("true");
       }
-      public ActionResult AddNewRoute(List<int> stopIds, string driverName, string routeName, int busId, bool startsAtWork)
+      public ActionResult AddNewRoute(List<int> stopIds, string routeName, int busId, bool startsAtWork, string driverLicense)
       {
          DatabaseInterface db = new DatabaseInterface();
          if (!db.IsRouteNameUnique(routeName))
@@ -139,10 +141,11 @@ namespace TransportationService.Controllers
          List<Route> routes = new List<Route>();
          routes = db.GetAvailableRoutes();
          db.AssignBusToRoute(busId, routeId);
+         db.AssignDriverToRoute(driverLicense, routeId);
          Route route = new Route()
          {
             Stops = stops,
-            DriverName = driverName,
+            Driver = db.GetDriverByDriverLicense(driverLicense),
             Name = routeName,
             RouteId = routeId,
             Id = ObjectId.GenerateNewId(),

@@ -9,7 +9,7 @@ function addRoute() {
 }
 function addNewRoute() {
     var routeName = $("#routeNameText").val();
-    var driverName = $("#driverNameText").val();
+    var license = $("#driverList").val();
     var busText = $("#busList").val();
     var isToWork = true;
     if ($("#toHomeButton").hasClass('active')) {
@@ -18,11 +18,10 @@ function addNewRoute() {
     var request = {
         stopIds: route.stops,
         routeName: routeName,
-        driverName: driverName,
+        driverLicense: license,
         busId: parseInt(busText),
         startsAtWork: isToWork
     }
-    alert("still working");
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/AddNewRoute", request, function (data) {
         if (data == "true") {

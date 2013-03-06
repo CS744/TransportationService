@@ -87,9 +87,21 @@ namespace TransportationService.Utility
           return coll.FindOneAs<Bus>(query);
       }
 
+      public Driver GetDriverByDriverLicense(string driverLicense)
+      {
+          var coll = _database.GetCollection(_driverCollectionName);
+          var query = Query.EQ("DriverLicense", driverLicense);
+          return coll.FindOneAs<Driver>(query);
+      }
+
       public void AssignBusToRoute(int busId, int routeId)
       {
           _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("AssignedTo", routeId));
+      }
+
+      public void AssignDriverToRoute(string driverLicense, int routeId)
+      {
+          _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverLicense", driverLicense), Update.Set("AssignedTo", routeId));
       }
 
       public List<Bus> GetAvailableBuses()
