@@ -41,11 +41,11 @@ namespace TransportationService.Utility
     {
         [BsonId]
         public ObjectId Id { get; set; }
-        public string SocialSecurityNumber { get; set; }
+        public long SocialSecurityNumber { get; set; }
         public string Position { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Gender { get; set; }
+        public bool IsMale { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
         public int EmployeeId { get; set; }

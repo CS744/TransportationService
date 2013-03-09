@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using TransportationService.Utility;
 using MongoDB.Bson;
 using TransportationService.Models;
+using System.Web.Security;
 
 namespace TransportationService.Controllers
 {
@@ -22,7 +23,7 @@ namespace TransportationService.Controllers
       public ActionResult LogIn(string username, string password)
       {
          DatabaseInterface db = new DatabaseInterface();
-         User user = db.getUser(username, password);
+         User user = db.GetUser(username, password);
          if (user == null)
          {
             return Json(new
@@ -31,11 +32,16 @@ namespace TransportationService.Controllers
                message = "Invalid username or password"
             });
          }
-         OnAuthorization(new AuthorizationContext());
+         FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
          sessionManager.User = user;
          var model = new OutputViewModel()
          {
-            Username = user.Username
+            Username = user.Username,
+            Routes = db.GetAvailableRoutes(),
+            Buses = db.GetAvailableBuses(),
+            Employees = db.GetAvailableEmployees(),
+            Stops = db.GetAvailableStops(),
+            Drivers = db.GetAvailableDrivers()
          };
 
          return Json(new
@@ -48,6 +54,7 @@ namespace TransportationService.Controllers
       public ActionResult Logout()
       {
          sessionManager.User = null;
+         FormsAuthentication.SignOut();
          return PartialView("Login");
       }
    }

@@ -19,9 +19,15 @@ namespace TransportationService.Controllers
          {
             return PartialView("Login");
          }
+         DatabaseInterface db = new DatabaseInterface();
          var model = new OutputViewModel()
          {
-            Username = user.Username
+            Username = user.Username,
+            Routes = db.GetAvailableRoutes(),
+            Buses = db.GetAvailableBuses(),
+            Employees = db.GetAvailableEmployees(),
+            Stops = db.GetAvailableStops(),
+            Drivers = db.GetAvailableDrivers()
          };
          return PartialView("AdminView", model);
       }
@@ -67,59 +73,59 @@ namespace TransportationService.Controllers
       }
       public ActionResult AddDriver()
       {
-          return PartialView("AddDriver");
+         return PartialView("AddDriver");
       }
       public ActionResult AddEmployee()
       {
-          DatabaseInterface db = new DatabaseInterface();
-          AddEmployeeModel model = new AddEmployeeModel()
-          {
-              AvailableRoutes = db.GetAvailableRoutes()
-          };
-          return PartialView("AddEmployee", model);
+         DatabaseInterface db = new DatabaseInterface();
+         AddEmployeeModel model = new AddEmployeeModel()
+         {
+            AvailableRoutes = db.GetAvailableRoutes()
+         };
+         return PartialView("AddEmployee", model);
       }
 
       public ActionResult AddNewDriver(string gender, string state, string name, string license)
       {
-          DatabaseInterface db = new DatabaseInterface();
-          if (!db.IsDriverLicenseUnique(license))
-              return Json("false");
+         DatabaseInterface db = new DatabaseInterface();
+         if (!db.IsDriverLicenseUnique(license))
+            return Json("false");
 
-          Driver driver = new Driver()
-          {
-              Id = ObjectId.GenerateNewId(),
-              DriverLicense = license,
-              Name = name,
-              AssignedTo = -1,
-              Gender = gender,
-              State = state
+         Driver driver = new Driver()
+         {
+            Id = ObjectId.GenerateNewId(),
+            DriverLicense = license,
+            Name = name,
+            AssignedTo = -1,
+            Gender = gender,
+            State = state
 
-          };
-          db.SaveDriver(driver);
-          return Json("true");
+         };
+         db.SaveDriver(driver);
+         return Json("true");
       }
-      public ActionResult AddNewEmployee(string gender, string email, string phone, string address, int routeId, string ssn, string position, string name)
+      public ActionResult AddNewEmployee(bool isMale, string email, string phone, string address, int routeId, long ssn, string position, string name)
       {
-          DatabaseInterface db = new DatabaseInterface();
-          if (!db.IsSocialSecurityNumberUnique(ssn))
-              return Json("false");
+         DatabaseInterface db = new DatabaseInterface();
+         if (!db.IsSocialSecurityNumberUnique(ssn))
+            return Json("false");
 
-          Employee employee = new Employee()
-          {
-              Id = ObjectId.GenerateNewId(),
-              SocialSecurityNumber = ssn,
-              Position = position,
-              Name = name,
-              Gender = gender,
-              Email = email,
-              Phone = phone,
-              Address = address,
-              route = db.GetRouteByRouteId(routeId),
-              EmployeeId = db.GetNextEmployeeId()
+         Employee employee = new Employee()
+         {
+            Id = ObjectId.GenerateNewId(),
+            SocialSecurityNumber = ssn,
+            Position = position,
+            Name = name,
+            IsMale = isMale,
+            Email = email,
+            Phone = phone,
+            Address = address,
+            route = db.GetRouteByRouteId(routeId),
+            EmployeeId = db.GetNextEmployeeId()
 
-          };
-          db.SaveEmployee(employee);
-          return Json("true");
+         };
+         db.SaveEmployee(employee);
+         return Json("true");
       }
       public ActionResult AddNewStop(string location)
       {
@@ -143,9 +149,9 @@ namespace TransportationService.Controllers
             return Json("false");
          int routeId;
          if (startsAtWork)
-             routeId = db.GetNextLowRouteId();
+            routeId = db.GetNextLowRouteId();
          else
-             routeId = db.GetNextHighRouteId();
+            routeId = db.GetNextHighRouteId();
          List<Stop> stops = new List<Stop>();
          foreach (int id in stopIds)
          {

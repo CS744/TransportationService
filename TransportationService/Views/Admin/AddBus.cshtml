@@ -5,15 +5,6 @@
 <div id="modal" class="modal hide smallModal">
     <div class="modal-header">Add a New Bus</div>
     <div class="modal-body" style="min-height: 200px; max-height: 400px; overflow: visible;">
-        <div class="alert alert-success" id="busSuccessModalMessage">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            The bus was successfully added!
-        </div>
-        <div class="alert alert-error" id="busFailureMessage">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Error: </strong>The license plate already exists. Please enter a unique license plate.
-        </div>
-
         <div>
             <label for="capacityText">Please provide the capacity</label>
             <input id="capacityText" type="text" placeholder="Enter Capacity" />
@@ -33,6 +24,9 @@
                 <ul role="options" id="statesList">
                 </ul>
             </div>
+        </div>
+        <div class="alert alert-error" id="busFailureMessage">
+            <div class="error-text">The license plate already exists. Please enter a unique license plate.</div>
         </div>
     </div>
     <div class="modal-footer">

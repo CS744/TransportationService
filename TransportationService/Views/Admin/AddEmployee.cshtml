@@ -3,50 +3,16 @@
     ViewBag.Title = "AddEmployee";
 }
 
-<div id="modal" class="modal hide smallModal">
+<div id="modal" class="modal hide largeModal">
     <div class="modal-header">Add a New Employee</div>
     <div class="modal-body">
-        <div class="alert alert-success" id="employeeSuccessModalMessage">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            The employee was successfully added!
-        </div>
-        <div class="alert alert-error" id="employeeFailureMessage">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Error: </strong>The social security number already exists. Please enter a unique social security number.
-        </div>
-
-        <div>
-            <label for="ssnText">Please provide the social security number</label>
-            <input id="ssnText" type="text" placeholder="Enter SSN" />
-        </div>
-        <div>
-            <label for="positionText">Please provide the employee's position</label>
-            <input id="positionText" type="text" placeholder="Enter Position" />
-        </div>
-        <div>
-            <label for="nameText">Please provide the employee's name</label>
-            <input id="nameText" type="text" placeholder="Enter Name" />
-        </div>
-        <div>
-            <label for="genderText">Please provide the gender of the employee</label>
-            <select id="genderText">
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-            </select>
-        </div>
-        <div>
+        <div class="two-column-modal-container">
             <label for="emailText">Please provide the employee's email</label>
             <input id="emailText" type="text" placeholder="Enter Email" />
-        </div>
-        <div>
             <label for="phoneText">Please provide the employee's phone</label>
             <input id="phoneText" type="text" placeholder="Enter Phone Number" />
-        </div>
-        <div>
             <label for="addressText">Please provide the employee's address</label>
             <input id="addressText" type="text" placeholder="Enter Address" />
-        </div>
-        <div>
             <label for="routeList">Select a Route:</label>
             <select id="routeList">
                 @foreach (TransportationService.Utility.Route route in Model.AvailableRoutes)
@@ -54,7 +20,23 @@
                     <option value="@route.RouteId">Route @route.RouteId (Name: @route.Name )</option>
                 }
             </select>
-
+        </div>
+        <div class="two-column-modal-container float-right">
+            <label for="ssnText">Please provide the social security number</label>
+            <input id="ssnText" type="text" placeholder="Enter SSN" />
+            <label for="positionText">Please provide the employee's position</label>
+            <input id="positionText" type="text" placeholder="Enter Position" />
+            <label for="nameText">Please provide the employee's name</label>
+            <input id="nameText" type="text" placeholder="Enter Name" />
+            <label for="genderText">Please provide the gender of the employee</label>
+            <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-primary active" id="isMale" title="Male">M</button>
+                <button type="button" class="btn btn-primary" id="isFeMale" title="Female">F</button>
+            </div>
+        </div>
+        <div class="alert alert-error" id="employeeFailureMessage">
+            <div class="error-text">The social security number already exists. Please enter a unique social security number.</div>
+        </div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-success" onclick="addNewEmployee(false)">Add Employee</button>

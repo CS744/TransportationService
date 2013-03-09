@@ -4,32 +4,13 @@
 
 <div id="modal" class="modal hide smallModal">
     <div class="modal-header">Add a New Driver</div>
-    <div class="modal-body">
-        <div class="alert alert-success" id="driverSuccessModalMessage">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            The driver was successfully added!
-        </div>
-        <div class="alert alert-error" id="driverFailureMessage">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Error: </strong>The driver's license already exists. Please enter a unique license.
-        </div>
+    <div class="modal-body" style="overflow-y: visible;">
+        <input id="nameText" type="text" placeholder="Enter driver's name" />
+        <label for="licenseText">Please provide the driver's license</label>
 
-        <div>
-            <label for="nameText">Please provide the driver's name</label>
-            <input id="nameText" type="text" placeholder="Enter driver's name" />
-        </div>
-        <div>
-            <label for="licenseText">Please provide the driver's license</label>
-            <input id="licenseText" type="text" placeholder="Enter License" />
-        </div>
-        <div>
-            <label for="genderText">Please provide the gender of the driver</label>
-            <select id="genderText">
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-            </select>
-        </div>
+        <input id="licenseText" type="text" placeholder="Enter diver's License number" />
         <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
+
             <label>Please select the state the driver is registered in</label>
             <input type="text" id="selectedState" style="display: none">
             <a class="bfh-selectbox-toggle" role="button" data-toggle="bfh-selectbox" href="#">
@@ -40,6 +21,9 @@
                 <ul role="options" id="statesList">
                 </ul>
             </div>
+        </div>
+        <div class="alert alert-error" id="driverFailureMessage">
+            <div class="error-text">The driver's license already exists. Please enter a unique license.</div>
         </div>
     </div>
     <div class="modal-footer">

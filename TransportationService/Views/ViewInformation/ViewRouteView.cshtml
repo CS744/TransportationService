@@ -1,0 +1,29 @@
+﻿@model TransportationService.Models.ViewRouteModel
+@{
+    ViewBag.Title = "ViewBusView";
+}
+
+<div>
+    The name of the route is:
+    <div class="item-info">@Model.Name</div>
+</div>
+<div>
+    The bus's liscense plate of the route is:
+    <div class="item-info">@Model.LiscensePlate</div>
+</div>
+<div>
+    The driver's name of the route is:
+    <div class="item-info">@Model.DriverName</div>
+</div>
+<div>
+    <div class="added-stops">
+        <div class="added-stop">Start</div>
+        <i class="added-stop icon-arrow-right"></i>
+        @foreach (TransportationService.Utility.Stop stop in @Model.Stops)
+        {
+            <div class="added-stop">@stop.StopId</div>
+            <i class="added-stop icon-arrow-right"></i>
+        }
+        <i class="icon-flag"></i>
+    </div>
+</div>

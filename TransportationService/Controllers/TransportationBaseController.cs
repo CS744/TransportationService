@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MongoDB.Bson;
 using TOPSS.Utility;
+using TransportationService.Utility;
 
 namespace TransportationService.Controllers
 {
@@ -15,6 +17,24 @@ namespace TransportationService.Controllers
       {
          base.OnActionExecuting(ctx);
          sessionManager = new SessionManager(this.HttpContext.Session);
+         if (sessionManager.User == null)
+         {
+            //if the user was loaded from a auth cookie, grab the user name from it and load the user details, and place it in the session variable
+            var identity = HttpContext.User.Identity as System.Security.Principal.IIdentity;
+            if (identity != null)
+            {
+               System.Web.Security.FormsIdentity fi = identity as System.Web.Security.FormsIdentity;
+               if (fi != null)
+               {
+                  DatabaseInterface db = new DatabaseInterface();
+                  var user = db.GetUserById(new ObjectId(fi.Name));
+                  if (user != null)
+                  {
+                     sessionManager.User = user;
+                  }
+               }
+            }
+         }
       }
       protected string RenderPartialViewToString()
       {

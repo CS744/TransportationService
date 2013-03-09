@@ -20,7 +20,7 @@ function logIn() {
         else {
             userManager.currentUser = data.user;
             $("#mainArea-header").html(data.headerText);
-            $("#mainArea").replaceWith(data.html);
+            $("#mainArea").html(data.html);
             $("#sign-out-text").removeClass('hidden');
         }
     });

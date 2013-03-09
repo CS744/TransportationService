@@ -2,13 +2,66 @@
 @{
     ViewBag.Title = Model.Username;
 }
-<div id="mainArea">
+<div class="btn-group">
     <button class="btn" onclick="addRoute()">Add Route</button>
     <button class="btn" onclick="addStop()">Add Stop</button>
     <button class="btn" onclick="addBus()">Add Bus</button>
     <button class="btn" onclick="addDriver()">Add Driver</button>
     <button class="btn" onclick="addEmployee()">Add Employee</button>
 </div>
+<div id="view-container">
+    <div class="view-container-left">
+        <div id="view-title">View</div>
+        <div class="view-child">
+            <div id="view-routes" class="view-child-header" onclick="viewMe('#view-routes')">Routes</div>
+            <div class="view-child-inner hide">
+                @foreach (TransportationService.Utility.Route route in @Model.Routes)
+                {
+                    <div class="item-element" onclick="viewRoute('@route.Id')">@route.Name</div>
+                }
+            </div>
+        </div>
+        <div class="view-child">
+            <div id="view-Stops" class="view-child-header" onclick="viewMe('#view-Stops')">Stops</div>
+            <div class="view-child-inner hide">
+                @foreach (TransportationService.Utility.Stop stop in @Model.Stops)
+                {
+                    <div class="item-element" data-id="@stop.Id">@stop.Location</div>
+                }
+            </div>
+        </div>
+        <div class="view-child">
+            <div id="view-buses" class="view-child-header" onclick="viewMe('#view-buses')">Buses</div>
+            <div class="view-child-inner hide">
+                @foreach (TransportationService.Utility.Bus bus in @Model.Buses)
+                {
+                    <div class="item-element" onclick="viewBus('@bus.Id')">@bus.LiscensePlate</div>
+                }
+            </div>
+        </div>
+        <div class="view-child">
+            <div id="view-Drivers" class="view-child-header" onclick="viewMe('#view-Drivers')">Drivers</div>
+            <div class="view-child-inner hide">
+                @foreach (TransportationService.Utility.Driver driver in @Model.Drivers)
+                {
+                    <div class="item-element" data-id="@driver.Id">@driver.Name</div>
+                }
+            </div>
+        </div>
+        <div class="view-child">
+            <div id="view-Employees" class="view-child-header" onclick="viewMe('#view-Employees')">Employees</div>
+            <div class="view-child-inner hide">
+                @foreach (TransportationService.Utility.Employee employee in @Model.Employees)
+                {
+                    <div class="item-element" data-id="@employee.Id">@employee.Name</div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="view-container-right">
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         $("#usernameText").focus();
