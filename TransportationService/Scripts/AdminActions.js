@@ -44,8 +44,8 @@ function addNewRoute() {
     });
 }
 
-function modifyRoute() {
-    $.post("/Admin/ModifyRoute", {}, function (data) {
+function modifyRoute(rId) {
+    $.post("/Admin/ModifyRoute", {routeId: rId}, function (data) {
         $("#modal").replaceWith(data);
         $("#modal").modal();
     });
@@ -55,10 +55,6 @@ function UpdateRoute() {
     var routeName = $("#routeNameText").val();
     var license = $("#driverList").val();
     var busText = $("#busList").val();
-    var isToWork = true;
-    if ($("#toHomeButton").hasClass('active')) {
-        isToWork = false;
-    }
     if (routeName == "" || license == null || busText == "") {
         $("#routeFailureMessage > .error-text").text("Route name and Driver's name must be correctly entered.");
         rollDown($("#routeFailureMessage"));
@@ -71,13 +67,12 @@ function UpdateRoute() {
         stopIds: route.stops,
         routeName: routeName,
         driverLicense: license,
-        busId: parseInt(busText),
-        startsAtWork: isToWork
+        busId: parseInt(busText)
     }
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/UpdateRoute", request, function (data) {
         if (data == "true") {
-            $.notify.addMessage("The route was successfully added!", { type: "success", time: 6000 });
+            $.notify.addMessage("The route was successfully updated!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
         } else {
             $("#routeFailureMessage > .error-text").text("The route name already exists. Please enter a unique route name.");
@@ -373,7 +368,6 @@ function addNewEmployee(addAnother) {
         });
     }
 }
-
 
 function viewMe(id) {
     elem = $(id);

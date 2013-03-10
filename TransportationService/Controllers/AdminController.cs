@@ -151,19 +151,32 @@ namespace TransportationService.Controllers
             {
                 AvailableBuses = db.GetAvailableBuses(),
                 AvailableStops = db.GetAvailableStops(),
-                AvailableDrivers = db.GetAvailableDrivers()
+                AvailableDrivers = db.GetAvailableDrivers(),
+                Bus = null,
+                Driver = null,
+                Name = "",
+                RouteId = "",
+                Stops = { },
+                UpdatingRoute = false
             };
             return PartialView("AddRoute", model);
         }
 
-        public ActionResult ModifyRoute()
+        public ActionResult ModifyRoute(String routeId)
         {
             DatabaseInterface db = new DatabaseInterface();
+            Route route = db.GetRouteByRouteId(int.Parse(routeId));
             AddRouteModel model = new AddRouteModel()
             {
                 AvailableBuses = db.GetAvailableBuses(),
                 AvailableStops = db.GetAvailableStops(),
-                AvailableDrivers = db.GetAvailableDrivers()
+                AvailableDrivers = db.GetAvailableDrivers(),
+                Bus = route.Bus,
+                Driver = route.Driver,
+                Name = route.Name,
+                RouteId = routeId,
+                Stops = route.Stops,
+                UpdatingRoute = true
             };
             return PartialView("AddRoute", model);
         }
@@ -358,39 +371,32 @@ namespace TransportationService.Controllers
                 Id = ObjectId.GenerateNewId(),
                 Bus = db.GetBusByBusId(busId)
             };
-            db.SaveRoute(route);
+            db.AddRoute(route);
             return Json("true");
         }
 
-        public ActionResult UpdateRoute(List<int> stopIds, string routeName, int busId, bool startsAtWork, string driverLicense)
+        public ActionResult UpdateRoute(String routeId, List<int> stopIds, string routeName, int busId, bool startsAtWork, string driverLicense)
         {
             DatabaseInterface db = new DatabaseInterface();
-            if (!db.IsRouteNameUnique(routeName))
+            if (!db.IsRouteNameUnique(routeName, routeId))
                 return Json("false");
-            int routeId;
-            if (startsAtWork)
-                routeId = db.GetNextLowRouteId();
-            else
-                routeId = db.GetNextHighRouteId();
             List<Stop> stops = new List<Stop>();
             foreach (int id in stopIds)
             {
                 stops.Add(db.GetStopByStopId(id));
             }
-            List<Route> routes = new List<Route>();
-            routes = db.GetAvailableRoutes();
-            db.AssignBusToRoute(busId, routeId);
-            db.AssignDriverToRoute(driverLicense, routeId);
+            int iRouteId = int.Parse(routeId);
+            db.AssignBusToRoute(busId, iRouteId);
+            db.AssignDriverToRoute(driverLicense, iRouteId);
             Route route = new Route()
             {
                 Stops = stops,
                 Driver = db.GetDriverByDriverLicense(driverLicense),
                 Name = routeName,
-                RouteId = routeId,
-                Id = ObjectId.GenerateNewId(),
+                RouteId = iRouteId,
                 Bus = db.GetBusByBusId(busId)
             };
-            db.SaveRoute(route);
+            db.UpdateRoute(route);
             return Json("true");
         }
 

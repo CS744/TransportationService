@@ -20,16 +20,9 @@
                 <option value="--State--">--State--</option>
                 @for (int index = 0; index < 51; index++)
                 {
-                    if (Model.UpdatingBus)
+                    if (Model.UpdatingBus && Model.State.Equals(Model.StateAbbreviations[index]))
                     {
-                        if (Model.State.Equals(Model.StateAbbreviations[index]))
-                        {
                     <option value="@Model.StateAbbreviations[index]" selected="selected">@Model.StateNames[index]</option>
-                        }
-                        else
-                        {
-                    <option value="@Model.StateAbbreviations[index]">@Model.StateNames[index]</option>
-                        }
                     }
                     else
                     {

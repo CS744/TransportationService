@@ -49,7 +49,8 @@ namespace TransportationService.Controllers
                   Stops = route.Stops,
                   DriverName = route.Driver.Name,
                   Name = route.Name,
-                  LicensePlate = route.Bus.LicensePlate
+                  LicensePlate = route.Bus.LicensePlate,
+                  RouteId = route.RouteId.ToString()
                })
          });
       }

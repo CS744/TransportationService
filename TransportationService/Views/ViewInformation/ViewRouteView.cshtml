@@ -1,6 +1,6 @@
 ﻿@model TransportationService.Models.ViewRouteModel
 @{
-    ViewBag.Title = "ViewBusView";
+    ViewBag.Title = "ViewRouteView";
 }
 
 <div>
@@ -28,6 +28,6 @@
     </div>
 </div>
 <div>
-    <button class="btn btn-primary" onclick="modifyRoute()">Modify Route</button>
+    <button class="btn btn-primary" onclick="modifyRoute(@Model.RouteId)">Modify Route</button>
     @*<button class="btn btn-danger" onclick="removeRoute()">Remove Route</button>*@
 </div>

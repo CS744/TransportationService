@@ -6,28 +6,22 @@
 <div id="modal" class="modal hide smallModal">
     <div class="modal-header">Add a New Route</div>
     <div class="modal-body" style="max-height: 600px; overflow: visible;">
-
-        @*        <div class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Employees <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                @foreach (TransportationService.Utility.Bus bus in Model.AvailableBuses)
-                {
-                    <div onclick="">Bus @bus.BusId</div>
-                }
-            </ul>
-        </div>*@
         <div>
             <label for="routeNameText">Route Name:</label>
-            <input id="routeNameText" type="text" placeholder="Enter Route Name" />
+            <input id="routeNameText" type="text" placeholder="Enter Route Name" value="@Model.Name"/>
         </div>
         <div>
-            <label for="driverList"Driver:</label>
+            <label for="driverList">Driver:</label>
             <select id="driverList">
                 @foreach (TransportationService.Utility.Driver driver in Model.AvailableDrivers)
                 {
                     if (driver.AssignedTo == -1)
                     {
                     <option value="@driver.DriverLicense">@driver.Name (License #: @driver.DriverLicense)</option>
+                    }
+                    else if (Model.UpdatingRoute && driver.AssignedTo == Model.Driver.AssignedTo)
+                    {
+                    <option value="@driver.DriverLicense" selected="selected">@driver.Name (License #: @driver.DriverLicense)</option>
                     }
                 }
             </select>
@@ -41,15 +35,35 @@
                     {
                     <option value="@bus.BusId">Bus @bus.BusId (Capacity: @bus.Capacity, License: @bus.LicensePlate)</option>
                     }
+                    else if (Model.UpdatingRoute && bus.AssignedTo == Model.Bus.AssignedTo)
+                    {
+                    <option value="@bus.BusId" selected="selected">Bus @bus.BusId (Capacity: @bus.Capacity, License: @bus.LicensePlate)</option>
+                    }
                 }
             </select>
-           <div id="startsFromSection">
+            <div id="startsFromSection">
                 <div>
                     Employees will be dropped off at <span id="destination-text">Work</span>
                 </div>
                 <div class="btn-group" data-toggle="buttons-radio">
-                    <button type="button" class="btn btn-primary icon-building active" id="toWorkButton" title="Work" onclick="$('#destination-text').text('Work');"></button>
-                    <button type="button" class="btn btn-primary icon-home" id="toHomeButton" title="Home" onclick="$('#destination-text').text('Home');"></button>
+                    @if (Model.UpdatingRoute)
+                    {
+                        if (int.Parse(Model.RouteId) < 500)
+                        {
+                        <button type="button" disabled class="btn btn-primary icon-building active" id="toWorkButton" title="Work" onclick="$('#destination-text').text('Work');"></button>
+                        <button type="button" disabled class="btn btn-primary icon-home" id="toHomeButton" title="Home" onclick="$('#destination-text').text('Home');"></button>
+                        }
+                        else
+                        {
+                        <button type="button" disabled class="btn btn-primary icon-building" id="toWorkButton" title="Work" onclick="$('#destination-text').text('Work');"></button>
+                        <button type="button" disabled class="btn btn-primary icon-home active" id="toHomeButton" title="Home" onclick="$('#destination-text').text('Home');"></button>
+                        }
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary icon-building active" id="toWorkButton" title="Work" onclick="$('#destination-text').text('Work');"></button>
+                        <button type="button" class="btn btn-primary icon-home" id="toHomeButton" title="Home" onclick="$('#destination-text').text('Home');"></button>
+                    }
                 </div>
             </div>
         </div>
@@ -65,7 +79,10 @@
                 <ul class="dropdown-menu">
                     @foreach (TransportationService.Utility.Stop stop in Model.AvailableStops)
                     {
+                        if (!(Model.UpdatingRoute && Model.Stops.Contains(stop)))
+                        {
                         <div class="dropdown-item" onclick="addStopToRoute(this)" data-stopId="@stop.StopId">Stop @stop.StopId, @stop.Location</div>
+                        }
                     }
                 </ul>
             </div>
@@ -75,8 +92,16 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success" onclick="addNewRoute();">Add Route</button>
-        <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
+        @if (Model.UpdatingRoute)
+        {
+            <button class="btn btn-success" onclick="updateRoute(@Model.RouteId);">Save</button>
+            <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
+        }
+        else
+        {
+            <button class="btn btn-success" onclick="addNewRoute();">Add Route</button>
+            <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
+        }
     </div>
 </div>
 <script>
