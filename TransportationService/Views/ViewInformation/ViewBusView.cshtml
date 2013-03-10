@@ -8,12 +8,12 @@
     <div class="item-info">@Model.Status</div>
 </div>
 <div>
-    The state of the liscense plate is:
+    The license plate is registered in:
     <div class="item-info">@Model.State</div>
 </div>
 <div>
-    The liscense plate of the bus is:
-    <div class="item-info">@Model.LiscensePlate</div>
+    The license plate is:
+    <div class="item-info">@Model.LicensePlate</div>
 </div>
 <div>
     The capacity of the bus is:
@@ -26,7 +26,12 @@
 @if (Model.RouteName != "")
 {
     <div>
-        The Route name that the bus takes is:
+        The route the bus is assigned to is:
     <div class="item-info">@Model.RouteName</div>
     </div>
 }
+
+<div>
+    <button class="btn btn-primary" onclick="modifyBus(@Model.BusId)">Modify Bus</button>
+    @*<button class="btn btn-danger" onclick="removeBus()">Remove Bus</button>*@
+</div>

@@ -33,11 +33,20 @@ namespace TransportationService.Utility
          return coll.FindOneAs<Employee>(query);
       }
 
-      public void SaveBus(Bus bus)
+      public void AddBus(Bus bus)
       {
          var coll = _database.GetCollection(_busCollectionName);
          coll.Save(bus);
       }
+
+      public void UpdateBus(Bus bus)
+      {
+          _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", bus.BusId), Update.Set("LicensePlate", bus.LicensePlate));
+          _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", bus.BusId), Update.Set("State", bus.State));
+          _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", bus.BusId), Update.Set("Capacity", bus.Capacity));
+          _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", bus.BusId), Update.Set("Status", bus.Status));
+      }
+
       public void SaveUser(User user)
       {
          var coll = _database.GetCollection(_usersCollectionName);
@@ -184,13 +193,16 @@ namespace TransportationService.Utility
          }
          return true;
       }
-      public Boolean IsLicenseUnique(string license)
+      public Boolean IsLicenseUnique(string license, string busId = "")
       {
          List<Bus> buses = GetAvailableBuses();
          foreach (Bus b in buses)
          {
-            if (String.Equals(b.LiscensePlate, license))
-               return false;
+             if (busId.Equals("") || !busId.Equals(b.BusId.ToString()))
+             {
+                 if (String.Equals(b.LicensePlate, license))
+                     return false;
+             }
          }
          return true;
       }

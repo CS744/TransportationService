@@ -23,7 +23,7 @@ namespace TransportationService.Controllers
          }
          return PartialView("ViewBusView", new ViewBusModel()
          {
-            LiscensePlate = bus.LiscensePlate,
+            LicensePlate = bus.LicensePlate,
             State = bus.State,
             Capacity = bus.Capacity,
             Status = bus.Status == BusStatus.Active ? "Active" : "Inactive",
@@ -49,7 +49,7 @@ namespace TransportationService.Controllers
                   Stops = route.Stops,
                   DriverName = route.Driver.Name,
                   Name = route.Name,
-                  LiscensePlate = route.Bus.LiscensePlate
+                  LicensePlate = route.Bus.LicensePlate
                })
          });
       }

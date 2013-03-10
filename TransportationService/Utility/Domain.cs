@@ -28,7 +28,7 @@ namespace TransportationService.Utility
     {
         [BsonId]
         public ObjectId Id { get; set; }
-        public string LiscensePlate { get; set; }
+        public string LicensePlate { get; set; }
         public string State { get; set; }
         public int Capacity { get; set; }
         public BusStatus Status { get; set; }

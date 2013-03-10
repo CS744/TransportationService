@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TransportationService.Models.AddDriverModel
+@{
     ViewBag.Title = "AddDriver";
 }
 
@@ -8,19 +9,17 @@
         <input id="nameText" type="text" placeholder="Enter driver's name" />
         <label for="licenseText">Please provide the driver's license</label>
 
-        <input id="licenseText" type="text" placeholder="Enter diver's License number" />
+        <input id="licenseText" type="text" placeholder="Enter driver's license number" />
         <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
 
             <label>Please select the state the driver is registered in</label>
-            <input type="text" id="selectedState" style="display: none">
-            <a class="bfh-selectbox-toggle" role="button" data-toggle="bfh-selectbox" href="#">
-                <span class="bfh-selectbox-option input-medium" data-option="">--State--</span>
-                <b class="caret"></b>
-            </a>
-            <div class="bfh-selectbox-options">
-                <ul role="options" id="statesList">
-                </ul>
-            </div>
+            <select id="statesList">
+                <option value="--State--">--State--</option>
+                @for (int index = 0; index < 51; index++)
+                {
+                    <option value="@Model.StateAbbreviations[index]">@Model.StateNames[index]</option>
+                }
+            </select>
         </div>
         <div class="alert alert-error" id="driverFailureMessage">
             <div class="error-text">The driver's license already exists. Please enter a unique license.</div>
@@ -36,14 +35,6 @@
     $(document).ready(function () {
         $("#driverSuccessModalMessage").hide();
         $("#driverFailureMessage").hide();
-        for (var state in BFHStatesList) {
-            $("#statesList").append('<li><a href="#"><input type="hidden" value="' + state + '">' + BFHStatesList[state] + '</a></li>')
-        }
-        $("#statesList > li > a").click(function (e) {
-            e.preventDefault();
-            var state = $('input[type="hidden"]', this).val();
-            $("#selectedState").val(state);
-        });
     });
 </script>
 

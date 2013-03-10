@@ -4,6 +4,7 @@
         $("#modal").modal();
     });
 }
+
 function addNewRoute() {
     var routeName = $("#routeNameText").val();
     var license = $("#driverList").val();
@@ -30,6 +31,51 @@ function addNewRoute() {
     }
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/AddNewRoute", request, function (data) {
+        if (data == "true") {
+            $.notify.addMessage("The route was successfully added!", { type: "success", time: 6000 });
+            $("#modal").modal('hide');
+        } else {
+            $("#routeFailureMessage > .error-text").text("The route name already exists. Please enter a unique route name.");
+            rollDown($("#routeFailureMessage"));
+            setTimeout(function () {
+                rollUp($("#routeFailureMessage"));
+            }, 6000);
+        }
+    });
+}
+
+function modifyRoute() {
+    $.post("/Admin/ModifyRoute", {}, function (data) {
+        $("#modal").replaceWith(data);
+        $("#modal").modal();
+    });
+}
+
+function UpdateRoute() {
+    var routeName = $("#routeNameText").val();
+    var license = $("#driverList").val();
+    var busText = $("#busList").val();
+    var isToWork = true;
+    if ($("#toHomeButton").hasClass('active')) {
+        isToWork = false;
+    }
+    if (routeName == "" || license == null || busText == "") {
+        $("#routeFailureMessage > .error-text").text("Route name and Driver's name must be correctly entered.");
+        rollDown($("#routeFailureMessage"));
+        setTimeout(function () {
+            rollUp($("#routeFailureMessage"));
+        }, 6000);
+        return false;
+    }
+    var request = {
+        stopIds: route.stops,
+        routeName: routeName,
+        driverLicense: license,
+        busId: parseInt(busText),
+        startsAtWork: isToWork
+    }
+    jQuery.ajaxSettings.traditional = true;
+    $.post("/Admin/UpdateRoute", request, function (data) {
         if (data == "true") {
             $.notify.addMessage("The route was successfully added!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
@@ -102,7 +148,6 @@ function addStopToRoute(elem) {
     route.addStop(stopId);
 }
 
-
 function addBus() {
     console.log("supposed to be adding bus");
     $.post("/Admin/AddBus", {}, function (data) {
@@ -112,10 +157,10 @@ function addBus() {
 }
 
 function addNewBus(addAnother) {
-    var state = $("#selectedState").val();
+    var state = $("#statesList").val();
     var capacity = $("#capacityText").val();
     var license = $("#licenseText").val();
-    if (typeof (capacity) != "number" || license == "" || state == "") {
+    if (license.length != 7 || state == "") {
         $("#busFailureMessage > .error-text").text("Fill In All Criteria Correctly.");
         rollDown($("#busFailureMessage"));
         setTimeout(function () {
@@ -133,6 +178,7 @@ function addNewBus(addAnother) {
             if (data == "true") {
                 $("#capacityText").val("");
                 $("#licenseText").val("");
+                $("#statesList").val("--State--");
                 $.notify.addMessage("The bus was successfully added!", { type: "success", time: 6000 });
             } else {
                 $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
@@ -158,6 +204,52 @@ function addNewBus(addAnother) {
     }
 }
 
+function modifyBus(bId) {
+    console.log("supposed to be modifying bus");
+    $.post("/Admin/ModifyBus", {busId: bId}, function (data) {
+        $("#modal").replaceWith(data);
+        $("#modal").modal();
+            });
+}
+
+function updateBus(busId) {
+    var state = $("#statesList").val();
+    var capacity = $("#capacityText").val();
+    var license = $("#licenseText").val();
+    var status = 1;
+    if ($("#isActive").hasClass('active')) {
+        status = "0";
+    }
+    if (license == "" || state == "") {
+        $("#busFailureMessage > .error-text").text("Fill In All Criteria Correctly.");
+        rollDown($("#busFailureMessage"));
+        setTimeout(function () {
+            rollUp($("#busFailureMessage"));
+        }, 6000);
+        return false;
+    }
+    window.alert(status);
+    var request = {
+        capacity: parseInt(capacity),
+        license: license,
+        state: state,
+        status: status,
+        busId: busId
+    }
+    $.post("/Admin/UpdateBus", request, function (data) {
+        if (data == "true") {
+            $.notify.addMessage("The bus was successfully updated!", { type: "success", time: 6000 });
+            $("#modal").modal('hide');
+        } else {
+            $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
+            rollDown($("#busFailureMessage"));
+            setTimeout(function () {
+                rollUp($("#busFailureMessage"));
+            }, 6000);
+        }
+    });
+}
+
 function addDriver() {
     console.log("supposed to be adding driver");
     $.post("/Admin/AddDriver", {}, function (data) {
@@ -167,7 +259,7 @@ function addDriver() {
 }
 
 function addNewDriver(addAnother) {
-    var state = $("#selectedState").val();
+    var state = $("#statesList").val();
     var name = $("#nameText").val();
     var license = $("#licenseText").val();
     if (state == "" || name == "" || license == "") {
@@ -188,6 +280,7 @@ function addNewDriver(addAnother) {
             if (data == "true") {
                 $("#nameText").val("");
                 $("#licenseText").val("");
+                $("#statesList").val("--State--");
                 $.notify.addMessage("The driver was successfully added!", { type: "success", time: 6000 });
             } else {
                 $("#driverFailureMessage > .error-text").text("The driver's license already exists. Please enter a unique license.");
@@ -304,6 +397,7 @@ function viewBus(id) {
         $("#view-container > .view-container-right").html(data);
     });
 }
+
 function viewRoute(id) {
     var request = { id: id };
     $.post("/ViewInformation/ViewRoute", request, function (data) {

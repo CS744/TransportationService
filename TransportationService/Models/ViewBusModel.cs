@@ -9,7 +9,7 @@ namespace TransportationService.Models
 {
    public class ViewBusModel
    {
-      public string LiscensePlate { get; set; }
+      public string LicensePlate { get; set; }
       public string State { get; set; }
       public int Capacity { get; set; }
       public string Status { get; set; }
@@ -21,6 +21,6 @@ namespace TransportationService.Models
       public List<Stop> Stops { get; set; }
       public string DriverName { get; set; }
       public string Name { get; set; }
-      public string LiscensePlate { get; set; }
+      public string LicensePlate { get; set; }
    }
 }

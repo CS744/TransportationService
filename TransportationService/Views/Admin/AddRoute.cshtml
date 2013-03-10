@@ -21,7 +21,7 @@
             <input id="routeNameText" type="text" placeholder="Enter Route Name" />
         </div>
         <div>
-            <label for="driverList">Select a Driver:</label>
+            <label for="driverList"Driver:</label>
             <select id="driverList">
                 @foreach (TransportationService.Utility.Driver driver in Model.AvailableDrivers)
                 {
@@ -33,13 +33,13 @@
             </select>
         </div>
         <div>
-            <label for="busList">Select a Bus:</label>
+            <label for="busList">Bus:</label>
             <select id="busList">
                 @foreach (TransportationService.Utility.Bus bus in Model.AvailableBuses)
                 {
-                    if (bus.AssignedTo == -1)
+                    if (bus.AssignedTo == -1 && bus.Status == 0)
                     {
-                    <option value="@bus.BusId">Bus @bus.BusId (Capacity: @bus.Capacity, License: @bus.LiscensePlate, Status: @bus.Status )</option>
+                    <option value="@bus.BusId">Bus @bus.BusId (Capacity: @bus.Capacity, License: @bus.LicensePlate)</option>
                     }
                 }
             </select>

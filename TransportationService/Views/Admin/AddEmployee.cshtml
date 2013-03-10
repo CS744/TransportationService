@@ -7,11 +7,24 @@
     <div class="modal-header">Add a New Employee</div>
     <div class="modal-body">
         <div class="two-column-modal-container">
-            <label for="emailText">Please provide the employee's email</label>
+            <label for="nameText">Name</label>
+            <input id="nameText" type="text" placeholder="Enter Name" />
+            <label for="genderText">Gender</label>
+            <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-primary" id="isMale" title="Male">M</button>
+                <button type="button" class="btn btn-primary" id="isFeMale" title="Female">F</button>
+            </div>
+            <label for="ssnText">Social Security Number</label>
+            <input id="ssnText" type="text" placeholder="Enter SSN" />
+            <label for="positionText">Position</label>
+            <input id="positionText" type="text" placeholder="Enter Position" />
+        </div>
+        <div class="two-column-modal-container float-right">
+            <label for="emailText">Email</label>
             <input id="emailText" type="text" placeholder="Enter Email" />
-            <label for="phoneText">Please provide the employee's phone</label>
+            <label for="phoneText">Phone Number</label>
             <input id="phoneText" type="text" placeholder="Enter Phone Number" />
-            <label for="addressText">Please provide the employee's address</label>
+            <label for="addressText">Address</label>
             <input id="addressText" type="text" placeholder="Enter Address" />
             <label for="routeList">Select a Route:</label>
             <select id="routeList">
@@ -20,19 +33,6 @@
                     <option value="@route.RouteId">Route @route.RouteId (Name: @route.Name )</option>
                 }
             </select>
-        </div>
-        <div class="two-column-modal-container float-right">
-            <label for="ssnText">Please provide the social security number</label>
-            <input id="ssnText" type="text" placeholder="Enter SSN" />
-            <label for="positionText">Please provide the employee's position</label>
-            <input id="positionText" type="text" placeholder="Enter Position" />
-            <label for="nameText">Please provide the employee's name</label>
-            <input id="nameText" type="text" placeholder="Enter Name" />
-            <label for="genderText">Please provide the gender of the employee</label>
-            <div class="btn-group" data-toggle="buttons-radio">
-                <button type="button" class="btn btn-primary active" id="isMale" title="Male">M</button>
-                <button type="button" class="btn btn-primary" id="isFeMale" title="Female">F</button>
-            </div>
         </div>
         <div class="alert alert-error" id="employeeFailureMessage">
             <div class="error-text">The social security number already exists. Please enter a unique social security number.</div>
