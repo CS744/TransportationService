@@ -34,7 +34,6 @@ namespace TransportationService.Utility
         public BusStatus Status { get; set; }
         public int BusId { get; set; }
         public int AssignedTo { get; set; }
-        //public ObjectId RouteId { get; set; }
     }
 
     public class Employee
@@ -50,7 +49,6 @@ namespace TransportationService.Utility
         public string Address { get; set; }
         public int EmployeeId { get; set; }
         public Route route { get; set; }
-        //public ObjectId RouteId { get; set; }
     }
 
     public class Driver
@@ -71,7 +69,6 @@ namespace TransportationService.Utility
         public Driver Driver { get; set; }
         public string Name { get; set; }
         public int RouteId { get; set; }
-        //public List<Employee> Employees { get; set; }
         public Bus Bus { get; set; }
     }
     public class Stop

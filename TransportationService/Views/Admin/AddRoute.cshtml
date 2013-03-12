@@ -46,20 +46,7 @@
                     Employees will be dropped off at <span id="destination-text">Work</span>
                 </div>
                 <div class="btn-group" data-toggle="buttons-radio">
-                    @if (Model.UpdatingRoute)
-                    {
-                        if (int.Parse(Model.RouteId) < 500)
-                        {
-                        <button type="button" disabled class="btn btn-primary icon-building active" id="toWorkButton" title="Work" onclick="$('#destination-text').text('Work');"></button>
-                        <button type="button" disabled class="btn btn-primary icon-home" id="toHomeButton" title="Home" onclick="$('#destination-text').text('Home');"></button>
-                        }
-                        else
-                        {
-                        <button type="button" disabled class="btn btn-primary icon-building" id="toWorkButton" title="Work" onclick="$('#destination-text').text('Work');"></button>
-                        <button type="button" disabled class="btn btn-primary icon-home active" id="toHomeButton" title="Home" onclick="$('#destination-text').text('Home');"></button>
-                        }
-                    }
-                    else
+                    @if (!Model.UpdatingRoute)
                     {
                         <button type="button" class="btn btn-primary icon-building active" id="toWorkButton" title="Work" onclick="$('#destination-text').text('Work');"></button>
                         <button type="button" class="btn btn-primary icon-home" id="toHomeButton" title="Home" onclick="$('#destination-text').text('Home');"></button>
@@ -68,40 +55,75 @@
             </div>
         </div>
         <div id="stopSection">
-            <div>
-                <div id="added-stops">
-                    <div class="added-stop">Start</div>
-                </div>
-                <i class='added-stop icon-arrow-right'></i><i class="icon-flag"></i>
-            </div>
-            <div class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Stops</a>
-                <ul class="dropdown-menu">
-                    @foreach (TransportationService.Utility.Stop stop in Model.AvailableStops)
+            <label for="stops" style="font-weight: bold;">Stops:</label>
+            <select id="stops" style="width: 85%">
+                @foreach (TransportationService.Utility.Stop stop in Model.AvailableStops)
+                {
+                    if (!(Model.UpdatingRoute && Model.Stops.Contains(stop)))
                     {
-                        if (!(Model.UpdatingRoute && Model.Stops.Contains(stop)))
+                    <option onclick="addStop()" Value="@stop.StopId">Stop ID: @stop.StopId, @stop.Location</option>
+                    }
+                }
+            </select>
+            <a id="addStopButton" class="btn btn-info pull-right" onclick="addStop()">
+                <i class="icon-white icon-plus" />
+            </a>
+            <br />
+            <div style="width: 100%">
+                <select size="4" id="selectedStops">
+                    @if (Model.UpdatingRoute)
+                    {
+                        foreach (TransportationService.Utility.Stop stop in Model.Stops)
                         {
-                        <div class="dropdown-item" onclick="addStopToRoute(this)" data-stopId="@stop.StopId">Stop @stop.StopId, @stop.Location</div>
+                        <option Value="@stop.StopId">Stop ID: @stop.StopId, @stop.Location</option>
                         }
                     }
-                </ul>
+                </select>
+            </div>
+            <div class="btn-group">
+                <a class="btn btn-info" onclick="moveStopUp()">
+                    <i class="icon-arrow-up icon-white" />
+                </a>
+                <a class="btn btn-info" onclick="moveStopDown()">
+                    <i class="icon-arrow-down icon-white" />
+                </a>
+                <a class="btn btn-danger" onclick="removeStop()">
+                    <i class="icon-remove icon-white" />
+                </a>
             </div>
         </div>
-        <div class="alert alert-error" id="routeFailureMessage">
-            <div class="error-text">The route name already exists. Please enter a unique route name.</div>
+        @*<div>
+            <div id="added-stops">
+                <div class="added-stop">Start</div>
+            </div>
+            <i class='added-stop icon-arrow-right'></i><i class="icon-flag"></i>
         </div>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Stops</a>
+            <ul class="dropdown-menu">
+                @foreach (TransportationService.Utility.Stop stop in Model.AvailableStops)
+                {
+                    if (!(Model.UpdatingRoute && Model.Stops.Contains(stop)))
+                    {
+                    <div class="dropdown-item" onclick="addStopToRoute(this)" data-stopId="@stop.StopId">Stop @stop.StopId, @stop.Location</div>
+                    }
+                }
+            </ul>
+        </div>*@
+    </div>
+    <div class="alert alert-error" id="routeFailureMessage">
+        <div class="error-text">The route name already exists. Please enter a unique route name.</div>
     </div>
     <div class="modal-footer">
         @if (Model.UpdatingRoute)
         {
             <button class="btn btn-success" onclick="updateRoute(@Model.RouteId);">Save</button>
-            <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
         }
         else
         {
             <button class="btn btn-success" onclick="addNewRoute();">Add Route</button>
-            <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
         }
+        <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
     </div>
 </div>
 <script>
@@ -109,4 +131,5 @@
         $("#routeSuccessModalMessage").hide();
         $("#routeFailureMessage").hide();
     });
+
 </script>

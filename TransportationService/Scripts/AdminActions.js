@@ -10,10 +10,13 @@ function addNewRoute() {
     var license = $("#driverList").val();
     var busText = $("#busList").val();
     var isToWork = true;
+    var options = document.getElementById('selectedStops').options;
+    var stops = [options.length];
+    for (var i = 0; i < options.length; i++)
+        stops[i] = options[i].value;
     if ($("#toHomeButton").hasClass('active')) {
         isToWork = false;
     }
-    //TODO have the driver name be selectable like the bus.
     if (routeName == "" || license == null || busText == "") {
         $("#routeFailureMessage > .error-text").text("Route name and Driver's name must be correctly entered.");
         rollDown($("#routeFailureMessage"));
@@ -23,7 +26,7 @@ function addNewRoute() {
         return false;
     }
     var request = {
-        stopIds: route.stops,
+        stopIds: stops,
         routeName: routeName,
         driverLicense: license,
         busId: parseInt(busText),
@@ -51,10 +54,15 @@ function modifyRoute(rId) {
     });
 }
 
-function UpdateRoute() {
+function updateRoute(routeId) {
     var routeName = $("#routeNameText").val();
     var license = $("#driverList").val();
     var busText = $("#busList").val();
+    var options = document.getElementById('selectedStops').options;
+    var stops = [options.length];
+    for (var i = 0; i < options.length; i++) {
+        stops[i] = options[i].value;
+    }
     if (routeName == "" || license == null || busText == "") {
         $("#routeFailureMessage > .error-text").text("Route name and Driver's name must be correctly entered.");
         rollDown($("#routeFailureMessage"));
@@ -64,10 +72,11 @@ function UpdateRoute() {
         return false;
     }
     var request = {
-        stopIds: route.stops,
+        stopIds: stops,
         routeName: routeName,
         driverLicense: license,
-        busId: parseInt(busText)
+        busId: busText,
+        routeId: routeId
     }
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/UpdateRoute", request, function (data) {
@@ -135,6 +144,15 @@ function addNewStop(addAnother) {
 }
 
 function addStopToRoute(elem) {
+    var stopId = elem.dataset['stopid'];
+    var html = "<i class='added-stop icon-arrow-right'></i><div class='added-stop'>" + stopId + "</div>";
+    var addedStops = $("#added-stops");
+    addedStops.html(addedStops.html() + html);
+    $(elem).remove();
+    route.addStop(stopId);
+}
+
+function removeStopFromRoute(elem) {
     var stopId = elem.dataset['stopid'];
     var html = "<i class='added-stop icon-arrow-right'></i><div class='added-stop'>" + stopId + "</div>";
     var addedStops = $("#added-stops");
@@ -397,4 +415,49 @@ function viewRoute(id) {
     $.post("/ViewInformation/ViewRoute", request, function (data) {
         $("#view-container > .view-container-right").html(data.html);
     });
+}
+
+function moveStopUp() {
+    var selected = $("#selectedStops option:selected");
+    var text = selected.text();
+    var index = $("#selectedStops option").index(selected);
+    if (index != 0) {
+        selected.remove();
+        $("#selectedStops option:eq(" + (index - 1) + ")").before("<option value='1'>" + text + "</option>");
+        $('#selectedStops option')[index - 1].selected = true;
+    }
+    $('#selectedStops').focus();
+}
+
+function moveStopDown() {
+    var selected = $("#selectedStops option:selected");
+    var text = selected.text();
+    var index = $("#selectedStops option").index(selected);
+    var size = $("#selectedStops option").size();
+    if (index != size - 1) {
+        selected.remove();
+        $("#selectedStops option:eq(" + index + ")").after("<option value='1'>" + text + "</option>");
+        $('#selectedStops option')[index + 1].selected = true;
+    }
+    $('#selectedStops').focus();
+}
+
+function removeStop() {
+    var index = $("#selectedStops option:selected").index();
+    var size = $("#selectedStops option").size();
+    $("#selectedStops option:selected").remove();
+    if (index == size - 1 && size > 1)
+        index--;
+    $('#selectedStops option')[index].selected = true;
+    $('#selectedStops').focus();
+}
+
+function addStop() {
+    var stops = document.getElementById('selectedStops');
+    var stopId = document.getElementById('stops').value;
+    var location = $("#stops option:selected").text();
+    stops.options[stops.options.length] = new Option(location, stopId);
+    var select = document.getElementById('stops');
+    select.remove(select.selectedIndex);
+    document.getElementById('stops').focus();
 }

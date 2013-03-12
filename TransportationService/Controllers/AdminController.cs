@@ -375,25 +375,25 @@ namespace TransportationService.Controllers
             return Json("true");
         }
 
-        public ActionResult UpdateRoute(String routeId, List<int> stopIds, string routeName, int busId, bool startsAtWork, string driverLicense)
+        public ActionResult UpdateRoute(int routeId, List<int> stopIds, string routeName, int busId, string driverLicense)
         {
             DatabaseInterface db = new DatabaseInterface();
-            if (!db.IsRouteNameUnique(routeName, routeId))
+            String sRouteId = routeId.ToString();
+            if (!db.IsRouteNameUnique(routeName, sRouteId))
                 return Json("false");
             List<Stop> stops = new List<Stop>();
             foreach (int id in stopIds)
             {
                 stops.Add(db.GetStopByStopId(id));
             }
-            int iRouteId = int.Parse(routeId);
-            db.AssignBusToRoute(busId, iRouteId);
-            db.AssignDriverToRoute(driverLicense, iRouteId);
+            db.AssignBusToRoute(busId, routeId);
+            db.AssignDriverToRoute(driverLicense, routeId);
             Route route = new Route()
             {
                 Stops = stops,
                 Driver = db.GetDriverByDriverLicense(driverLicense),
                 Name = routeName,
-                RouteId = iRouteId,
+                RouteId = routeId,
                 Bus = db.GetBusByBusId(busId)
             };
             db.UpdateRoute(route);
