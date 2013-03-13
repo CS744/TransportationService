@@ -59,7 +59,22 @@
             <select id="stops" style="width: 85%">
                 @foreach (TransportationService.Utility.Stop stop in Model.AvailableStops)
                 {
-                    if (!(Model.UpdatingRoute && Model.Stops.Contains(stop)))
+                    bool foundStop = false;
+                    if (Model.UpdatingRoute)
+                    {
+                    <!-- have to do all this bullshit because the "Stops" and "AvailableStops" somehow weren't comparable.
+                            By that I mean that I was doing a .Contains(stop) and they weren't matching when they should. -->
+                        
+                        foreach (TransportationService.Utility.Stop selectedStop in Model.Stops)
+                        {
+                            if (stop.StopId == selectedStop.StopId)
+                            {
+                                foundStop = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!foundStop)
                     {
                     <option onclick="addStop()" Value="@stop.StopId">Stop ID: @stop.StopId, @stop.Location</option>
                     }

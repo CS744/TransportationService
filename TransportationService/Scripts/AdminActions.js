@@ -443,7 +443,24 @@ function moveStopDown() {
 }
 
 function removeStop() {
-    var index = $("#selectedStops option:selected").index();
+    var selected = $("#selectedStops option:selected");
+    var stopId = selected.val();
+    var location = selected.text();
+    var index = selected.index();
+    $("#stops").append("<option value=\"" + stopId + "\">" + location + "</option>");
+    var mylist = $('#stops');
+    var listitems = mylist.children('option').get();
+    listitems.sort(function (a, b) {
+        var first = parseInt($(a).val());
+        var second = parseInt($(b).val());
+        if (first == second)
+            return 0;
+        else if (first > second)
+            return 1;
+        else
+            return -1;
+    })
+    $.each(listitems, function (idx, itm) { mylist.append(itm); });
     var size = $("#selectedStops option").size();
     $("#selectedStops option:selected").remove();
     if (index == size - 1 && size > 1)

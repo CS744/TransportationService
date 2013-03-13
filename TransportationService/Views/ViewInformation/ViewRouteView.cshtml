@@ -4,27 +4,39 @@
 }
 
 <div>
-    The name of the route is:
+    <b>The name of the route is:</b>
     <div class="item-info">@Model.Name</div>
 </div>
 <div>
-    The bus's license plate is:
+    <b>The bus's license plate is:</b>
     <div class="item-info">@Model.LicensePlate</div>
 </div>
 <div>
-    The driver of the route's name is:
+    <b>The driver of the route's name is:</b>
     <div class="item-info">@Model.DriverName</div>
 </div>
 <div>
     <div class="added-stops">
-        <div class="added-stop">Start</div>
+        <label style="font-weight: bold">Stops:</label>
+        @foreach (TransportationService.Utility.Stop stop in @Model.Stops)
+        {
+            <div>Stop ID#: @stop.StopId (@stop.Location)</div>
+        }
+        @*<div class="added-stop">Start</div>
         <i class="added-stop icon-arrow-right"></i>
         @foreach (TransportationService.Utility.Stop stop in @Model.Stops)
         {
             <div class="added-stop">@stop.StopId</div>
             <i class="added-stop icon-arrow-right"></i>
         }
-        <i class="icon-flag"></i>
+        @if (int.Parse(Model.RouteId) < 500)
+        {
+            <i class="icon-building" />
+        }
+        else
+        {
+            <i class="icon-home" />
+        }*@
     </div>
 </div>
 <div>
