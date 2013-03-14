@@ -47,6 +47,10 @@
 		opacity: .9;
 	}
 
+	#sign-out-text.hidden {
+		cursor: default;
+	}
+
 
 /* All Pages */
 #content {
@@ -89,17 +93,24 @@
 	margin-left: -200px !important;
 }
 
+.largeModal {
+	width: 650px !important;
+	left: 50% !important;
+	margin-left: -325px !important;
+}
+
 #login-error {
 	border: 1px solid red;
 	border-radius: 6px;
 	background: #f09595;
 	color: red;
 	font-size: 12px;
-    font-weight: bold;
+	font-weight: bold;
 	-webkit-transition: margin-top linear .3s;
 	margin-top: -30px;
 	height: 20px;
 	width: 190px;
+	margin-left: calc(50% - 95px);
 	margin-left: -webkit-calc(50% - 95px);
 }
 
@@ -118,7 +129,7 @@
 		opacity: 1;
 	}
 
-#added-stops {
+.added-stops {
 	display: inline;
 }
 
@@ -126,4 +137,106 @@
 	padding: 3px;
 	font-size: 10px;
 	display: inline;
+}
+
+#stopSection > .dropdown > .dropdown-menu {
+	max-height: 176px;
+	overflow-y: auto;
+}
+
+.bfh-selectbox.bfh-states {
+	display: inline;
+}
+
+.error-text {
+	display: inline;
+}
+
+#view-container {
+	margin-left: -51px;
+	margin-top: 10px;
+	height: auto;
+}
+
+	#view-container > .view-container-left {
+		max-width: 150px;
+		width: 165px;
+		height: auto;
+		border: 1px solid #222;
+		border-radius: 4px;
+		display: inline-block;
+	}
+
+	#view-container > .view-container-right {
+		width: -webkit-calc(100% - 165px);
+		width: calc(100% - 165px);
+		height: auto;
+		display: inline-block;
+		float: right;
+		min-height: 1px;
+	}
+
+	#view-container #view-title {
+		width: 100%;
+		display: inline-block;
+		font-weight: bold;
+		background: #222;
+		color: #d8d8d8;
+	}
+
+	#view-container .view-child {
+		width: 100%;
+		display: inline-block;
+	}
+
+		#view-container .view-child:not(:last-child) {
+			border-bottom: 1px solid black;
+		}
+
+		#view-container .view-child > .view-child-header {
+			background: #999;
+			padding: 2px 4px;
+			cursor: pointer;
+		}
+
+		#view-container .view-child > .view-child-inner {
+			display: none;
+			max-height: 147px;
+			overflow-y: auto;
+			background: #c8c8c8;
+			margin-bottom: -6px;
+		}
+
+			#view-container .view-child > .view-child-inner > .item-element {
+				display: inline-block;
+				width: 100%;
+				padding: 2px 0px;
+				cursor: pointer;
+			}
+
+				#view-container .view-child > .view-child-inner > .item-element:not(:last-child) {
+					border-bottom: 1px solid black;
+				}
+
+.two-column-modal-container {
+	display: inline-block;
+	width: 300px;
+}
+
+.float-right {
+	float: right;
+}
+
+float-left {
+	float: left;
+}
+
+.modal .alert.alert-error {
+	text-align: center;
+	width: auto;
+}
+
+.item-info {
+	font-style: oblique;
+	display: inline-block;
 }

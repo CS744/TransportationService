@@ -20,8 +20,20 @@ function logIn() {
         else {
             userManager.currentUser = data.user;
             $("#mainArea-header").html(data.headerText);
-            $("#mainArea").replaceWith(data.html);
+            $("#mainArea").html(data.html);
             $("#sign-out-text").removeClass('hidden');
         }
     });
 }
+$(document).ready(function () {
+    $("#sign-out-text").click(function () {
+        if (!this.classList.contains("hidden")) {
+            $.post("/Home/LogOut", {}, function (data) {
+                $("#mainArea").html(data);
+                $("#sign-out-text").addClass('hidden');
+                userManager.currentUser = undefined;
+                $("#mainArea-header").html("Welcome to Transportation Service");
+            });
+        }
+    });
+});

@@ -8,6 +8,8 @@
     @Styles.Render("~/Content/css")
 </head>
 <body>
+    @Scripts.Render("~/bundles/TransportationService")
+    <div id="notify-popover" class="aboveScreen"></div>
     <div id="top-header">
         <img id="bus-logo" src="~/Images/busLogo.png" />
         <div id="header-text">Transportation Service</div>
@@ -18,8 +20,8 @@
             Welcome to Transportation Service
         </div>
         <div id="mainArea">
-            @Scripts.Render("~/bundles/TransportationService")
             @RenderBody()
+            @Html.Action("LoadView", "Admin")
         </div>
     </div>
     <div id="modal" class="modal hide"></div>

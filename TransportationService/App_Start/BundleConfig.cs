@@ -13,38 +13,36 @@ namespace MvcApplication1
          ));
          bundles.Add(new ScriptBundle("~/bundles/TransportationService").Include(
             "~/Scripts/Logon.js",
+            "~/Scripts/notifier.js",
+            "~/Scripts/roll_utility.js",
             "~/Scripts/bootstrap.js",
+            "~/Scripts/jquery.transit.js",
             "~/Scripts/userManager.js",
             "~/Scripts/AdminActions.js",
-            "~/Scripts/routeManager.js"
+            "~/Scripts/routeManager.js",
+            "~/Scripts/bootstrap-formhelpers-datepicker.en_US.js",
+            "~/Scripts/bootstrap-formhelpers-datepicker.js",
+            "~/Scripts/bootstrap-formhelpers-fonts.codes.js",
+            "~/Scripts/bootstrap-formhelpers-fonts.js",
+            "~/Scripts/bootstrap-formhelpers-fontsizes.codes.js",
+            "~/Scripts/bootstrap-formhelpers-fontsizes.js",
+            "~/Scripts/bootstrap-formhelpers-googlefonts.codes.js",
+            "~/Scripts/bootstrap-formhelpers-googlefonts.js",
+            "~/Scripts/bootstrap-formhelpers-phone.format.js",
+            "~/Scripts/bootstrap-formhelpers-phone.js",
+            "~/Scripts/bootstrap-formhelpers-selectbox.js",
+            "~/Scripts/bootstrap-formhelpers-states.en_US.js",
+            "~/Scripts/bootstrap-formhelpers-states.js",
+            "~/Scripts/bootstrap-formhelpers-timepicker.js"
          ));
-
-         //bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-         //            "~/Scripts/jquery-ui-{version}.js"));
-
-         //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-         //            "~/Scripts/jquery.unobtrusive*",
-         //            "~/Scripts/jquery.validate*"));
 
          bundles.Add(new StyleBundle("~/Content/css").Include(
             "~/Content/site.css",
+            "~/Content/utility.css",
             "~/Content/bootstrap.css",
-            "~/Content/font-awesome.css"
+            "~/Content/font-awesome.css",
+            "~/Content/bootstrap-formhelpers.css"
          ));
-
-         //bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
-         //            "~/Content/themes/base/jquery.ui.core.css",
-         //            "~/Content/themes/base/jquery.ui.resizable.css",
-         //            "~/Content/themes/base/jquery.ui.selectable.css",
-         //            "~/Content/themes/base/jquery.ui.accordion.css",
-         //            "~/Content/themes/base/jquery.ui.autocomplete.css",
-         //            "~/Content/themes/base/jquery.ui.button.css",
-         //            "~/Content/themes/base/jquery.ui.dialog.css",
-         //            "~/Content/themes/base/jquery.ui.slider.css",
-         //            "~/Content/themes/base/jquery.ui.tabs.css",
-         //            "~/Content/themes/base/jquery.ui.datepicker.css",
-         //            "~/Content/themes/base/jquery.ui.progressbar.css",
-         //            "~/Content/themes/base/jquery.ui.theme.css"));
       }
    }
 }

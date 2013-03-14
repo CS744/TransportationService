@@ -1,0 +1,40 @@
+﻿@model TransportationService.Models.AddDriverModel
+@{
+    ViewBag.Title = "AddDriver";
+}
+
+<div id="modal" class="modal hide smallModal">
+    <div class="modal-header">Add a New Driver</div>
+    <div class="modal-body" style="overflow-y: visible;">
+        <input id="nameText" type="text" placeholder="Enter driver's name" />
+        <label for="licenseText">Please provide the driver's license</label>
+
+        <input id="licenseText" type="text" placeholder="Enter driver's license number" />
+        <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
+
+            <label>Please select the state the driver is registered in</label>
+            <select id="statesList">
+                <option value="--State--">--State--</option>
+                @for (int index = 0; index < 51; index++)
+                {
+                    <option value="@Model.StateAbbreviations[index]">@Model.StateNames[index]</option>
+                }
+            </select>
+        </div>
+        <div class="alert alert-error" id="driverFailureMessage">
+            <div class="error-text">The driver's license already exists. Please enter a unique license.</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" onclick="addNewDriver(false)">Add Driver</button>
+        <button class="btn btn-success" onclick="addNewDriver(true)">Add and Add Another</button>
+        <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#driverSuccessModalMessage").hide();
+        $("#driverFailureMessage").hide();
+    });
+</script>
+

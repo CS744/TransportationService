@@ -28,11 +28,12 @@ namespace TransportationService.Utility
     {
         [BsonId]
         public ObjectId Id { get; set; }
-        public string LiscensePlate { get; set; }
+        public string LicensePlate { get; set; }
+        public string State { get; set; }
         public int Capacity { get; set; }
         public BusStatus Status { get; set; }
-        public long BusId { get; set; }
-        //public ObjectId RouteId { get; set; }
+        public int BusId { get; set; }
+        public int AssignedTo { get; set; }
     }
 
     public class Employee
@@ -41,18 +42,36 @@ namespace TransportationService.Utility
         public ObjectId Id { get; set; }
         public long SocialSecurityNumber { get; set; }
         public string Position { get; set; }
-        //public ObjectId RouteId { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public bool IsMale { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public int EmployeeId { get; set; }
+        public Route route { get; set; }
+    }
+
+    public class Driver
+    {
+        [BsonId]
+        public ObjectId Id { get; set; }
+        public string Name { get; set; }
+        public string DriverLicense { get; set; }
+        public int AssignedTo { get; set; }
+        public string Gender { get; set; }
+        public string State { get; set; }
     }
     public class Route
     {
         [BsonId]
         public ObjectId Id { get; set; }
         public List<Stop> Stops { get; set; }
-        public string DriverName { get; set; }
+        public Driver Driver { get; set; }
         public string Name { get; set; }
         public int RouteId { get; set; }
-        //public List<Employee> Employees { get; set; }
-        //public Bus Bus { get; set; }
+        public Bus Bus { get; set; }
     }
     public class Stop
     {

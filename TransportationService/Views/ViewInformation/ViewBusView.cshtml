@@ -1,0 +1,37 @@
+﻿@model TransportationService.Models.ViewBusModel
+@{
+    ViewBag.Title = "ViewBusView";
+}
+
+<div>
+    The status of the bus is:
+    <div class="item-info">@Model.Status</div>
+</div>
+<div>
+    The license plate is registered in:
+    <div class="item-info">@Model.State</div>
+</div>
+<div>
+    The license plate is:
+    <div class="item-info">@Model.LicensePlate</div>
+</div>
+<div>
+    The capacity of the bus is:
+    <div class="item-info">@Model.Capacity</div>
+</div>
+<div>
+    The identification number of the bus is:
+    <div class="item-info">@Model.BusId</div>
+</div>
+@if (Model.RouteName != "")
+{
+    <div>
+        The route the bus is assigned to is:
+    <div class="item-info">@Model.RouteName</div>
+    </div>
+}
+
+<div>
+    <button class="btn btn-primary" onclick="modifyBus(@Model.BusId)">Modify Bus</button>
+    @*<button class="btn btn-danger" onclick="removeBus()">Remove Bus</button>*@
+</div>

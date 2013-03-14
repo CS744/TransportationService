@@ -5,17 +5,12 @@
 <div id="modal" class="modal hide smallModal">
     <div class="modal-header">Add a New Stop</div>
     <div class="modal-body">
-        <div class="alert alert-success" id="stopSuccessModalMessage">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                 The stop was successfully added!
-        </div>
-        <div class="alert alert-error" id="stopFailureMessage">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                 <Strong>Error: </Strong> The stop location already exists. Please enter a unique stop location.
-        </div>
         <div>
             <label for="locationText">Please provide the intersection or address</label>
             <input id="locationText" type="text" placeholder="Enter Location" />
+        </div>
+        <div class="alert alert-error" id="stopFailureMessage">
+            <div class="error-text">The stop location already exists. Please enter a unique stop location.</div>
         </div>
     </div>
     <div class="modal-footer">

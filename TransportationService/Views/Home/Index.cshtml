@@ -1,32 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Home";
+    ViewBag.Title = "Welcome";
 }
-@*
-Here's a comment.
-*@
-<div id="loginContainer">
-    <div>Transportation Service</div>
-    <div>
-        <input id="usernameText" type="text" placeholder="Enter Username" />
-    </div>
-    <div>
-        <input id="passwordText" type="password" placeholder="Enter Password" />
-    </div>
-    <div style="overflow:hidden;height:30px;">
-        <div id="login-error">
-        </div>
-    </div>
-    <div>
-        <button id="logInButton" class="btn" onclick="logIn();">Log In</button>
-    </div>
-    <script>
-        $(document).ready(function () {
-            $("input").keypress(function (event) {
-                if (event.which == 13) {
-                    $("#logInButton").click();
-                }
-            });
-            $("#usernameText").focus()
-        });
-    </script>
+<div>
 </div>

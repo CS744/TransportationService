@@ -1,0 +1,66 @@
+﻿@model TransportationService.Models.AddEmployeeModel
+@{
+    ViewBag.Title = "AddEmployee";
+}
+
+<div id="modal" class="modal hide largeModal">
+    <div class="modal-header">Add a New Employee</div>
+    <div class="modal-body">
+        <div class="two-column-modal-container">
+            <label for="nameText">Name</label>
+            <input id="nameText" type="text" placeholder="Enter Name" />
+            <label for="genderText">Gender</label>
+            <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-primary" id="isMale" title="Male">M</button>
+                <button type="button" class="btn btn-primary" id="isFeMale" title="Female">F</button>
+            </div>
+            <label for="ssnText">Social Security Number</label>
+            <input id="ssnText" type="text" placeholder="Enter SSN" />
+            <label for="positionText">Position</label>
+            <input id="positionText" type="text" placeholder="Enter Position" />
+        </div>
+        <div class="two-column-modal-container float-right">
+            <label for="emailText">Email</label>
+            <input id="emailText" type="text" placeholder="Enter Email" />
+            <label for="phoneText">Phone Number</label>
+            <input id="phoneText" type="text" placeholder="Enter Phone Number" />
+            <label for="addressText">Address</label>
+            <input id="addressText" type="text" placeholder="Enter Address" />
+            <label for="cityText">City</label>
+            <input id="cityText" type="text" placeholder="Enter City" />
+            <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
+
+            <label>State</label>
+            <select id="statesList">
+                <option value="--State--">--State--</option>
+                @for (int index = 0; index < 51; index++)
+                {
+                    <option value="@Model.StateAbbreviations[index]">@Model.StateNames[index]</option>
+                }
+            </select>
+            </div>
+            <label for="routeList">Select a Route:</label>
+            <select id="routeList">
+                @foreach (TransportationService.Utility.Route route in Model.AvailableRoutes)
+                {
+                    <option value="@route.RouteId">Route @route.RouteId (Name: @route.Name )</option>
+                }
+            </select>
+        </div>
+        <div class="alert alert-error" id="employeeFailureMessage">
+            <div class="error-text">The social security number already exists. Please enter a unique social security number.</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" onclick="addNewEmployee(false)">Add Employee</button>
+        <button class="btn btn-success" onclick="addNewEmployee(true)">Add and Add Another</button>
+        <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#employeeSuccessModalMessage").hide();
+        $("#employeeFailureMessage").hide();
+    });
+</script>
+

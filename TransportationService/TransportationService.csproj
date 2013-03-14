@@ -39,12 +39,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit">
+      <HintPath>..\packages\AjaxControlToolkit.7.0123\lib\45\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\AjaxControlToolkit.7.0123\lib\45\SanitizerProviders\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\MongoDB\MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver">
       <HintPath>..\packages\MongoDB\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="SanitizerProviders">
+      <HintPath>..\packages\AjaxControlToolkit.7.0123\lib\45\SanitizerProviders\SanitizerProviders.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -123,6 +132,14 @@
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\WebMatrix.WebData.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -130,21 +147,44 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ViewInformationController.cs" />
     <Compile Include="Controllers\TransportationBaseController.cs" />
     <Compile Include="Controllers\UtilityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddDriverModel.cs" />
+    <Compile Include="Models\AddEmployeeModel.cs" />
     <Compile Include="Models\AddRouteModel.cs" />
+    <Compile Include="Models\AddBusModel.cs" />
+    <Compile Include="Models\UpdateRouteModel.cs" />
+    <Compile Include="Models\ViewBusModel.cs" />
     <Compile Include="Models\OutputViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\DatabaseInterface.cs" />
     <Compile Include="Utility\Domain.cs" />
     <Compile Include="Utility\JsonUtility.cs" />
+    <Compile Include="Utility\SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-formhelpers.css" />
+    <Content Include="Scripts\bootstrap-formhelpers-datepicker.en_US.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-datepicker.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-fonts.codes.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-fonts.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-fontsizes.codes.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-fontsizes.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-googlefonts.codes.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-googlefonts.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-phone.format.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-phone.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-selectbox.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-states.en_US.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-states.js" />
+    <Content Include="Scripts\bootstrap-formhelpers-timepicker.js" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\utility.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="font\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
@@ -153,6 +193,9 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\AdminActions.js" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\jquery.transit.js" />
+    <Content Include="Scripts\notifier.js" />
+    <Content Include="Scripts\roll_utility.js" />
     <Content Include="Scripts\routeManager.js" />
     <Content Include="Scripts\userManager.js" />
     <Content Include="Scripts\Logon.js" />
@@ -176,7 +219,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Example.cshtml" />
@@ -191,13 +234,31 @@
     <Content Include="Views\Admin\AddStop.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\AdminView.cshtml" />
+    <Content Include="Views\Shared\AdminView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="font\fontawesome-webfont.eot" />
     <Content Include="font\fontawesome-webfont.ttf" />
     <Content Include="font\fontawesome-webfont.woff" />
     <Content Include="font\FontAwesome.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\AddBus.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\AddDriver.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\AddEmployee.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ViewInformation\ViewBusView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ViewInformation\ViewRouteView.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -215,7 +276,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>64618</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:49776/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

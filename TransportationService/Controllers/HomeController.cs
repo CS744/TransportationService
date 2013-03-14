@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using TransportationService.Utility;
 using MongoDB.Bson;
 using TransportationService.Models;
+using System.Web.Security;
 
 namespace TransportationService.Controllers
 {
@@ -16,33 +17,31 @@ namespace TransportationService.Controllers
 
       public ActionResult Index()
       {
-          //User user = new User()
-          //{
-          //    Email = "weisse.simon@gmail.com",
-          //    Id = ObjectId.GenerateNewId(),
-          //    Password = "Soupy",
-          //    Username = "Simon"
-          //};
-         //DatabaseInterface db = new DatabaseInterface();
-         //db.SaveUser(user);
-
          return View();
       }
 
       public ActionResult LogIn(string username, string password)
       {
-
          DatabaseInterface db = new DatabaseInterface();
-         User user = db.getUser(username,password);
-         if(user == null){
-            return Json(new{
+         User user = db.GetUser(username, password);
+         if (user == null)
+         {
+            return Json(new
+            {
                error = true,
                message = "Invalid username or password"
             });
          }
+         FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
+         sessionManager.User = user;
          var model = new OutputViewModel()
          {
-            Username = user.Username
+            Username = user.Username,
+            Routes = db.GetAvailableRoutes(),
+            Buses = db.GetAvailableBuses(),
+            Employees = db.GetAvailableEmployees(),
+            Stops = db.GetAvailableStops(),
+            Drivers = db.GetAvailableDrivers()
          };
 
          return Json(new
@@ -51,6 +50,12 @@ namespace TransportationService.Controllers
             headerText = "Welcome, " + model.Username,
             html = RenderPartialViewToString("AdminView", model)
          });
+      }
+      public ActionResult Logout()
+      {
+         sessionManager.User = null;
+         FormsAuthentication.SignOut();
+         return PartialView("Login");
       }
    }
 }
