@@ -34,10 +34,9 @@ function addNewRoute() {
     }
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/AddNewRoute", request, function (data) {
-        if (data.success == "true") {
+        if (data == "true") {
             $.notify.addMessage("The route was successfully added!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
-            $("#view-routes").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewRoute('" + data.id + "')\">" + routeName + "</div>");
         } else {
             $("#routeFailureMessage > .error-text").text("The route name already exists. Please enter a unique route name.");
             rollDown($("#routeFailureMessage"));
@@ -189,12 +188,11 @@ function addNewBus(addAnother) {
     }
     if (addAnother) {
         $.post("/Admin/AddNewBus", request, function (data) {
-            if (data.success == "true") {
+            if (data == "true") {
                 $("#capacityText").val("");
                 $("#licenseText").val("");
                 $("#statesList").val("--State--");
                 $.notify.addMessage("The bus was successfully added!", { type: "success", time: 6000 });
-                $("#view-buses").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewBus('" + data.id + "')\">" + license + "</div>");
             } else {
                 $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
                 rollDown($("#busFailureMessage"));
@@ -205,9 +203,8 @@ function addNewBus(addAnother) {
         });
     } else {
         $.post("/Admin/AddNewBus", request, function (data) {
-            if (data.success == "true") {
+            if (data == "true") {
                 $.notify.addMessage("The bus was successfully added!", { type: "success", time: 6000 });
-                $("#view-buses").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewBus('" + data.id + "')\">" + license + "</div>");
                 $("#modal").modal('hide');
             } else {
                 $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
@@ -244,6 +241,7 @@ function updateBus(busId) {
         }, 6000);
         return false;
     }
+    window.alert(status);
     var request = {
         capacity: parseInt(capacity),
         license: license,
@@ -471,7 +469,7 @@ function removeStop() {
     $('#selectedStops').focus();
 }
 
-function addStopToRoute() {
+function addStop() {
     var stops = document.getElementById('selectedStops');
     var stopId = document.getElementById('stops').value;
     var location = $("#stops option:selected").text();
