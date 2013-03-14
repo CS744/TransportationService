@@ -332,6 +332,8 @@ function addNewEmployee(addAnother) {
     var email = $("#emailText").val();
     var phone = $("#phoneText").val();
     var address = $("#addressText").val();
+    var city = $("#cityText").val();
+    var state = $("#statesList").val();
     var routeId = $("#routeList").val();
     var ssn = $("#ssnText").val();
     var position = $("#positionText").val();
@@ -351,6 +353,8 @@ function addNewEmployee(addAnother) {
         email: email,
         phone: phone,
         address: address,
+        city: city,
+        state: state,
         routeId: parseInt(routeId),
         ssn: ssn,
         position: position,

@@ -278,7 +278,9 @@ namespace TransportationService.Controllers
             DatabaseInterface db = new DatabaseInterface();
             AddEmployeeModel model = new AddEmployeeModel()
             {
-                AvailableRoutes = db.GetAvailableRoutes()
+                AvailableRoutes = db.GetAvailableRoutes(),
+                StateNames = stateNames,
+                StateAbbreviations = stateAbbreviations
             };
             return PartialView("AddEmployee", model);
         }
@@ -303,7 +305,7 @@ namespace TransportationService.Controllers
             return Json("true");
         }
 
-        public ActionResult AddNewEmployee(bool isMale, string email, string phone, string address, int routeId, long ssn, string position, string name)
+        public ActionResult AddNewEmployee(bool isMale, string email, string phone, string address, string city, string state, int routeId, long ssn, string position, string name)
         {
             DatabaseInterface db = new DatabaseInterface();
             if (!db.IsSocialSecurityNumberUnique(ssn))
@@ -319,6 +321,8 @@ namespace TransportationService.Controllers
                 Email = email,
                 Phone = phone,
                 Address = address,
+                City = city,
+                State = state,
                 route = db.GetRouteByRouteId(routeId),
                 EmployeeId = db.GetNextEmployeeId()
 

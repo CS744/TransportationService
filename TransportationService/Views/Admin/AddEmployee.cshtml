@@ -26,6 +26,19 @@
             <input id="phoneText" type="text" placeholder="Enter Phone Number" />
             <label for="addressText">Address</label>
             <input id="addressText" type="text" placeholder="Enter Address" />
+            <label for="cityText">City</label>
+            <input id="cityText" type="text" placeholder="Enter City" />
+            <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
+
+            <label>State</label>
+            <select id="statesList">
+                <option value="--State--">--State--</option>
+                @for (int index = 0; index < 51; index++)
+                {
+                    <option value="@Model.StateAbbreviations[index]">@Model.StateNames[index]</option>
+                }
+            </select>
+            </div>
             <label for="routeList">Select a Route:</label>
             <select id="routeList">
                 @foreach (TransportationService.Utility.Route route in Model.AvailableRoutes)
