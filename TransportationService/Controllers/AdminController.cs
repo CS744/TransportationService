@@ -218,7 +218,11 @@ namespace TransportationService.Controllers
 
             };
             db.AddBus(bus);
-            return Json("true");
+            return Json(new{
+                success = "true",
+                id = bus.Id.ToString()
+            });
+
         }
 
         public ActionResult ModifyBus(int busId)
@@ -376,7 +380,12 @@ namespace TransportationService.Controllers
                 Bus = db.GetBusByBusId(busId)
             };
             db.AddRoute(route);
-            return Json("true");
+            return Json(new
+            {
+               success = "true",
+               id = route.Id.ToString()
+            });
+
         }
 
         public ActionResult UpdateRoute(int routeId, List<int> stopIds, string routeName, int busId, string driverLicense)
