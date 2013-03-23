@@ -1,0 +1,27 @@
+﻿@model TransportationService.Models.ViewDriverModel
+@{
+}
+
+<div>
+    <b>The Driver's name is:</b>
+    <div class="item-info" data-type="name">@Model.Name</div>
+</div>
+<div>
+    <b>The bus's license plate is:</b>
+    <div class="item-info" data-type="licensePlate">@Model.License</div>
+</div>
+<div>
+    <b>The driver is registered in:</b>
+    <div class="item-info" data-type="state">@Model.State</div>
+</div>
+@if (Model.RouteName != "")
+{
+    <div>
+        The route the driver is assigned to is:
+    <div class="item-info" data-type="routeName">@Model.RouteName</div>
+    </div>
+}
+<div>
+    @*<button class="btn btn-primary" onclick="modifyRoute(@Model.DriverId)">Modify Route</button>*@
+    @*<button class="btn btn-danger" onclick="removeRoute()">Remove Route</button>*@
+</div>

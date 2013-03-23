@@ -81,7 +81,10 @@ function updateRoute(routeId) {
     }
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/UpdateRoute", request, function (data) {
-        if (data == "true") {
+        if (data.success == "true") {
+            $(".item-info[data-type='name']").text(request.routeName);
+            $(".item-info[data-type='licensePlate']").text(data.licensePlate);
+            $(".item-info[data-type='driverName']").text(data.driverName);
             $.notify.addMessage("The route was successfully updated!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
         } else {
@@ -117,8 +120,9 @@ function addNewStop(addAnother) {
     }
     if (addAnother) {
         $.post("/Admin/AddNewStop", request, function (data) {
-            if (data == "true") {
+            if (data.success == "true") {
                 $("#locationText").val("");
+                $("#view-Stops").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewStop('" + data.id + "')\">" + location + "</div>");
                 $.notify.addMessage("The stop was successfully added!", { type: "success", time: 6000 });
             } else {
                 $("#stopFailureMessage > .error-text").text("The stop location already exists. Please enter a unique stop location.");
@@ -130,7 +134,8 @@ function addNewStop(addAnother) {
         });
     } else {
         $.post("/Admin/AddNewStop", request, function (data) {
-            if (data == "true") {
+            if (data.success == "true") {
+                $("#view-Stops").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewStop('" + data.id + "')\">" + location + "</div>");
                 $.notify.addMessage("The stop was successfully added!", { type: "success", time: 6000 });
                 $("#modal").modal('hide');
             } else {
@@ -253,6 +258,12 @@ function updateBus(busId) {
     }
     $.post("/Admin/UpdateBus", request, function (data) {
         if (data == "true") {
+            var statusText = request.status == 0 ? "Active" : "Inactive";
+            $(".item-info[data-type='status']").text(statusText);
+            $(".item-info[data-type='state']").text(request.state);
+            $(".item-info[data-type='licensePlate']").text(request.license);
+            $(".item-info[data-type='capacity']").text(request.capacity);
+
             $.notify.addMessage("The bus was successfully updated!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
         } else {
@@ -292,7 +303,8 @@ function addNewDriver(addAnother) {
     }
     if (addAnother) {
         $.post("/Admin/AddNewDriver", request, function (data) {
-            if (data == "true") {
+            if (data.success == "true") {
+                $("#view-Drivers").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewDriver('" + data.id + "')\">" + name + "</div>");
                 $("#nameText").val("");
                 $("#licenseText").val("");
                 $("#statesList").val("--State--");
@@ -307,7 +319,8 @@ function addNewDriver(addAnother) {
         });
     } else {
         $.post("/Admin/AddNewDriver", request, function (data) {
-            if (data == "true") {
+            if (data.success == "true") {
+                $("#view-Drivers").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewDriver('" + data.id + "')\">" + name + "</div>");
                 $.notify.addMessage("The driver was successfully added!", { type: "success", time: 6000 });
                 $("#modal").modal('hide');
             } else {
@@ -419,6 +432,20 @@ function viewBus(id) {
 function viewRoute(id) {
     var request = { id: id };
     $.post("/ViewInformation/ViewRoute", request, function (data) {
+        $("#view-container > .view-container-right").html(data.html);
+    });
+}
+
+function viewStop(id) {
+    var request = { id: id };
+    $.post("/ViewInformation/ViewStop", request, function (data) {
+        $("#view-container > .view-container-right").html(data.html);
+    });
+}
+
+function viewDriver(id) {
+    var request = { id: id };
+    $.post("/ViewInformation/ViewDriver", request, function (data) {
         $("#view-container > .view-container-right").html(data.html);
     });
 }

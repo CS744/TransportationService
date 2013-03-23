@@ -54,5 +54,48 @@ namespace TransportationService.Controllers
                })
          });
       }
+
+
+      [HttpPost]
+      public ActionResult ViewStop(string id)
+      {
+         DatabaseInterface db = new DatabaseInterface();
+         ObjectId newId = new ObjectId(id);
+         Stop stop = db.GetStop(newId);
+         if (stop == null)
+         {
+            return Json(new { error = "true" });
+         }
+         return Json(new
+         {
+            html = RenderPartialViewToString("ViewStopView", new ViewStopModel()
+            {
+               StopLocation = stop.Location,
+               StopId = stop.StopId,
+            })
+         });
+      }
+
+      [HttpPost]
+      public ActionResult ViewDriver(string id)
+      {
+         DatabaseInterface db = new DatabaseInterface();
+         ObjectId newId = new ObjectId(id);
+         Driver driver = db.GetDriverById(newId);
+         if (driver == null)
+         {
+            return Json(new { error = "true" });
+         }
+         return Json(new
+         {
+            html = RenderPartialViewToString("ViewDriverView", new ViewDriverModel()
+            {
+               State = driver.State,
+               License = driver.DriverLicense,
+               Name = driver.Name,
+               RouteName = driver.AssignedTo == -1 ? "" : db.GetRouteByRouteId(driver.AssignedTo).Name
+            })
+         });
+      }
    }
 }

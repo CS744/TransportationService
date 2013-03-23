@@ -24,4 +24,16 @@ namespace TransportationService.Models
       public string LicensePlate { get; set; }
       public string RouteId { get; set; }
    }
+   public class ViewStopModel
+   {
+      public string StopLocation { get; set; }
+      public int StopId { get; set; }
+   }
+   public class ViewDriverModel
+   {
+      public string State { get; set; }
+      public string License { get; set; }
+      public string Name { get; set; }
+      public string RouteName { get; set; }
+   }
 }

@@ -260,6 +260,15 @@
   <ItemGroup>
     <Content Include="Views\ViewInformation\ViewRouteView.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ViewInformation\ViewEmployeeView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ViewInformation\ViewStopView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ViewInformation\ViewDriverView.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

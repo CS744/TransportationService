@@ -306,7 +306,7 @@ namespace TransportationService.Controllers
 
             };
             db.SaveDriver(driver);
-            return Json("true");
+            return Json(new { success = "true", id = driver.Id.ToString() });
         }
 
         public ActionResult AddNewEmployee(bool isMale, string email, string phone, string address, string city, string state, int routeId, long ssn, string position, string name)
@@ -348,7 +348,7 @@ namespace TransportationService.Controllers
                 StopId = db.GetNextStopId()
             };
             db.SaveStop(stop);
-            return Json("true");
+            return Json(new { success = "true", id = stop.Id.ToString() });
         }
 
         public ActionResult AddNewRoute(List<int> stopIds, string routeName, int busId, bool startsAtWork, string driverLicense)
@@ -410,7 +410,7 @@ namespace TransportationService.Controllers
                 Bus = db.GetBusByBusId(busId)
             };
             db.UpdateRoute(route);
-            return Json("true");
+            return Json(new {success = "true", licensePlate = route.Bus.LicensePlate, driverName = route.Driver.Name});
         }
 
         public ActionResult RefreshAdmin()

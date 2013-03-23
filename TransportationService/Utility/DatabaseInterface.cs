@@ -117,6 +117,13 @@ namespace TransportationService.Utility
             return coll.FindOneAs<Driver>(query);
         }
 
+        public Driver GetDriverById(ObjectId id)
+        {
+           var coll = _database.GetCollection(_driverCollectionName);
+           var query = Query.EQ("_id", id);
+           return coll.FindOneAs<Driver>(query);
+        }
+
         public Route GetRouteByRouteId(int id)
         {
             var coll = _database.GetCollection(_routeCollectionName);

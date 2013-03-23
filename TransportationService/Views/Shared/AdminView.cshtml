@@ -26,7 +26,7 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Stop stop in @Model.Stops)
                 {
-                    <div class="item-element" data-id="@stop.Id">@stop.Location</div>
+                    <div class="item-element" onclick="viewStop('@stop.Id')" data-id="@stop.Id">@stop.Location</div>
                 }
             </div>
         </div>
@@ -44,7 +44,7 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Driver driver in @Model.Drivers)
                 {
-                    <div class="item-element" data-id="@driver.Id">@driver.Name</div>
+                    <div class="item-element" onclick="viewDriver('@driver.Id')"  data-id="@driver.Id">@driver.Name</div>
                 }
             </div>
         </div>

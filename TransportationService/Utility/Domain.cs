@@ -60,7 +60,7 @@ namespace TransportationService.Utility
         public string Name { get; set; }
         public string DriverLicense { get; set; }
         public int AssignedTo { get; set; }
-        public string Gender { get; set; }
+        public string Gender { get; set; } //not used...
         public string State { get; set; }
     }
     public class Route
