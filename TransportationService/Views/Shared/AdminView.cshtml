@@ -17,7 +17,10 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Route route in @Model.Routes)
                 {
-                    <div class="item-element" onclick="viewRoute('@route.Id')">@route.Name</div>
+                    <div class="item-element" onclick="viewRoute('@route.Id')">
+                        <div class="icon-remove delete-item"></div>
+                        <div class="strip">@route.Name</div>
+                    </div>
                 }
             </div>
         </div>
@@ -26,7 +29,10 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Stop stop in @Model.Stops)
                 {
-                    <div class="item-element" onclick="viewStop('@stop.Id')" data-id="@stop.Id">@stop.Location</div>
+                    <div class="item-element" onclick="viewStop('@stop.Id')" data-id="@stop.Id">
+                        <div class="icon-remove delete-item"></div>
+                        <div class="strip">@stop.Location</div>
+                    </div>
                 }
             </div>
         </div>
@@ -35,7 +41,10 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Bus bus in @Model.Buses)
                 {
-                    <div class="item-element" onclick="viewBus('@bus.Id')">@bus.LicensePlate</div>
+                    <div class="item-element" onclick="viewBus('@bus.Id')">
+                        <div class="icon-remove delete-item"></div>
+                        <div class="strip">@bus.LicensePlate</div>
+                    </div>
                 }
             </div>
         </div>
@@ -44,7 +53,10 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Driver driver in @Model.Drivers)
                 {
-                    <div class="item-element" onclick="viewDriver('@driver.Id')"  data-id="@driver.Id">@driver.Name</div>
+                    <div class="item-element" onclick="viewDriver('@driver.Id')"  data-id="@driver.Id">
+                        <div class="icon-remove delete-item"></div>
+                        <div class="strip">@driver.Name</div>
+                    </div>
                 }
             </div>
         </div>
@@ -53,7 +65,10 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Employee employee in @Model.Employees)
                 {
-                    <div class="item-element" data-id="@employee.Id">@employee.Name</div>
+                    <div class="item-element" data-id="@employee.Id">
+                        <div class="icon-remove delete-item"></div>
+                        <div class="strip">@employee.Name</div>
+                    </div>
                 }
             </div>
         </div>
@@ -61,16 +76,3 @@
     <div class="view-container-right">
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $("#usernameText").focus();
-        $.post("/Admin/RefreshAdmin", {}, function (data) {
-            if (data.error == undefined || data.error != true) {
-                userManager.currentUser = data.user;
-                $("#mainArea-header").html(data.headerText);
-                $("#sign-out-text").removeClass('hidden');
-            }
-        });
-    });
-</script>

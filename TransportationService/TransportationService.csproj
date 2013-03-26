@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-formhelpers.css" />
+    <Content Include="Scripts\addActions.js" />
     <Content Include="Scripts\bootstrap-formhelpers-datepicker.en_US.js" />
     <Content Include="Scripts\bootstrap-formhelpers-datepicker.js" />
     <Content Include="Scripts\bootstrap-formhelpers-fonts.codes.js" />
@@ -193,6 +194,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\AdminActions.js" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\viewActions.js" />
+    <Content Include="Scripts\modifyActions.js" />
     <Content Include="Scripts\jquery.transit.js" />
     <Content Include="Scripts\notifier.js" />
     <Content Include="Scripts\roll_utility.js" />

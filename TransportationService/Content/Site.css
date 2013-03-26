@@ -212,6 +212,7 @@
 				width: 100%;
 				padding: 2px 0px;
 				cursor: pointer;
+				overflow-x: hidden;
 			}
 
 				#view-container .view-child > .view-child-inner > .item-element:not(:last-child) {
@@ -240,3 +241,23 @@ float-left {
 	font-style: oblique;
 	display: inline-block;
 }
+
+.strip {
+	display: inline;
+	padding-left: 15px;
+}
+
+.delete-item {
+	float: right;
+	padding-top: 2px;
+	padding-right: 2px;
+	color: #b94a48;
+}
+
+	.delete-item:hover {
+		transform: scale(1.275,1.275);
+		-ms-transform: scale(1.275,1.275);
+		-webkit-transform: scale(1.275,1.275);
+		-o-transform: scale(1.275,1.275);
+		-moz-transform: scale(1.275,1.275);
+	}
