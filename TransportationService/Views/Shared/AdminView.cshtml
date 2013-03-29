@@ -53,7 +53,7 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Driver driver in @Model.Drivers)
                 {
-                    <div class="item-element" onclick="viewDriver('@driver.Id')"  data-id="@driver.Id">
+                    <div class="item-element" onclick="viewDriver('@driver.DriverId')"  data-id="@driver.DriverId">
                         <div class="icon-remove delete-item"></div>
                         <div class="strip">@driver.Name</div>
                     </div>

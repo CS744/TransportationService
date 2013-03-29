@@ -36,7 +36,7 @@ function viewStop(id) {
 }
 
 function viewDriver(id) {
-    var request = { id: id };
+    var request = { driverId: id };
     $.post("/ViewInformation/ViewDriver", request, function (data) {
         $("#view-container > .view-container-right").html(data.html);
     });

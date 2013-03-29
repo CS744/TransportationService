@@ -1,4 +1,4 @@
-﻿@model TransportationService.Models.AddDriverModel
+﻿@model TransportationService.Models.DriverModel
 @{
     ViewBag.Title = "AddDriver";
 }
@@ -6,10 +6,10 @@
 <div id="modal" class="modal hide smallModal">
     <div class="modal-header">Add a New Driver</div>
     <div class="modal-body" style="overflow-y: visible;">
-        <input id="nameText" type="text" placeholder="Enter driver's name" />
+        <input id="nameText" type="text" placeholder="Enter driver's name" value="@Model.Name"/>
         <label for="licenseText">Please provide the driver's license</label>
 
-        <input id="licenseText" type="text" placeholder="Enter driver's license number" />
+        <input id="licenseText" type="text" placeholder="Enter driver's license number" value="@Model.License"/>
         <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
 
             <label>Please select the state the driver is registered in</label>
@@ -17,17 +17,29 @@
                 <option value="--State--">--State--</option>
                 @for (int index = 0; index < 51; index++)
                 {
+                    if (Model.UpdatingDriver && Model.State.Equals(Model.StateAbbreviations[index]))
+                    {
+                    <option value="@Model.StateAbbreviations[index]" selected="selected">@Model.StateNames[index]</option>
+                    }
+                    else
+                    {
                     <option value="@Model.StateAbbreviations[index]">@Model.StateNames[index]</option>
+                    }
                 }
             </select>
         </div>
         <div class="alert alert-error" id="driverFailureMessage">
-            <div class="error-text">The driver's license already exists. Please enter a unique license.</div>
+            <div class="error-text">The driver's license, state combination already exists. Please enter a unique license, state combination.</div>
         </div>
     </div>
     <div class="modal-footer">
+        @if (Model.UpdatingDriver)
+        {
+            <button class="btn btn-success" onclick="updateDriver(@Model.DriverId)">Save</button>
+        } else {
         <button class="btn btn-success" onclick="addNewDriver(false)">Add Driver</button>
         <button class="btn btn-success" onclick="addNewDriver(true)">Add and Add Another</button>
+        }
         <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
     </div>
 </div>

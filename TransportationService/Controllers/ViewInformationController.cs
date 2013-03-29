@@ -77,11 +77,10 @@ namespace TransportationService.Controllers
       }
 
       [HttpPost]
-      public ActionResult ViewDriver(string id)
+      public ActionResult ViewDriver(string driverId)
       {
          DatabaseInterface db = new DatabaseInterface();
-         ObjectId newId = new ObjectId(id);
-         Driver driver = db.GetDriverById(newId);
+         Driver driver = db.GetDriverById(driverId);
          if (driver == null)
          {
             return Json(new { error = "true" });
@@ -93,7 +92,7 @@ namespace TransportationService.Controllers
                State = driver.State,
                License = driver.DriverLicense,
                Name = driver.Name,
-               RouteName = driver.AssignedTo == -1 ? "" : db.GetRouteByRouteId(driver.AssignedTo).Name
+               DriverId = driver.DriverId
             })
          });
       }

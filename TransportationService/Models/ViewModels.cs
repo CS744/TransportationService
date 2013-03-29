@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TransportationService.Utility;
+using MongoDB.Bson;
 
 namespace TransportationService.Models
 {
@@ -34,6 +35,6 @@ namespace TransportationService.Models
       public string State { get; set; }
       public string License { get; set; }
       public string Name { get; set; }
-      public string RouteName { get; set; }
+      public string DriverId { get; set; }
    }
 }

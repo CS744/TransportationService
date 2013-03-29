@@ -1,4 +1,4 @@
-﻿@model TransportationService.Models.AddBusModel
+﻿@model TransportationService.Models.BusModel
 @{
     ViewBag.Title = "AddBus";
 }
@@ -70,13 +70,5 @@
     $(document).ready(function () {
         $("#busSuccessModalMessage").hide();
         $("#busFailureMessage").hide();
-        for (var state in BFHStatesList) {
-            $("#statesList").append('<li><a href="#"><input type="hidden" value="' + state + '">' + BFHStatesList[state] + '</a></li>')
-        }
-        $("#statesList > li > a").click(function (e) {
-            e.preventDefault();
-            var state = $('input[type="hidden"]', this).val();
-            $("#selectedState").val(state);
-        });
     });
 </script>
