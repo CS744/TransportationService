@@ -11,11 +11,11 @@
             <input id="nameText" type="text" placeholder="Enter Name" />
             <label for="genderText">Gender</label>
             <div class="btn-group" data-toggle="buttons-radio">
-                <button type="button" class="btn btn-primary" id="isMale" title="Male">M</button>
+                <button type="button" class="btn btn-primary active" id="isMale" title="Male">M</button>
                 <button type="button" class="btn btn-primary" id="isFeMale" title="Female">F</button>
             </div>
             <label for="ssnText">Social Security Number</label>
-            <input id="ssnText" type="text" placeholder="Enter SSN" />
+            <input id="ssnText" type="text" placeholder="Enter SSN" onkeypress="return snnKeyPress(event);" onpaste="return false;" />
             <label for="positionText">Position</label>
             <input id="positionText" type="text" placeholder="Enter Position" />
         </div>
@@ -23,21 +23,21 @@
             <label for="emailText">Email</label>
             <input id="emailText" type="text" placeholder="Enter Email" />
             <label for="phoneText">Phone Number</label>
-            <input id="phoneText" type="text" placeholder="Enter Phone Number" />
+            <input id="phoneText" type="text" placeholder="Enter Phone Number" onkeypress="return phoneKeyPress(event);" onpaste="return false;" />
             <label for="addressText">Address</label>
             <input id="addressText" type="text" placeholder="Enter Address" />
             <label for="cityText">City</label>
             <input id="cityText" type="text" placeholder="Enter City" />
             <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
 
-            <label>State</label>
-            <select id="statesList">
-                <option value="--State--">--State--</option>
-                @for (int index = 0; index < 51; index++)
-                {
-                    <option value="@Model.StateAbbreviations[index]">@Model.StateNames[index]</option>
-                }
-            </select>
+                <label>State</label>
+                <select id="statesList">
+                    <option value="--State--">--State--</option>
+                    @for (int index = 0; index < 51; index++)
+                    {
+                        <option value="@Model.StateAbbreviations[index]">@Model.StateNames[index]</option>
+                    }
+                </select>
             </div>
             <label for="routeList">Select a Route:</label>
             <select id="routeList">

@@ -8,11 +8,11 @@
     <div class="modal-body" style="min-height: 200px; max-height: 400px; overflow: visible;">
         <div>
             <label for="capacityText">Capacity</label>
-            <input id="capacityText" type="text" placeholder="Enter Capacity" value="@Model.Capacity"/>
+            <input id="capacityText" type="text" placeholder="Enter Capacity" value="@Model.Capacity" onkeypress="return capacityKeyPress(event);" onpaste="return false;" />
         </div>
         <div>
             <label for="licenseText">License Plate</label>
-            <input id="licenseText" type="text" placeholder="Enter License" value="@Model.License"/>
+            <input id="licenseText" type="text" placeholder="Enter License" value="@Model.License" onkeypress="return plateKeyPress(event);" onpaste="return false;" />
         </div>
         <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
             <label>State the Bus is Registered in</label>

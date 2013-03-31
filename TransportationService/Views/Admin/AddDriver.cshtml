@@ -9,7 +9,7 @@
         <input id="nameText" type="text" placeholder="Enter driver's name" value="@Model.Name"/>
         <label for="licenseText">Please provide the driver's license</label>
 
-        <input id="licenseText" type="text" placeholder="Enter driver's license number" value="@Model.License"/>
+        <input id="licenseText" type="text" placeholder="Enter driver's license number" value="@Model.License" onkeypress="return licenseKeyPress(event);" onpaste="return false;" />
         <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
 
             <label>Please select the state the driver is registered in</label>

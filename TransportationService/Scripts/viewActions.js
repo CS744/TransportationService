@@ -41,3 +41,10 @@ function viewDriver(id) {
         $("#view-container > .view-container-right").html(data.html);
     });
 }
+
+function viewEmployee(id) {
+    var request = { employeeId: id };
+    $.post("/ViewInformation/ViewEmployee", request, function (data) {
+        $("#view-container > .view-container-right").html(data.html);
+    });
+}

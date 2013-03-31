@@ -23,6 +23,7 @@ namespace MvcApplication1
             "~/Scripts/modifyActions.js",
             "~/Scripts/viewActions.js",
             "~/Scripts/routeManager.js",
+            "~/Scripts/validation.js",
             "~/Scripts/bootstrap-formhelpers-datepicker.en_US.js",
             "~/Scripts/bootstrap-formhelpers-datepicker.js",
             "~/Scripts/bootstrap-formhelpers-fonts.codes.js",

@@ -96,5 +96,31 @@ namespace TransportationService.Controllers
             })
          });
       }
+
+      public ActionResult ViewEmployee(int employeeId)
+      {
+         DatabaseInterface db = new DatabaseInterface();
+         Employee employee = db.GetEmployeeById(employeeId);
+         if (employee == null)
+         {
+            return Json(new { error = "true" });
+         }
+         return Json(new
+         {
+            html = RenderPartialViewToString("ViewEmployeeView", new ViewEmployeeModel()
+            {
+               Name = employee.Name,
+               Gender = employee.IsMale ? "Male" : "Female",
+               SSN = employee.SocialSecurityNumber,
+               Position = employee.Position,
+               Email = employee.Email,
+               Number = employee.Phone,
+               Address = employee.Address,
+               City = employee.City,
+               State = employee.State,
+               RouteName = employee.AssignedTo == -1 ? "" : db.GetRouteByRouteId(employee.AssignedTo).Name
+            })
+         });
+      }
    }
 }

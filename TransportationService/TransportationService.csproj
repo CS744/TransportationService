@@ -190,6 +190,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\AdminActions.js" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\validation.js" />
     <Content Include="Scripts\viewActions.js" />
     <Content Include="Scripts\modifyActions.js" />
     <Content Include="Scripts\jquery.transit.js" />

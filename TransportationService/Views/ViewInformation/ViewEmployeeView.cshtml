@@ -1,45 +1,52 @@
-﻿@model TransportationService.Models.ViewRouteModel
+﻿@model TransportationService.Models.ViewEmployeeModel
 @{
     ViewBag.Title = "ViewRouteView";
 }
 
 <div>
-    <b>The name of the route is:</b>
+    <b>The Employee's name is:</b>
     <div class="item-info" data-type="name">@Model.Name</div>
 </div>
 <div>
     <b>The bus's license plate is:</b>
-    <div class="item-info" data-type="licensePlate">@Model.LicensePlate</div>
+    <div class="item-info" data-type="licensePlate">@Model.Gender</div>
 </div>
 <div>
     <b>The driver of the route's name is:</b>
-    <div class="item-info" data-type="driverName">@Model.DriverName</div>
+    <div class="item-info" data-type="driverName">@Model.SSN</div>
 </div>
 <div>
-    <div class="added-stops" data-type="stops">
-        <label style="font-weight: bold">Stops:</label>
-        @foreach (TransportationService.Utility.Stop stop in @Model.Stops)
-        {
-            <div>Stop ID#: @stop.StopId (@stop.Location)</div>
-        }
-        @*<div class="added-stop">Start</div>
-        <i class="added-stop icon-arrow-right"></i>
-        @foreach (TransportationService.Utility.Stop stop in @Model.Stops)
-        {
-            <div class="added-stop">@stop.StopId</div>
-            <i class="added-stop icon-arrow-right"></i>
-        }
-        @if (int.Parse(Model.RouteId) < 500)
-        {
-            <i class="icon-building" />
-        }
-        else
-        {
-            <i class="icon-home" />
-        }*@
+    <b>The driver of the route's name is:</b>
+    <div class="item-info" data-type="driverName">@Model.Position</div>
+</div>
+<div>
+    <b>The driver of the route's name is:</b>
+    <div class="item-info" data-type="driverName">@Model.Email</div>
+</div>
+<div>
+    <b>The driver of the route's name is:</b>
+    <div class="item-info" data-type="driverName">@Model.Number</div>
+</div>
+<div>
+    <b>The driver of the route's name is:</b>
+    <div class="item-info" data-type="driverName">@Model.Address</div>
+</div>
+<div>
+    <b>The driver of the route's name is:</b>
+    <div class="item-info" data-type="driverName">@Model.City</div>
+</div>
+<div>
+    <b>The driver of the route's name is:</b>
+    <div class="item-info" data-type="driverName">@Model.State</div>
+</div>
+@if (Model.RouteName != "")
+{
+    <div>
+        The route the bus is assigned to is:
+    <div class="item-info" data-type="routeName">@Model.RouteName</div>
     </div>
-</div>
+}
 <div>
-    <button class="btn btn-primary" onclick="modifyRoute(@Model.RouteId)">Modify Employee</button>
-    <button class="btn btn-danger" onclick="removeRoute()">Remove Employee</button>
+    <button class="btn btn-primary" onclick="modifyEmployee(@Model.Id)">Modify Employee</button>
+    <button class="btn btn-danger" onclick="removeEmployee()">Remove Employee</button>
 </div>

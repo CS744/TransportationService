@@ -291,9 +291,16 @@ namespace TransportationService.Utility
 
         public Employee GetEmployeeBySSN(long ssn)
         {
-            var coll = _database.GetCollection(_employeeCollectionName);
-            var query = Query.EQ("SocialSecurityNumber", ssn);
-            return coll.FindOneAs<Employee>(query);
+           var coll = _database.GetCollection(_employeeCollectionName);
+           var query = Query.EQ("SocialSecurityNumber", ssn);
+           return coll.FindOneAs<Employee>(query);
+        }
+
+        public Employee GetEmployeeById(int id)
+        {
+           var coll = _database.GetCollection(_employeeCollectionName);
+           var query = Query.EQ("EmployeeId", id);
+           return coll.FindOneAs<Employee>(query);
         }
 
         public void SaveEmployee(Employee employee)

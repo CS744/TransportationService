@@ -473,7 +473,7 @@ namespace TransportationService.Controllers
                 Address = address,
                 City = city,
                 State = state,
-                route = db.GetRouteByRouteId(routeId),
+                AssignedTo = routeId,
                 EmployeeId = db.GetNextEmployeeId()
 
             };

@@ -37,4 +37,18 @@ namespace TransportationService.Models
       public string Name { get; set; }
       public string DriverId { get; set; }
    }
+   public class ViewEmployeeModel
+   {
+      public string Name { get; set; }
+      public string Gender { get; set; }
+      public long SSN { get; set; }
+      public string Position { get; set; }
+      public string Email { get; set; }
+      public string Number { get; set; }
+      public string Address { get; set; }
+      public string City { get; set; }
+      public string State { get; set; }
+      public string RouteName { get; set; }
+      public string Id { get; set; }
+   }
 }

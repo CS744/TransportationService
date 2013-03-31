@@ -55,44 +55,32 @@ function addNewStop(addAnother) {
         }, 6000);
         return false;
     }
-    if (addAnother) {
-        $.post("/Admin/AddNewStop", request, function (data) {
-            if (data.success == "true") {
-                $("#locationText").val("");
-                var newItem = $("#view-Stops").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewStop('" + data.id + "')\">" + getInnerViewItem(location) + "</div>").children().last();
-                newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
-                $.notify.addMessage("The stop was successfully added!", { type: "success", time: 6000 });
-            } else {
-                $("#stopFailureMessage > .error-text").text("The stop location already exists. Please enter a unique stop location.");
-                rollDown($("#stopFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#stopFailureMessage"));
-                }, 6000);
-            }
-        });
+    $.post("/Admin/AddNewStop", request, function (data) { addNewStopCallback(data, !addAnother); });
+}
+function addNewStopCallback(data, hideModal) {
+    if (data.success == "true") {
+        var newItem = $("#view-Stops").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewStop('" + data.id + "')\">" + getInnerViewItem(location) + "</div>").children().last();
+        newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
+        $.notify.addMessage("The stop was successfully added!", { type: "success", time: 6000 });
+        if (hideModal) {
+            $("#modal").modal('hide');
+        } else {
+            $("#locationText").val("");
+        }
     } else {
-        $.post("/Admin/AddNewStop", request, function (data) {
-            if (data.success == "true") {
-                var newItem = $("#view-Stops").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewStop('" + data.id + "')\">" + getInnerViewItem(location) + "</div>").children().last();
-                newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
-                $.notify.addMessage("The stop was successfully added!", { type: "success", time: 6000 });
-                $("#modal").modal('hide');
-            } else {
-                $("#stopFailureMessage > .error-text").text("The stop location already exists. Please enter a unique stop location.");
-                rollDown($("#stopFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#stopFailureMessage"));
-                }, 6000);
-            }
-        });
+        $("#stopFailureMessage > .error-text").text("The stop location already exists. Please enter a unique stop location.");
+        rollDown($("#stopFailureMessage"));
+        setTimeout(function () {
+            rollUp($("#stopFailureMessage"));
+        }, 6000);
     }
 }
 
 function addNewBus(addAnother) {
     var state = $("#statesList").val();
     var capacity = $("#capacityText").val();
-    var license = $("#licenseText").val();
-    if (license.length != 7 || state == "") {
+    var license = $("#licenseText").val().toUpperCase();
+    if (license.length != 6 || state == "") {
         $("#busFailureMessage > .error-text").text("Fill In All Criteria Correctly.");
         rollDown($("#busFailureMessage"));
         setTimeout(function () {
@@ -105,45 +93,37 @@ function addNewBus(addAnother) {
         license: license,
         state: state
     }
-    if (addAnother) {
-        $.post("/Admin/AddNewBus", request, function (data) {
-            if (data.success == "true") {
+    $.post("/Admin/AddNewBus", request, function (data) { addNewBusCallback(data, !addAnother); });
+}
+
+function addNewBusCallback(data, hideModal) {
+    $.post("/Admin/AddNewBus", request, function (data) {
+        if (data.success == "true") {
+            $.notify.addMessage("The bus was successfully added!", { type: "success", time: 6000 });
+            var newItem = $("#view-buses").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewBus('" + data.id + "')\">" + getInnerViewItem(license) + "</div>").children().last();
+            newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
+            if (hideModal) {
+                $("#modal").modal('hide');
+            }
+            else {
                 $("#capacityText").val("");
                 $("#licenseText").val("");
                 $("#statesList").val("--State--");
-                $.notify.addMessage("The bus was successfully added!", { type: "success", time: 6000 });
-                var newItem = $("#view-buses").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewBus('" + data.id + "')\">" + getInnerViewItem(license) + "</div>").children().last();
-                newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
-            } else {
-                $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
-                rollDown($("#busFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#busFailureMessage"));
-                }, 6000);
             }
-        });
-    } else {
-        $.post("/Admin/AddNewBus", request, function (data) {
-            if (data.success == "true") {
-                $.notify.addMessage("The bus was successfully added!", { type: "success", time: 6000 });
-                var newItem = $("#view-buses").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewBus('" + data.id + "')\">" + getInnerViewItem(license) + "</div>").children().last();
-                newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
-                $("#modal").modal('hide');
-            } else {
-                $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
-                rollDown($("#busFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#busFailureMessage"));
-                }, 6000);
-            }
-        });
-    }
+        } else {
+            $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
+            rollDown($("#busFailureMessage"));
+            setTimeout(function () {
+                rollUp($("#busFailureMessage"));
+            }, 6000);
+        }
+    });
 }
 
 function addNewDriver(addAnother) {
     var state = $("#statesList").val();
     var name = $("#nameText").val();
-    var license = $("#licenseText").val();
+    var license = $("#licenseText").val().toUpperCase();
     if (state == "" || name == "" || license == "") {
         $("#driverFailureMessage > .error-text").text("Must fill out ALL information.");
         rollDown($("#employeeFailureMessage"));
@@ -157,39 +137,30 @@ function addNewDriver(addAnother) {
         name: name,
         license: license
     }
-    if (addAnother) {
-        $.post("/Admin/AddNewDriver", request, function (data) {
-            if (data.success == "true") {
-                var newItem = $("#view-Drivers").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewDriver('" + data.id + "')\">" + getInnerViewItem(name) + "</div>").children().last();
-                newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
+    $.post("/Admin/AddNewDriver", request, function (data) { addNewDriverCallback(data, !addAnother); });
+}
+function addNewDriverCallback(data, hideModal) {
+    $.post("/Admin/AddNewDriver", request, function (data) {
+        if (data.success == "true") {
+            var newItem = $("#view-Drivers").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewDriver('" + data.id + "')\">" + getInnerViewItem(name) + "</div>").children().last();
+            newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
+            $.notify.addMessage("The driver was successfully added!", { type: "success", time: 6000 });
+            if (hideModal) {
+                $("#modal").modal('hide');
+            }
+            else {
                 $("#nameText").val("");
                 $("#licenseText").val("");
                 $("#statesList").val("--State--");
-                $.notify.addMessage("The driver was successfully added!", { type: "success", time: 6000 });
-            } else {
-                $("#driverFailureMessage > .error-text").text("The driver's license already exists. Please enter a unique license.");
-                rollDown($("#driverFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#driverFailureMessage"));
-                }, 6000);
             }
-        });
-    } else {
-        $.post("/Admin/AddNewDriver", request, function (data) {
-            if (data.success == "true") {
-                var newItem = $("#view-Drivers").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewDriver('" + data.id + "')\">" + getInnerViewItem(name) + "</div>").children().last();
-                newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
-                $.notify.addMessage("The driver was successfully added!", { type: "success", time: 6000 });
-                $("#modal").modal('hide');
-            } else {
-                $("#driverFailureMessage > .error-text").text("The driver's license already exists. Please enter a unique license.");
-                rollDown($("#driverFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#driverFailureMessage"));
-                }, 6000);
-            }
-        });
-    }
+        } else {
+            $("#driverFailureMessage > .error-text").text("The driver's license already exists. Please enter a unique license.");
+            rollDown($("#driverFailureMessage"));
+            setTimeout(function () {
+                rollUp($("#driverFailureMessage"));
+            }, 6000);
+        }
+    });
 }
 
 function addNewEmployee(addAnother) {
@@ -197,14 +168,14 @@ function addNewEmployee(addAnother) {
     var email = $("#emailText").val();
     var phone = $("#phoneText").val();
     var address = $("#addressText").val();
-    var city = $("#cityText").val();
-    var state = $("#statesList").val();
-    var routeId = $("#routeList").val();
     var ssn = $("#ssnText").val();
     var position = $("#positionText").val();
     var name = $("#nameText").val();
+    var routeId = $("#routeList").val();
+    var city = $("#cityText").val();
+    var state = $("#statesList").val();
 
-    if (email == "" || phone == "" || address == "" || ssn == "" || position == "" || name == "" || routeId == null) {
+    if (email == "" || phone == "" || address == "" || ssn == "" || position == "" || name == "" || routeId == null || city == "" || state == "" || state == "--State--") {
         $("#employeeFailureMessage > .error-text").text("Must fill out ALL information.");
         rollDown($("#employeeFailureMessage"));
         setTimeout(function () {
@@ -225,35 +196,35 @@ function addNewEmployee(addAnother) {
         position: position,
         name: name
     }
-    if (addAnother) {
-        $.post("/Admin/AddNewEmployee", request, function (data) {
-            if (data == "true") {
-                $("#ssnText").val("");
-                $("#positionText").val("");
-                $("#nameText").val("");
-                $.notify.addMessage("The employee was successfully added!", { type: "success", time: 6000 });
-            } else {
-                $("#employeeFailureMessage > .error-text").text("The social security number already exists. Please enter a unique social security number.");
-                rollDown($("#employeeFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#employeeFailureMessage"));
-                }, 6000);
-            }
-        });
-    } else {
-        $.post("/Admin/AddNewEmployee", request, function (data) {
-            if (data == "true") {
-                $.notify.addMessage("The employee was successfully added!", { type: "success", time: 6000 });
+    $.post("/Admin/AddNewDriver", request, function (data) { addNewDriverCallback(data, !addAnother); });
+}
+
+function addNewEmployeeCallback(data, hideModal) {
+    $.post("/Admin/AddNewEmployee", request, function (data) {
+        if (data == "true") {
+            var newItem = $("#view-Employees").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewEmployee('" + data.id + "')\">" + getInnerViewItem(name) + "</div>").children().last();
+            newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
+            $.notify.addMessage("The employee was successfully added!", { type: "success", time: 6000 });
+            if (hideModal) {
                 $("#modal").modal('hide');
-            } else {
-                $("#employeeFailureMessage > .error-text").text("The social security number already exists. Please enter a unique social security number.");
-                rollDown($("#employeeFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#employeeFailureMessage"));
-                }, 6000);
             }
-        });
-    }
+            else {
+                $("#nameText").val("");
+                $("#ssnText").val("");
+                $("#emailText").val("");
+                $("#phoneText").val("");
+                $("#addressText").val("");
+                $("#cityText").val("");
+                $("#statesList").val("--State--");
+            }
+        } else {
+            $("#employeeFailureMessage > .error-text").text("The social security number already exists. Please enter a unique social security number.");
+            rollDown($("#employeeFailureMessage"));
+            setTimeout(function () {
+                rollUp($("#employeeFailureMessage"));
+            }, 6000);
+        }
+    });
 }
 
 function getInnerViewItem(text) {

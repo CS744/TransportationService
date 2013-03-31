@@ -50,7 +50,7 @@ namespace TransportationService.Utility
         public string City { get; set; }
         public string State { get; set; }
         public int EmployeeId { get; set; }
-        public Route route { get; set; }
+        public int AssignedTo { get; set; }
     }
 
     public class Driver
