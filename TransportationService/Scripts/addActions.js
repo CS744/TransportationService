@@ -174,8 +174,9 @@ function addNewEmployee(addAnother) {
     var routeId = $("#routeList").val();
     var city = $("#cityText").val();
     var state = $("#statesList").val();
+    var zip = $("#zipText").val();
 
-    if (email == "" || phone == "" || address == "" || ssn == "" || position == "" || name == "" || routeId == null || city == "" || state == "" || state == "--State--") {
+    if (email == "" || phone == "" || address == "" || ssn == "" || position == "" || name == "" || routeId == null || city == "" || state == "" || state == "--State--"|| zip == "") {
         $("#employeeFailureMessage > .error-text").text("Must fill out ALL information.");
         rollDown($("#employeeFailureMessage"));
         setTimeout(function () {
@@ -194,7 +195,8 @@ function addNewEmployee(addAnother) {
         routeId: parseInt(routeId),
         ssn: ssn,
         position: position,
-        name: name
+        name: name,
+        zip: zip
     }
     $.post("/Admin/AddNewDriver", request, function (data) { addNewDriverCallback(data, !addAnother); });
 }
@@ -216,6 +218,7 @@ function addNewEmployeeCallback(data, hideModal) {
                 $("#addressText").val("");
                 $("#cityText").val("");
                 $("#statesList").val("--State--");
+                $("#zipText").val("");
             }
         } else {
             $("#employeeFailureMessage > .error-text").text("The social security number already exists. Please enter a unique social security number.");

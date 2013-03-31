@@ -51,6 +51,7 @@ namespace TransportationService.Utility
         public string State { get; set; }
         public int EmployeeId { get; set; }
         public int AssignedTo { get; set; }
+        public int Zip { get; set; }
     }
 
     public class Driver

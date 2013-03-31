@@ -50,5 +50,7 @@ namespace TransportationService.Models
       public string State { get; set; }
       public string RouteName { get; set; }
       public string Id { get; set; }
+      public int Zip { get; set; }
    }
+
 }

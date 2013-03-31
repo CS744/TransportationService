@@ -455,7 +455,7 @@ namespace TransportationService.Controllers
             return PartialView("AddEmployee", model);
         }
 
-        public ActionResult AddNewEmployee(bool isMale, string email, string phone, string address, string city, string state, int routeId, long ssn, string position, string name)
+        public ActionResult AddNewEmployee(bool isMale, string email, string phone, string address, string city, string state, int zip, int routeId, long ssn, string position, string name)
         {
             DatabaseInterface db = new DatabaseInterface();
             if (!db.IsSocialSecurityNumberUnique(ssn))
@@ -473,6 +473,7 @@ namespace TransportationService.Controllers
                 Address = address,
                 City = city,
                 State = state,
+                Zip = zip,
                 AssignedTo = routeId,
                 EmployeeId = db.GetNextEmployeeId()
 

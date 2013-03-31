@@ -18,18 +18,17 @@
             <input id="ssnText" type="text" placeholder="Enter SSN" onkeypress="return snnKeyPress(event);" onpaste="return false;" />
             <label for="positionText">Position</label>
             <input id="positionText" type="text" placeholder="Enter Position" />
-        </div>
-        <div class="two-column-modal-container float-right">
             <label for="emailText">Email</label>
             <input id="emailText" type="text" placeholder="Enter Email" />
             <label for="phoneText">Phone Number</label>
             <input id="phoneText" type="text" placeholder="Enter Phone Number" onkeypress="return phoneKeyPress(event);" onpaste="return false;" />
+        </div>
+        <div class="two-column-modal-container float-right">
             <label for="addressText">Address</label>
             <input id="addressText" type="text" placeholder="Enter Address" />
             <label for="cityText">City</label>
             <input id="cityText" type="text" placeholder="Enter City" />
             <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
-
                 <label>State</label>
                 <select id="statesList">
                     <option value="--State--">--State--</option>
@@ -39,6 +38,8 @@
                     }
                 </select>
             </div>
+            <label for="zipText">Zip Code</label>
+            <input id="zipText" type="text" placeholder="Enter Zip Code" />
             <label for="routeList">Select a Route:</label>
             <select id="routeList">
                 @foreach (TransportationService.Utility.Route route in Model.AvailableRoutes)
