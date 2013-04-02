@@ -16,6 +16,7 @@ namespace TransportationService.Models
       public string Status { get; set; }
       public int BusId { get; set; }
       public string RouteName { get; set; }
+      public ObjectId objId { get; set; }
    }
    public class ViewRouteModel
    {
@@ -29,6 +30,7 @@ namespace TransportationService.Models
    {
       public string StopLocation { get; set; }
       public int StopId { get; set; }
+      public ObjectId objId { get; set; }
    }
    public class ViewDriverModel
    {
@@ -36,6 +38,7 @@ namespace TransportationService.Models
       public string License { get; set; }
       public string Name { get; set; }
       public string DriverId { get; set; }
+      public ObjectId objId { get; set; }
    }
    public class ViewEmployeeModel
    {
@@ -51,6 +54,7 @@ namespace TransportationService.Models
       public string RouteName { get; set; }
       public string Id { get; set; }
       public int Zip { get; set; }
+      public ObjectId objId { get; set; }
    }
 
 }

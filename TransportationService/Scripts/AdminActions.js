@@ -155,13 +155,30 @@ function deleteItemClick(event, elem) {
         $("#modal").replaceWith(html);
         $("#modal").modal();
         $("#confirm-button").click(function (event) {
-            $.post("/Admin/" + action, { id: item.attr("data-id") }, function (data) {
-                rollUp(item, 300, function () { item.remove(); });
-                $("#modal").modal("hide");
-                //Additional logic to remove the item from all other views.
-            });
+            $.post("/Admin/" + action, { id: item.attr("data-id") }, function (data) { deleteConfirm(data) });
         });
     });
-    event.preventDefault();
-    return false;
+}
+//                rollUp(item, 300, function () { item.remove(); });
+//                $("#modal").modal("hide");
+//                //Additional logic to remove the item from all other views.
+
+//            });
+//        });
+//    });
+//    event.preventDefault();
+//    return false;
+//}
+
+function deleteConfirm(data) {
+    if (data.success == "true") {
+        $("#modal").modal('hide');
+        $.notify.addMessage("Successfully deleted!", { type: "success", time: 6000 });
+        rollUp(item, 300, function () { item.remove(); });
+
+
+    } else {
+        $("#modal").modal('hide');
+        $.notify.addMessage(data.msg, { type: "success", time: 6000 });
+    }
 }

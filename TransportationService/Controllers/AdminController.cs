@@ -541,7 +541,7 @@ namespace TransportationService.Controllers
                db.SaveRoute(route);
             }
          }
-         return null;
+         return Json(new { success = "true", msg = "" });
       }
 
       public ActionResult DeleteEmployee(string id)
@@ -549,7 +549,7 @@ namespace TransportationService.Controllers
           DatabaseInterface db = new DatabaseInterface();
           ObjectId objId = new ObjectId(id);
           db.DeleteEmployee(objId);
-          return null;
+          return Json(new { success = "true", msg = "" }); 
       }
 
       public ActionResult DeleteBus(string id)
@@ -559,14 +559,32 @@ namespace TransportationService.Controllers
           if (db.GetBusById(objId).AssignedTo == -1)
           {
               db.DeleteBus(objId);
+              return Json(new { success = "true", msg = "" });
           }
           else
           {
-              //Need More to be done
+              return Json(new { success = "false", msg = "Please unassign the bus first!" });
           }
           
+      }
+
+      public ActionResult DeleteDriver(string id)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          ObjectId objId = new ObjectId(id);
+          if (db.GetDriverByobjId(objId).AssignedTo == -1)
+          {
+              db.DeleteDriver(objId);
+              return Json(new { success = "true", msg = "" });
+          }
+          else
+          {
+              return Json(new { success = "false", msg = "Please unassign the driver first!" });
+          }
+
           return null;
       }
+
 
    }
 }

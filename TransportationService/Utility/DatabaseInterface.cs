@@ -264,6 +264,20 @@ namespace TransportationService.Utility
             return coll.FindOneAs<Driver>(query);
         }
 
+        public Driver GetDriverByobjId(ObjectId id)
+        {
+            var coll = _database.GetCollection(_driverCollectionName);
+            var query = Query.EQ("_id", id);
+            return coll.FindOneAs<Driver>(query);
+        }
+
+        public void DeleteDriver(ObjectId id)
+        {
+            var coll = _database.GetCollection(_driverCollectionName);
+            var query = Query.EQ("_id", id);
+            coll.Remove(query);
+        }
+
         public List<Driver> GetAvailableDrivers()
         {
             var coll = _database.GetCollection(_driverCollectionName);
