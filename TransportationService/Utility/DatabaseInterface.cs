@@ -176,6 +176,13 @@ namespace TransportationService.Utility
             return buses.OrderBy(b => b.BusId).LastOrDefault().BusId + 1;
         }
 
+        public void DeleteBus(ObjectId id)
+        {
+            var coll = _database.GetCollection(_busCollectionName);
+            var query = Query.EQ("_id", id);
+            coll.Remove(query);
+        }
+
         #endregion
 
 
@@ -343,6 +350,13 @@ namespace TransportationService.Utility
             if (employees.OrderBy(e => e.EmployeeId).LastOrDefault() == null)
                 return 1;
             return employees.OrderBy(e => e.EmployeeId).LastOrDefault().EmployeeId + 1;
+        }
+
+        public void DeleteEmployee(ObjectId id)
+        {
+            var coll = _database.GetCollection(_employeeCollectionName);
+            var query = Query.EQ("_id", id);
+            coll.Remove(query);
         }
 
         #endregion

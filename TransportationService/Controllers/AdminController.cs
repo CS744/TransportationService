@@ -544,5 +544,29 @@ namespace TransportationService.Controllers
          return null;
       }
 
+      public ActionResult DeleteEmployee(string id)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          ObjectId objId = new ObjectId(id);
+          db.DeleteEmployee(objId);
+          return null;
+      }
+
+      public ActionResult DeleteBus(string id)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          ObjectId objId = new ObjectId(id);
+          if (db.GetBusById(objId).AssignedTo == -1)
+          {
+              db.DeleteBus(objId);
+          }
+          else
+          {
+              //Need More to be done
+          }
+          
+          return null;
+      }
+
    }
 }

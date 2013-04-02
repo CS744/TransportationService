@@ -258,11 +258,10 @@ function addNewEmployee(addAnother) {
         name: name,
         zip: zip
     }
-<<<<<<< HEAD
-    $.post("/Admin/AddNewEmployee", request, function (data) { addNewEmployeeCallback(data, !addAnother); });
-=======
+
+
     $.post("/Admin/addNewEmployee", request, function (data) { addNewEmployeeCallback(data, !addAnother, name); });
->>>>>>> fixed and changed
+
 }
 
 function addNewEmployeeCallback(data, hideModal, name) {
