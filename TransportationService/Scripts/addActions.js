@@ -198,7 +198,7 @@ function addNewEmployee(addAnother) {
         name: name,
         zip: zip
     }
-    $.post("/Admin/AddNewDriver", request, function (data) { addNewDriverCallback(data, !addAnother); });
+    $.post("/Admin/AddNewEmployee", request, function (data) { addNewEmployeeCallback(data, !addAnother); });
 }
 
 function addNewEmployeeCallback(data, hideModal) {
