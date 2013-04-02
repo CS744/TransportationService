@@ -190,6 +190,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\AdminActions.js" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\messageBuilder.js" />
     <Content Include="Scripts\validation.js" />
     <Content Include="Scripts\viewActions.js" />
     <Content Include="Scripts\modifyActions.js" />
@@ -268,6 +269,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\ViewInformation\ViewDriverView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Utility\Confirmation.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

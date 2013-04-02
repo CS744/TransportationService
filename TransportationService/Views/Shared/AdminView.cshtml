@@ -17,7 +17,7 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Route route in @Model.Routes)
                 {
-                    <div class="item-element" onclick="viewRoute('@route.Id')">
+                    <div class="item-element" data-type="route" data-id="@route.Id" onclick="viewRoute('@route.Id')">
                         <div class="icon-remove delete-item"></div>
                         <div class="strip">@route.Name</div>
                     </div>
@@ -29,7 +29,7 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Stop stop in @Model.Stops)
                 {
-                    <div class="item-element" onclick="viewStop('@stop.Id')">
+                    <div class="item-element" data-type="stop" data-id="@stop.Id" onclick="viewStop('@stop.Id')">
                         <div class="icon-remove delete-item"></div>
                         <div class="strip">@stop.Location</div>
                     </div>
@@ -41,7 +41,7 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Bus bus in @Model.Buses)
                 {
-                    <div class="item-element" onclick="viewBus('@bus.Id')">
+                    <div class="item-element" data-type="bus" data-id="@bus.Id" onclick="viewBus('@bus.Id')">
                         <div class="icon-remove delete-item"></div>
                         <div class="strip">@bus.LicensePlate</div>
                     </div>
@@ -53,7 +53,7 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Driver driver in @Model.Drivers)
                 {
-                    <div class="item-element" onclick="viewDriver('@driver.DriverId')">
+                    <div class="item-element" data-type="driver" data-id="@driver.Id" onclick="viewDriver('@driver.DriverId')">
                         <div class="icon-remove delete-item"></div>
                         <div class="strip">@driver.Name</div>
                     </div>
@@ -65,7 +65,7 @@
             <div class="view-child-inner hide">
                 @foreach (TransportationService.Utility.Employee employee in @Model.Employees)
                 {
-                    <div class="item-element"  onclick="viewEmployee('@employee.EmployeeId')">
+                    <div class="item-element" data-type="employee" data-id="@employee.Id" onclick="viewEmployee('@employee.EmployeeId')">
                         <div class="icon-remove delete-item"></div>
                         <div class="strip">@employee.Name</div>
                     </div>

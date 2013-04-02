@@ -46,6 +46,11 @@ namespace TransportationService.Utility
 
         #region ROUTE
 
+        public void SaveRoute(Route route)
+        {
+           var coll = _database.GetCollection(_routeCollectionName);
+           coll.Save(route);
+        }
         public Route GetRouteByRouteId(int id)
         {
             var coll = _database.GetCollection(_routeCollectionName);
@@ -194,6 +199,12 @@ namespace TransportationService.Utility
             var coll = _database.GetCollection(_stopCollectionName);
             var query = Query.EQ("StopId", id);
             return coll.FindOneAs<Stop>(query);
+        }
+        public void DeleteStop(ObjectId id)
+        {
+           var coll = _database.GetCollection(_stopCollectionName);
+           var query = Query.EQ("_id", id);
+           coll.Remove(query);
         }
 
         public List<Stop> GetAvailableStops()//pass in a list of stops already in the route.

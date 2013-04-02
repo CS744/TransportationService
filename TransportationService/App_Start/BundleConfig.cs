@@ -20,6 +20,7 @@ namespace MvcApplication1
             "~/Scripts/userManager.js",
             "~/Scripts/AdminActions.js",
             "~/Scripts/addActions.js",
+            "~/Scripts/messageBuilder.js",
             "~/Scripts/modifyActions.js",
             "~/Scripts/viewActions.js",
             "~/Scripts/routeManager.js",

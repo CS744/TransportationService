@@ -130,7 +130,38 @@ $(document).ready(function () {
 
 function deleteItemClick(event, elem) {
     var item = elem.parent();
-    rollUp(item, 300, function () { item.remove(); });
+    var type = item.attr("data-type");
+    var action = "";
+    if (type == "route") {
+        action = "DeleteRoute";
+    }
+    else if (type == "stop") {
+        action = "DeleteStop";
+    }
+    else if (type == "bus") {
+        action = "DeleteBus";
+    }
+    else if (type == "driver") {
+        action = "DeleteDriver";
+    }
+    else if (type == "employee") {
+        action = "DeleteEmployee";
+    }
+    else {
+        alert("ERROR HAS OCCURED");
+        return false;
+    }
+    $.post("/Utility/GetConfirmationHTML", {}, function (html) {
+        $("#modal").replaceWith(html);
+        $("#modal").modal();
+        $("#confirm-button").click(function (event) {
+            $.post("/Admin/" + action, { id: item.attr("data-id") }, function (data) {
+                rollUp(item, 300, function () { item.remove(); });
+                $("#modal").modal("hide");
+                //Additional logic to remove the item from all other views.
+            });
+        });
+    });
     event.preventDefault();
     return false;
 }

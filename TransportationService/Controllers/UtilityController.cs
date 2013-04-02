@@ -22,5 +22,8 @@ namespace TransportationService.Controllers
       {
          return View();
       }
+      public ActionResult GetConfirmationHTML(){
+         return PartialView("Confirmation");
+      }
    }
 }
