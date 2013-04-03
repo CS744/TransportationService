@@ -352,7 +352,23 @@ namespace TransportationService.Controllers
           ObjectId objId = new ObjectId(id);
           if (db.GetBusById(objId).AssignedTo == -1)
           {
-              db.DeleteBus(objId);
+              db.DeleteBusByObjId(objId);
+              return Json(new { success = "true", msg = "" });
+          }
+          else
+          {
+              return Json(new { success = "false", msg = "Please unassign the bus first!" });
+          }
+
+      }
+
+      public ActionResult RemoveBus(string id)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          int bId = int.Parse(id);
+          if (db.GetBusByBusId(bId).AssignedTo == -1)
+          {
+              db.DeleteBusById(bId);
               return Json(new { success = "true", msg = "" });
           }
           else
@@ -388,13 +404,12 @@ namespace TransportationService.Controllers
          return Json(new { success = "true", id = stop.Id.ToString() });
       }
 
-
       public ActionResult DeleteStop(string id)
       {
           DatabaseInterface db = new DatabaseInterface();
           ObjectId objId = new ObjectId(id);
           IEnumerable<Route> routes = db.GetAvailableRoutes();
-          foreach (Route route in routes)         
+          foreach (Route route in routes)
           {
               if (route.Stops.Count == 1 && route.Stops.Exists(s => s.Id == objId))
               {
@@ -409,7 +424,31 @@ namespace TransportationService.Controllers
                   db.SaveRoute(route);
               }
           }
-          db.DeleteStop(objId);
+          db.DeleteStopByObjId(objId);
+          return Json(new { success = "true", msg = "" });
+      }
+
+      public ActionResult RemoveStop(string id)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          int SId = int.Parse(id);
+          IEnumerable<Route> routes = db.GetAvailableRoutes();
+          foreach (Route route in routes)         
+          {
+              if (route.Stops.Count == 1 && route.Stops.Exists(s => s.StopId == SId))
+              {
+
+                  return Json(new { success = "false", msg = "The stop is the only stop of a route." });
+              }
+          }
+          foreach (Route route in routes)
+          {
+              if (route.Stops.RemoveAll(s => s.StopId == SId) > 0)
+              {
+                  db.SaveRoute(route);
+              }
+          }
+          db.DeleteStopById(SId);
           return Json(new { success = "true", msg = "" });
       }
 
@@ -485,7 +524,7 @@ namespace TransportationService.Controllers
           ObjectId objId = new ObjectId(id);
           if (db.GetDriverByobjId(objId).AssignedTo == -1)
           {
-              db.DeleteDriver(objId);
+              db.DeleteDriverByObjId(objId);
               return Json(new { success = "true", msg = "" });
           }
           else
@@ -493,7 +532,22 @@ namespace TransportationService.Controllers
               return Json(new { success = "false", msg = "Please unassign the driver first!" });
           }
 
-          return null;
+      }
+
+      public ActionResult RemoveDriver(string id)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          string DId = id;
+          if (db.GetDriverById(DId).AssignedTo == -1)
+          {
+              db.DeleteDriverById(DId);
+              return Json(new { success = "true", msg = "" });
+          }
+          else
+          {
+              return Json(new { success = "false", msg = "Please unassign the driver first!" });
+          }
+
       }
 
       #endregion
@@ -594,7 +648,15 @@ namespace TransportationService.Controllers
       {
           DatabaseInterface db = new DatabaseInterface();
           ObjectId objId = new ObjectId(id);
-          db.DeleteEmployee(objId);
+          db.DeleteEmployeeByObjId(objId);
+          return Json(new { success = "true", msg = "" });
+      }
+
+      public ActionResult RemoveEmployee(string id)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          int EId = int.Parse(id);
+          db.DeleteEmployeeById(EId);
           return Json(new { success = "true", msg = "" });
       }
 

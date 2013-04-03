@@ -176,10 +176,17 @@ namespace TransportationService.Utility
             return buses.OrderBy(b => b.BusId).LastOrDefault().BusId + 1;
         }
 
-        public void DeleteBus(ObjectId id)
+        public void DeleteBusByObjId(ObjectId id)
         {
             var coll = _database.GetCollection(_busCollectionName);
             var query = Query.EQ("_id", id);
+            coll.Remove(query);
+        }
+
+        public void DeleteBusById(int bId)
+        {
+            var coll = _database.GetCollection(_busCollectionName);
+            var query = Query.EQ("BusId", bId);
             coll.Remove(query);
         }
 
@@ -208,10 +215,17 @@ namespace TransportationService.Utility
             return coll.FindOneAs<Stop>(query);
         }
 
-        public void DeleteStop(ObjectId id)
+        public void DeleteStopByObjId(ObjectId id)
+        {
+            var coll = _database.GetCollection(_stopCollectionName);
+            var query = Query.EQ("_id", id);
+            coll.Remove(query);
+        }
+
+        public void DeleteStopById(int sId)
         {
            var coll = _database.GetCollection(_stopCollectionName);
-           var query = Query.EQ("_id", id);
+           var query = Query.EQ("StopId", sId);
            coll.Remove(query);
         }
 
@@ -272,10 +286,17 @@ namespace TransportationService.Utility
             return coll.FindOneAs<Driver>(query);
         }
 
-        public void DeleteDriver(ObjectId id)
+        public void DeleteDriverByObjId(ObjectId id)
         {
             var coll = _database.GetCollection(_driverCollectionName);
             var query = Query.EQ("_id", id);
+            coll.Remove(query);
+        }
+
+        public void DeleteDriverById(string DId)
+        {
+            var coll = _database.GetCollection(_driverCollectionName);
+            var query = Query.EQ("DriverId", DId);
             coll.Remove(query);
         }
 
@@ -374,10 +395,17 @@ namespace TransportationService.Utility
             coll.Save(e);
         }
 
-        public void DeleteEmployee(ObjectId id)
+        public void DeleteEmployeeByObjId(ObjectId id)
         {
             var coll = _database.GetCollection(_employeeCollectionName);
             var query = Query.EQ("_id", id);
+            coll.Remove(query);
+        }
+
+        public void DeleteEmployeeById(int EId)
+        {
+            var coll = _database.GetCollection(_employeeCollectionName);
+            var query = Query.EQ("EmployeeId", EId);
             coll.Remove(query);
         }
 

@@ -182,3 +182,51 @@ function deleteConfirm(data) {
         $.notify.addMessage(data.msg, { type: "success", time: 6000 });
     }
 }
+
+function removeEmployee(Id) {
+    var request = { id: Id };
+    $.post("/Utility/GetConfirmationHTML", {}, function (html) {
+        $("#modal").replaceWith(html);
+        $("#modal").modal();
+        $("#confirm-button").click(function (event) {
+            $.post("/Admin/RemoveEmployee" , request, function (data) { deleteConfirm(data) });
+        });
+    });
+
+}
+
+function removeDriver(DriverId) {
+    var request = { id: DriverId };
+    $.post("/Utility/GetConfirmationHTML", {}, function (html) {
+        $("#modal").replaceWith(html);
+        $("#modal").modal();
+        $("#confirm-button").click(function (event) {
+            $.post("/Admin/RemoveDriver", request, function (data) { deleteConfirm(data) });
+        });
+    });
+
+}
+
+function removeBus(BusId) {
+    var request = { id: BusId };
+    $.post("/Utility/GetConfirmationHTML", {}, function (html) {
+        $("#modal").replaceWith(html);
+        $("#modal").modal();
+        $("#confirm-button").click(function (event) {
+            $.post("/Admin/RemoveBus", request, function (data) { deleteConfirm(data) });
+        });
+    });
+
+}
+
+function removeStop(StopId) {
+    var request = { id: StopId };
+    $.post("/Utility/GetConfirmationHTML", {}, function (html) {
+        $("#modal").replaceWith(html);
+        $("#modal").modal();
+        $("#confirm-button").click(function (event) {
+            $.post("/Admin/RemoveStop", request, function (data) { deleteConfirm(data) });
+        });
+    });
+
+}
