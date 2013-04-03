@@ -70,6 +70,7 @@ function addNewStop(addAnother) {
     }
     $.post("/Admin/AddNewStop", request, function (data) { addNewStopCallback(data, !addAnother, location); });
 }
+
 function addNewStopCallback(data, hideModal, location) {
     if (data.success == "true") {
         var newItem = $("#view-Stops").siblings(".view-child-inner").append("<div class='item-element' data-type='stop' data-id='" + data.id + "'  onclick=\"viewStop('" + data.id + "')\">" + getInnerViewItem(location) + "</div>").children().last();
@@ -151,7 +152,7 @@ function addNewDriver(addAnother) {
             messageBuilder.addMessage("must include a name");
         }
         if (!isValidLicense(license)) {
-            messageBuilder.addMessage("must enter a valid license (1 character followed by 13 digits)");
+            messageBuilder.addMessage("must enter a valid license (1 letter followed by 13 digits)");
         }
         if (state == "--State--") {
             messageBuilder.addMessage("must select a state");
@@ -170,6 +171,7 @@ function addNewDriver(addAnother) {
     }
     $.post("/Admin/AddNewDriver", request, function (data) { addNewDriverCallback(data, !addAnother, name); });
 }
+
 function addNewDriverCallback(data, hideModal, name) {
     if (data.success == "true") {
         var newItem = $("#view-Drivers").siblings(".view-child-inner").append("<div class='item-element' data-type='driver' data-id='" + data.id + "'  onclick=\"viewDriver('" + data.driverId + "')\">" + getInnerViewItem(name) + "</div>").children().last();
@@ -235,7 +237,7 @@ function addNewEmployee(addAnother) {
             messageBuilder.addMessage("must have valid zip code (5 digits)");
         }
         if (routeId == null) {
-            messageBuilder.addMessage("must create a route");
+            messageBuilder.addMessage("must select a route");
         }
         $("#employeeFailureMessage > .error-text").text(messageBuilder.getMessage("The Employee cannot be added because you"));
         rollDown($("#employeeFailureMessage"));

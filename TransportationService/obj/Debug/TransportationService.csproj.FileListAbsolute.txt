@@ -374,3 +374,4 @@ C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\bin
 C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\bin\zh-CHT\AjaxControlToolkit.resources.dll
 C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\obj\Debug\MvcApplication1.dll
 C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\obj\Debug\MvcApplication1.pdb
+C:\Users\Mariah\Documents\GitHub\TransportationService\TransportationService\obj\Debug\TransportationService.csprojResolveAssemblyReference.cache

@@ -346,6 +346,22 @@ namespace TransportationService.Controllers
          return Json("true");
       }
 
+      public ActionResult DeleteBus(string id)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          ObjectId objId = new ObjectId(id);
+          if (db.GetBusById(objId).AssignedTo == -1)
+          {
+              db.DeleteBus(objId);
+              return Json(new { success = "true", msg = "" });
+          }
+          else
+          {
+              return Json(new { success = "false", msg = "Please unassign the bus first!" });
+          }
+
+      }
+
       #endregion
 
 
@@ -370,6 +386,22 @@ namespace TransportationService.Controllers
          };
          db.SaveStop(stop);
          return Json(new { success = "true", id = stop.Id.ToString() });
+      }
+
+      public ActionResult DeleteStop(string id)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          ObjectId objId = new ObjectId(id);
+          db.DeleteStop(objId);
+          IEnumerable<Route> routes = db.GetAvailableRoutes();
+          foreach (Route route in routes)
+          {
+              if (route.Stops.RemoveAll(s => s.Id == objId) > 0)
+              {
+                  db.SaveRoute(route);
+              }
+          }
+          return Json(new { success = "true", msg = "" });
       }
 
       #endregion
@@ -438,6 +470,23 @@ namespace TransportationService.Controllers
          return Json("true");
       }
 
+      public ActionResult DeleteDriver(string id)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          ObjectId objId = new ObjectId(id);
+          if (db.GetDriverByobjId(objId).AssignedTo == -1)
+          {
+              db.DeleteDriver(objId);
+              return Json(new { success = "true", msg = "" });
+          }
+          else
+          {
+              return Json(new { success = "false", msg = "Please unassign the driver first!" });
+          }
+
+          return null;
+      }
+
       #endregion
 
 
@@ -448,9 +497,16 @@ namespace TransportationService.Controllers
          DatabaseInterface db = new DatabaseInterface();
          EmployeeModel model = new EmployeeModel()
          {
-            AvailableRoutes = db.GetAvailableRoutes(),
-            StateNames = stateNames,
-            StateAbbreviations = stateAbbreviations
+             StateNames = stateNames,
+             StateAbbreviations = stateAbbreviations,
+             Name = "",
+             Address = "",
+             AvailableRoutes = db.GetAvailableRoutes(),
+             City = "",
+             Email = "",
+             Phone = "",
+             Position = "",
+             UpdatingEmployee = false,
          };
          return PartialView("AddEmployee", model);
       }
@@ -482,66 +538,47 @@ namespace TransportationService.Controllers
          return Json(new { success = "true", id = employee.Id.ToString(), employeeId = employee.EmployeeId });
       }
 
-      public ActionResult ModifyEmployee(int employeeId)
+      public ActionResult ModifyEmployee(string employeeId)
       {
-         //DatabaseInterface db = new DatabaseInterface();
-         //Employee employee = db.GetEmployeeByEmployeeId(employeeId);
-         //AddBusModel model = new AddBusModel
-         //{
-         //    StateNames = stateNames,
-         //    StateAbbreviations = stateAbbreviations,
-         //    Capacity = bus.Capacity.ToString(),
-         //    License = bus.LicensePlate,
-         //    UpdatingBus = true,
-         //    Status = bus.Status.ToString(),
-         //    State = bus.State,
-         //    BusId = employeeId.ToString()
-         //};
-         //return PartialView("AddBus", model);
-         return null;
+          DatabaseInterface db = new DatabaseInterface();
+          Employee employee = db.GetEmployeeById(int.Parse(employeeId));
+          EmployeeModel model = new EmployeeModel
+          {
+              StateNames = stateNames,
+              StateAbbreviations = stateAbbreviations,
+              Name = employee.Name,
+              Address = employee.Address,
+              AssignedTo = employee.AssignedTo,
+              AvailableRoutes = db.GetAvailableRoutes(),
+              City = employee.City,
+              Email = employee.Email,
+              EmployeeId = employee.EmployeeId,
+              IsMale = employee.IsMale,
+              Phone = employee.Phone,
+              Position = employee.Position,
+              SocialSecurityNumber = employee.SocialSecurityNumber,
+              State = employee.State,
+              UpdatingEmployee = true,
+              Zip = employee.Zip
+          };
+          return PartialView("AddEmployee", model);
       }
 
-      public ActionResult UpdateEmployee(string employeeId, int capacity, string license, string state, string status)
+      public ActionResult UpdateEmployee(int employeeId, string address, int assignedTo, string city, string email,
+          string phone, string position, string state, int zip)
       {
-         //DatabaseInterface db = new DatabaseInterface();
-         //if (!db.IsLicenseUnique(license, busId))
-         //    return Json("false");
-         //Bus bus = db.GetBusByBusId(int.Parse(busId));
-         //bus.LicensePlate = license;
-         //bus.BusId = int.Parse(busId);
-         //BusStatus busStatus;
-         //if (status.Equals("0"))
-         //{
-         //    busStatus = BusStatus.Active;
-         //}
-         //else
-         //{
-         //    busStatus = BusStatus.Inactive;
-         //}
-         //bus.Status = busStatus;
-         //bus.Capacity = capacity;
-         //bus.State = state;
-         //db.UpdateBus(bus);
-         //return Json("true");
-         return null;
-      }
-
-      #endregion
-
-      public ActionResult DeleteStop(string id)
-      {
-         DatabaseInterface db = new DatabaseInterface();
-         ObjectId objId = new ObjectId(id);
-         db.DeleteStop(objId);
-         IEnumerable<Route> routes = db.GetAvailableRoutes();
-         foreach (Route route in routes)
-         {
-            if (route.Stops.RemoveAll(s => s.Id == objId) > 0)
-            {
-               db.SaveRoute(route);
-            }
-         }
-         return Json(new { success = "true", msg = "" });
+          DatabaseInterface db = new DatabaseInterface();
+          Employee e = db.GetEmployeeById(employeeId);
+          e.Address = address;
+          e.AssignedTo = assignedTo;
+          e.City = city;
+          e.Email = email;
+          e.Phone = phone;
+          e.Position = position;
+          e.State = state;
+          e.Zip = zip;
+          db.UpdateEmployee(e);
+          return Json("true");
       }
 
       public ActionResult DeleteEmployee(string id)
@@ -549,41 +586,10 @@ namespace TransportationService.Controllers
           DatabaseInterface db = new DatabaseInterface();
           ObjectId objId = new ObjectId(id);
           db.DeleteEmployee(objId);
-          return Json(new { success = "true", msg = "" }); 
+          return Json(new { success = "true", msg = "" });
       }
 
-      public ActionResult DeleteBus(string id)
-      {
-          DatabaseInterface db = new DatabaseInterface();
-          ObjectId objId = new ObjectId(id);
-          if (db.GetBusById(objId).AssignedTo == -1)
-          {
-              db.DeleteBus(objId);
-              return Json(new { success = "true", msg = "" });
-          }
-          else
-          {
-              return Json(new { success = "false", msg = "Please unassign the bus first!" });
-          }
-          
-      }
-
-      public ActionResult DeleteDriver(string id)
-      {
-          DatabaseInterface db = new DatabaseInterface();
-          ObjectId objId = new ObjectId(id);
-          if (db.GetDriverByobjId(objId).AssignedTo == -1)
-          {
-              db.DeleteDriver(objId);
-              return Json(new { success = "true", msg = "" });
-          }
-          else
-          {
-              return Json(new { success = "false", msg = "Please unassign the driver first!" });
-          }
-
-          return null;
-      }
+      #endregion
 
 
    }

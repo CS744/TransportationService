@@ -50,5 +50,18 @@ namespace TransportationService.Models
         public List<Route> AvailableRoutes { get; set; }
         public List<String> StateNames { get; set; }
         public List<String> StateAbbreviations { get; set; }
+        public bool UpdatingEmployee { get; set; }
+        public long SocialSecurityNumber { get; set; }
+        public string Position { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public bool IsMale { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public int EmployeeId { get; set; }
+        public int AssignedTo { get; set; }
+        public int Zip { get; set; }
     }
 }

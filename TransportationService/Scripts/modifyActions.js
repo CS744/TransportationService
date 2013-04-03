@@ -49,6 +49,7 @@ function modifyRoute(rId) {
         $("#modal").modal();
     });
 }
+
 ///////////////////////////////////////////////////////////
 /////////////////////////// BUS ///////////////////////////
 ///////////////////////////////////////////////////////////
@@ -102,6 +103,7 @@ function modifyBus(bId) {
         $("#modal").modal();
     });
 }
+
 ///////////////////////////////////////////////////////////
 /////////////////////////// DRIVER ////////////////////////
 ///////////////////////////////////////////////////////////
@@ -157,44 +159,80 @@ function modifyDriver(dId) {
         $("#modal").modal();
     });
 }
+
 ///////////////////////////////////////////////////////////
 /////////////////////////// EMPLOYEE //////////////////////
 ///////////////////////////////////////////////////////////
 function updateEmployee(employeeId) {
-    //var state = $("#statesList").val();
-    //var capacity = $("#capacityText").val();
-    //var license = $("#licenseText").val();
-    //var status = 1;
-    //if ($("#isActive").hasClass('active')) {
-    //    status = "0";
-    //}
-    //if (license == "" || state == "") {
-    //    $("#employeeFailureMessage > .error-text").text("Fill In All Criteria Correctly.");
-    //    rollDown($("#employeeFailureMessage"));
-    //    setTimeout(function () {
-    //        rollUp($("#employeeFailureMessage"));
-    //    }, 6000);
-    //    return false;
-    //}
+    var email = $("#emailText").val();
+    var phone = $("#phoneText").val();
+    var address = $("#addressText").val();
+    var position = $("#positionText").val();
+    var routeId = $("#routeList").val();
+    var city = $("#cityText").val();
+    var state = $("#statesList").val();
+    var zip = $("#zipText").val();
+
+    if (email == "" || !isValidPhoneNumber(phone) || address == "" || position == "" || routeId == null || city == "" || state == "--State--" || !isValidZip(zip)) {
+        var messageBuilder = new MessageBuilder();
+        if (position == "") {
+            messageBuilder.addMessage("must include a position");
+        }
+        if (email == "") {
+            messageBuilder.addMessage("must include an email address");
+        }
+        if (!isValidPhoneNumber(phone)) {
+            messageBuilder.addMessage("must have valid phone number (10 digits)");
+        }
+        if (address == "") {
+            messageBuilder.addMessage("must include an address");
+        }
+        if (city == "") {
+            messageBuilder.addMessage("must include a city");
+        }
+        if (state == "--State--") {
+            messageBuilder.addMessage("must select a state");
+        }
+        if (!isValidZip(zip)) {
+            messageBuilder.addMessage("must have valid zip code (5 digits)");
+        }
+        if (routeId == null) {
+            messageBuilder.addMessage("must select a route");
+        }
+        $("#employeeFailureMessage > .error-text").text(messageBuilder.getMessage("The Employee cannot be added because you"));
+        rollDown($("#employeeFailureMessage"));
+        setTimeout(function () {
+            rollUp($("#employeeFailureMessage"));
+        }, 12000);
+        return false;
+    }
+
     var request = {
-        //capacity: parseInt(capacity),
-        //license: license,
-        //state: state,
-        //status: status,
-        //busId: busId
+        address: address,
+        assignedTo: routeId,
+        city: city,
+        email: email,
+        employeeId: employeeId,
+        phone: phone,
+        position: position,
+        state: state,
+        zip: zip
     }
     $.post("/Admin/UpdateEmployee", request, function (data) {
         if (data == "true") {
-            //var statusText = request.status == 0 ? "Active" : "Inactive";
-            //$(".item-info[data-type='status']").text(statusText);
-            //$(".item-info[data-type='state']").text(request.state);
-            //$(".item-info[data-type='licensePlate']").text(request.license);
-            //$(".item-info[data-type='capacity']").text(request.capacity);
+            $(".item-info[data-type='address']").text(request.address);
+            $(".item-info[data-type='city']").text(request.city);
+            $(".item-info[data-type='zip']").text(request.zip);
+            $(".item-info[data-type='state']").text(request.state);
+            $(".item-info[data-type='email']").text(request.email);
+            $(".item-info[data-type='phone']").text(request.phone);
+            $(".item-info[data-type='position']").text(request.position);
+            $(".item-info[data-type='assignedTo']").text(request.assignedTo);
 
             $.notify.addMessage("The employee was successfully updated!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
         } else {
-            $("#employeeFailureMessage > .error-text").text("set proper text in modifyActions.js --> updateEmployee(...)");
+            $("#employeeFailureMessage > .error-text").text("An error occurred ");
             rollDown($("#employeeFailureMessage"));
             setTimeout(function () {
                 rollUp($("#employeeFailureMessage"));

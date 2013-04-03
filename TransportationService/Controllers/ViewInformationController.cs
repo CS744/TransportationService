@@ -118,7 +118,9 @@ namespace TransportationService.Controllers
                Address = employee.Address,
                City = employee.City,
                State = employee.State,
-               RouteName = employee.AssignedTo == -1 ? "" : db.GetRouteByRouteId(employee.AssignedTo).Name
+               RouteName = employee.AssignedTo == -1 ? "" : db.GetRouteByRouteId(employee.AssignedTo).Name,
+               Id = employee.EmployeeId.ToString(),
+               Zip = employee.Zip
             })
          });
       }

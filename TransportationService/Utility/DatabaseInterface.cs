@@ -207,6 +207,7 @@ namespace TransportationService.Utility
             var query = Query.EQ("StopId", id);
             return coll.FindOneAs<Stop>(query);
         }
+
         public void DeleteStop(ObjectId id)
         {
            var coll = _database.GetCollection(_stopCollectionName);
@@ -364,6 +365,13 @@ namespace TransportationService.Utility
             if (employees.OrderBy(e => e.EmployeeId).LastOrDefault() == null)
                 return 1;
             return employees.OrderBy(e => e.EmployeeId).LastOrDefault().EmployeeId + 1;
+        }
+
+        public void UpdateEmployee(Employee e)
+        {
+            var coll = _database.GetCollection(_employeeCollectionName);
+            coll.Remove(Query.EQ("EmployeeId", e.EmployeeId));
+            coll.Save(e);
         }
 
         public void DeleteEmployee(ObjectId id)
