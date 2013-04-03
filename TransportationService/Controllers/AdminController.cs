@@ -388,12 +388,20 @@ namespace TransportationService.Controllers
          return Json(new { success = "true", id = stop.Id.ToString() });
       }
 
+
       public ActionResult DeleteStop(string id)
       {
           DatabaseInterface db = new DatabaseInterface();
           ObjectId objId = new ObjectId(id);
-          db.DeleteStop(objId);
           IEnumerable<Route> routes = db.GetAvailableRoutes();
+          foreach (Route route in routes)         
+          {
+              if (route.Stops.Count == 1 && route.Stops.Exists(s => s.Id == objId))
+              {
+
+                  return Json(new { success = "false", msg = "The stop is the only stop of a route." });
+              }
+          }
           foreach (Route route in routes)
           {
               if (route.Stops.RemoveAll(s => s.Id == objId) > 0)
@@ -401,6 +409,7 @@ namespace TransportationService.Controllers
                   db.SaveRoute(route);
               }
           }
+          db.DeleteStop(objId);
           return Json(new { success = "true", msg = "" });
       }
 
