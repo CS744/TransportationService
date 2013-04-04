@@ -30,19 +30,32 @@ namespace TransportationService.Controllers
       {
          return Json(new { isValid = "true" });
       }
-      public ActionResult IsValidDeleteStop(string id)
-      {
-         return Json(new { isValid = "true" });
-      }
       public ActionResult IsValidDeleteBus(string id)
       {
-         DatabaseInterface db = new DatabaseInterface();
-         Bus bus = db.GetBusById(new ObjectId(id));
-         if (bus.AssignedTo < 0)
-         {
+          DatabaseInterface db = new DatabaseInterface();
+          Bus bus = db.GetBusById(new ObjectId(id));
+          if (bus.AssignedTo < 0)
+          {
+              return Json(new { isValid = "true" });
+          }
+          return Json(new {/* isValid = undefined */ message = "The bus is actively involved with a route.  Unassign the bus before deleting." });
+
+         
+      }
+      public ActionResult IsValidDeleteStop(string id)
+      {
+          DatabaseInterface db = new DatabaseInterface();
+          ObjectId objId = new ObjectId(id);
+          IEnumerable<Route> routes = db.GetAvailableRoutes();
+          foreach (Route route in routes)
+          {
+              if (route.Stops.Count == 1 && route.Stops.Exists(s => s.Id == objId))
+              {
+                  return Json(new {/* isValid = undefined */ message = "The stop is the last stop in a route.   Add more stops to the route before deleting." });
+              }
+          }
             return Json(new { isValid = "true" });
-         }
-         return Json(new {/* isValid = undefined */ message = "The bus is actively involved with a route.  Unassign the bus before deleting." });
+         
       }
       public ActionResult IsValidDeleteDriver(string id)
       {

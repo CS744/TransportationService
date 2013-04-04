@@ -394,14 +394,6 @@ namespace TransportationService.Controllers
           IEnumerable<Route> routes = db.GetAvailableRoutes();
           foreach (Route route in routes)
           {
-              if (route.Stops.Count == 1 && route.Stops.Exists(s => s.Id == objId))
-              {
-
-                  return Json(new { success = "false", msg = "The stop is the only stop of a route." });
-              }
-          }
-          foreach (Route route in routes)
-          {
               if (route.Stops.RemoveAll(s => s.Id == objId) > 0)
               {
                   db.SaveRoute(route);

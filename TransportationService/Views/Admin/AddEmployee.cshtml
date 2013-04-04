@@ -5,6 +5,9 @@
 
 <div id="modal" class="modal hide largeModal">
     <div class="modal-header">Add a New Employee</div>
+    <div class="alert alert-error hide" id="employeeFailureMessage">
+        <div class="error-text">The social security number already exists. Please enter a unique social security number.</div>
+    </div>
     <div class="modal-body">
         <div class="two-column-modal-container">
             <label for="nameText">Name</label>
@@ -76,10 +79,13 @@
                 </select>
             </div>
             <label for="zipText">Zip Code</label>
-            @if (Model.UpdatingEmployee) {
-            <input id="zipText" type="text" placeholder="Enter Zip Code" value="@Model.Zip" onkeypress="return zipKeyPress(event);" onpaste="return false;" />
-            } else {
-            <input id="zipText" type="text" placeholder="Enter Zip Code" onkeypress="return zipKeyPress(event);" onpaste="return false;" />
+            @if (Model.UpdatingEmployee)
+            {
+                <input id="zipText" type="text" placeholder="Enter Zip Code" value="@Model.Zip" onkeypress="return zipKeyPress(event);" onpaste="return false;" />
+            }
+            else
+            {
+                <input id="zipText" type="text" placeholder="Enter Zip Code" onkeypress="return zipKeyPress(event);" onpaste="return false;" />
             }
             <label for="routeList">Select a Route:</label>
             <select id="routeList">
@@ -96,16 +102,17 @@
                 }
             </select>
         </div>
-        <div class="alert alert-error hide" id="employeeFailureMessage">
-            <div class="error-text">The social security number already exists. Please enter a unique social security number.</div>
-        </div>
+
     </div>
     <div class="modal-footer">
-        @if (Model.UpdatingEmployee) {
-        <button class="btn btn-success" onclick="updateEmployee(@Model.EmployeeId)">Save</button>
-        } else {
+        @if (Model.UpdatingEmployee)
+        {
+            <button class="btn btn-success" onclick="updateEmployee(@Model.EmployeeId)">Save</button>
+        }
+        else
+        {
             <button class="btn btn-success" onclick="addNewEmployee(false)">Add Employee</button>
-        <button class="btn btn-success" onclick="addNewEmployee(true)">Add and Add Another</button>
+            <button class="btn btn-success" onclick="addNewEmployee(true)">Add and Add Another</button>
         }
         <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
     </div>

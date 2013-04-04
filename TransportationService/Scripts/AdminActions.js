@@ -172,7 +172,8 @@ function deleteItemClick(event, elem, item) {
                 });
             });
         } else {
-            $("#modal").replaceWith('<div id="modal" class="modal hide" style="margin-left: -125px; width: 250px;"><div class="modal-header">Cannot Delete</div><div class="modal-body" style="text-align: center;">' + d.message + '</div></div>');
+            var jqueryString = "$('#modal').modal('hide')";
+            $("#modal").replaceWith('<div id="modal" class="modal hide" style="margin-left: -125px; width: 250px;"><div class="modal-header">Cannot Delete</div><div class="modal-body" style="text-align: center;">' + d.message + '</div><div class="modal-footer" style="padding:5px;"><button class="btn" onclick="' + jqueryString + '">OK</button></div></div>');
             $("#modal").modal();
         }
     }
@@ -184,6 +185,7 @@ function deleteItemClick(event, elem, item) {
     }
     return false;
 }
+
 function removeItemById(id) {
     var item = $(".item-element[data-id='" + id + "']");
     deleteItemClick(undefined, undefined, item);

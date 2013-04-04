@@ -111,21 +111,22 @@ function updateDriver(driverId) {
     var state = $("#statesList").val();
     var license = $("#licenseText").val();
     var name = $("#nameText").val();
-    var foundIssue = true;
-    if (name == "") {
-        $("#driverFailureMessage > .error-text").text("Please enter the driver's name.");
-    } else if (license == "") {
-        $("#driverFailureMessage > .error-text").text("Please enter the driver's license.");
-    } else if (state == "") {
-        $("#driverFailureMessage > .error-text").text("Please enter the state the driver's license was issued in.");
-    } else {
-        foundIssue = false;
-    }
-    if (foundIssue) {
+    if (state == "--State--" || name == "" || !isValidLicense(license)) {
+        var messageBuilder = new MessageBuilder();
+        if (name == "") {
+            messageBuilder.addMessage("must include a name");
+        }
+        if (!isValidLicense(license)) {
+            messageBuilder.addMessage("must enter a valid license (1 letter followed by 13 digits)");
+        }
+        if (state == "--State--") {
+            messageBuilder.addMessage("must select a state");
+        }
+        $("#driverFailureMessage > .error-text").text(messageBuilder.getMessage("The Driver cannot be added because you"));
         rollDown($("#driverFailureMessage"));
         setTimeout(function () {
             rollUp($("#driverFailureMessage"));
-        }, 6000);
+        }, 12000);
         return false;
     }
     var request = {

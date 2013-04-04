@@ -5,6 +5,9 @@
 
 <div id="modal" class="modal hide smallModal">
     <div class="modal-header">Add a New Route</div>
+    <div class="alert alert-error hide" id="routeFailureMessage">
+        <div class="error-text">The route name already exists. Please enter a unique route name.</div>
+    </div>
     <div class="modal-body" style="max-height: 600px; overflow: visible;">
         <div>
             <label for="routeNameText">Route Name:</label>
@@ -125,9 +128,6 @@
                 }
             </ul>
         </div>*@
-    </div>
-    <div class="alert alert-error hide" id="routeFailureMessage">
-        <div class="error-text">The route name already exists. Please enter a unique route name.</div>
     </div>
     <div class="modal-footer">
         @if (Model.UpdatingRoute)
