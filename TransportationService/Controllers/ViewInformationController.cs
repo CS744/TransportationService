@@ -28,7 +28,8 @@ namespace TransportationService.Controllers
             Capacity = bus.Capacity,
             Status = bus.Status == BusStatus.Active ? "Active" : "Inactive",
             BusId = bus.BusId,
-            RouteName = bus.AssignedTo == -1 ? "" : db.GetRouteByRouteId(bus.AssignedTo).Name
+            RouteName = bus.AssignedTo == -1 ? "" : db.GetRouteByRouteId(bus.AssignedTo).Name,
+            ObjectId = bus.Id.ToString()
          });
       }
 
@@ -50,7 +51,8 @@ namespace TransportationService.Controllers
                   DriverName = route.Driver.Name,
                   Name = route.Name,
                   LicensePlate = route.Bus.LicensePlate,
-                  RouteId = route.RouteId.ToString()
+                  RouteId = route.RouteId.ToString(),
+                  ObjectId = route.Id.ToString()
                })
          });
       }
@@ -72,6 +74,7 @@ namespace TransportationService.Controllers
             {
                StopLocation = stop.Location,
                StopId = stop.StopId,
+               ObjectId = stop.Id.ToString()
             })
          });
       }
@@ -92,7 +95,8 @@ namespace TransportationService.Controllers
                State = driver.State,
                License = driver.DriverLicense,
                Name = driver.Name,
-               DriverId = driver.DriverId
+               DriverId = driver.DriverId,
+               ObjectId = driver.Id.ToString()
             })
          });
       }
@@ -120,7 +124,8 @@ namespace TransportationService.Controllers
                State = employee.State,
                RouteName = employee.AssignedTo == -1 ? "" : db.GetRouteByRouteId(employee.AssignedTo).Name,
                Id = employee.EmployeeId.ToString(),
-               Zip = employee.Zip
+               Zip = employee.Zip,
+               ObjectId = employee.Id.ToString()
             })
          });
       }

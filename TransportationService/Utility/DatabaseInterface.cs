@@ -357,6 +357,13 @@ namespace TransportationService.Utility
            return coll.FindOneAs<Employee>(query);
         }
 
+        public Employee GetEmployeeById(ObjectId id)
+        {
+           var coll = _database.GetCollection(_employeeCollectionName);
+           var query = Query.EQ("_id", id);
+           return coll.FindOneAs<Employee>(query);
+        }
+
         public void SaveEmployee(Employee employee)
         {
             var coll = _database.GetCollection(_employeeCollectionName);

@@ -49,7 +49,7 @@
                 </div>
             </div>
         }
-        <div class="alert alert-error" id="busFailureMessage">
+        <div class="alert alert-error hide" id="busFailureMessage">
             <div class="error-text">The license plate already exists. Please enter a unique license plate.</div>
         </div>
     </div>
@@ -66,9 +66,3 @@
         <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $("#busSuccessModalMessage").hide();
-        $("#busFailureMessage").hide();
-    });
-</script>

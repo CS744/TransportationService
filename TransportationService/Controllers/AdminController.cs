@@ -361,23 +361,6 @@ namespace TransportationService.Controllers
           }
 
       }
-
-      public ActionResult RemoveBus(string id)
-      {
-          DatabaseInterface db = new DatabaseInterface();
-          int bId = int.Parse(id);
-          if (db.GetBusByBusId(bId).AssignedTo == -1)
-          {
-              db.DeleteBusById(bId);
-              return Json(new { success = "true", msg = "" });
-          }
-          else
-          {
-              return Json(new { success = "false", msg = "Please unassign the bus first!" });
-          }
-
-      }
-
       #endregion
 
 
@@ -427,31 +410,6 @@ namespace TransportationService.Controllers
           db.DeleteStopByObjId(objId);
           return Json(new { success = "true", msg = "" });
       }
-
-      public ActionResult RemoveStop(string id)
-      {
-          DatabaseInterface db = new DatabaseInterface();
-          int SId = int.Parse(id);
-          IEnumerable<Route> routes = db.GetAvailableRoutes();
-          foreach (Route route in routes)         
-          {
-              if (route.Stops.Count == 1 && route.Stops.Exists(s => s.StopId == SId))
-              {
-
-                  return Json(new { success = "false", msg = "The stop is the only stop of a route." });
-              }
-          }
-          foreach (Route route in routes)
-          {
-              if (route.Stops.RemoveAll(s => s.StopId == SId) > 0)
-              {
-                  db.SaveRoute(route);
-              }
-          }
-          db.DeleteStopById(SId);
-          return Json(new { success = "true", msg = "" });
-      }
-
       #endregion
 
 
@@ -525,7 +483,7 @@ namespace TransportationService.Controllers
           if (db.GetDriverByobjId(objId).AssignedTo == -1)
           {
               db.DeleteDriverByObjId(objId);
-              return Json(new { success = "true", msg = "" });
+              return null;
           }
           else
           {
@@ -533,23 +491,6 @@ namespace TransportationService.Controllers
           }
 
       }
-
-      public ActionResult RemoveDriver(string id)
-      {
-          DatabaseInterface db = new DatabaseInterface();
-          string DId = id;
-          if (db.GetDriverById(DId).AssignedTo == -1)
-          {
-              db.DeleteDriverById(DId);
-              return Json(new { success = "true", msg = "" });
-          }
-          else
-          {
-              return Json(new { success = "false", msg = "Please unassign the driver first!" });
-          }
-
-      }
-
       #endregion
 
 
@@ -649,15 +590,7 @@ namespace TransportationService.Controllers
           DatabaseInterface db = new DatabaseInterface();
           ObjectId objId = new ObjectId(id);
           db.DeleteEmployeeByObjId(objId);
-          return Json(new { success = "true", msg = "" });
-      }
-
-      public ActionResult RemoveEmployee(string id)
-      {
-          DatabaseInterface db = new DatabaseInterface();
-          int EId = int.Parse(id);
-          db.DeleteEmployeeById(EId);
-          return Json(new { success = "true", msg = "" });
+          return null;
       }
 
       #endregion

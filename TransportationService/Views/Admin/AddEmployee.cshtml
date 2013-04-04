@@ -96,7 +96,7 @@
                 }
             </select>
         </div>
-        <div class="alert alert-error" id="employeeFailureMessage">
+        <div class="alert alert-error hide" id="employeeFailureMessage">
             <div class="error-text">The social security number already exists. Please enter a unique social security number.</div>
         </div>
     </div>
@@ -110,10 +110,3 @@
         <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $("#employeeSuccessModalMessage").hide();
-        $("#employeeFailureMessage").hide();
-    });
-</script>
-

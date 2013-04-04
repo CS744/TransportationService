@@ -126,7 +126,7 @@
             </ul>
         </div>*@
     </div>
-    <div class="alert alert-error" id="routeFailureMessage">
+    <div class="alert alert-error hide" id="routeFailureMessage">
         <div class="error-text">The route name already exists. Please enter a unique route name.</div>
     </div>
     <div class="modal-footer">
@@ -141,10 +141,3 @@
         <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $("#routeSuccessModalMessage").hide();
-        $("#routeFailureMessage").hide();
-    });
-
-</script>

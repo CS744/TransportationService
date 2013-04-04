@@ -128,9 +128,12 @@ $(document).ready(function () {
     $(".delete-item").click(function (event) { return deleteItemClick(event, $(this)); });
 });
 
-function deleteItemClick(event, elem) {
-    var item = elem.parent();
+function deleteItemClick(event, elem, item) {
+    if (!item) {
+        item = elem.parent();
+    }
     var type = item.attr("data-type");
+    var id = item.attr("data-id");
     var action = "";
     if (type == "route") {
         action = "DeleteRoute";
@@ -151,82 +154,37 @@ function deleteItemClick(event, elem) {
         alert("ERROR HAS OCCURED");
         return false;
     }
-    $.post("/Utility/GetConfirmationHTML", {}, function (html) {
-        $("#modal").replaceWith(html);
-        $("#modal").modal();
-        $("#confirm-button").click(function (event) {
-            $.post("/Admin/" + action, { id: item.attr("data-id") }, function (data) { deleteConfirm(data) });
-        });
-    });
-}
-//                rollUp(item, 300, function () { item.remove(); });
-//                $("#modal").modal("hide");
-//                //Additional logic to remove the item from all other views.
-
-//            });
-//        });
-//    });
-//    event.preventDefault();
-//    return false;
-//}
-
-function deleteConfirm(data) {
-    if (data.success == "true") {
-        $("#modal").modal('hide');
-        $.notify.addMessage("Successfully deleted!", { type: "success", time: 6000 });
-        rollUp(item, 300, function () { item.remove(); });
-
-
-    } else {
-        $("#modal").modal('hide');
-        $.notify.addMessage(data.msg, { type: "success", time: 6000 });
+    var callback = function (d) {
+        if (d.isValid) {
+            $.post("/Utility/GetConfirmationHTML", {}, function (html) {
+                $("#modal").replaceWith(html);
+                $("#modal").modal();
+                $("#confirm-button").click(function (e) {
+                    $.post("/Admin/" + action, { id: id }, function (data) {
+                        $.notify.addMessage("Successfully deleted!", { type: "success", time: 6000 });
+                        var sel = "removeItemById('"+id+"')";
+                        if ($("button[onclick='" + sel + "']")) {
+                            $(".view-container-right").html("");
+                        }
+                        rollUp(item, 300, function () { item.remove(); });
+                        $("#modal").modal("hide");
+                    });
+                });
+            });
+        } else {
+            $("#modal").replaceWith('<div id="modal" class="modal hide" style="margin-left: -125px; width: 250px;"><div class="modal-header">Cannot Delete</div><div class="modal-body" style="text-align: center;">' + d.message + '</div></div>');
+            $("#modal").modal();
+        }
     }
-}
-
-function removeEmployee(Id) {
-    var request = { id: Id };
-    $.post("/Utility/GetConfirmationHTML", {}, function (html) {
-        $("#modal").replaceWith(html);
-        $("#modal").modal();
-        $("#confirm-button").click(function (event) {
-            $.post("/Admin/RemoveEmployee" , request, function (data) { deleteConfirm(data) });
-        });
+    $.post("/Utility/IsValid" + action, { id: item.attr("data-id") }, function (d) {
+        callback(d);
     });
-
+    if (event) {
+        event.preventDefault();
+    }
+    return false;
 }
-
-function removeDriver(DriverId) {
-    var request = { id: DriverId };
-    $.post("/Utility/GetConfirmationHTML", {}, function (html) {
-        $("#modal").replaceWith(html);
-        $("#modal").modal();
-        $("#confirm-button").click(function (event) {
-            $.post("/Admin/RemoveDriver", request, function (data) { deleteConfirm(data) });
-        });
-    });
-
-}
-
-function removeBus(BusId) {
-    var request = { id: BusId };
-    $.post("/Utility/GetConfirmationHTML", {}, function (html) {
-        $("#modal").replaceWith(html);
-        $("#modal").modal();
-        $("#confirm-button").click(function (event) {
-            $.post("/Admin/RemoveBus", request, function (data) { deleteConfirm(data) });
-        });
-    });
-
-}
-
-function removeStop(StopId) {
-    var request = { id: StopId };
-    $.post("/Utility/GetConfirmationHTML", {}, function (html) {
-        $("#modal").replaceWith(html);
-        $("#modal").modal();
-        $("#confirm-button").click(function (event) {
-            $.post("/Admin/RemoveStop", request, function (data) { deleteConfirm(data) });
-        });
-    });
-
+function removeItemById(id) {
+    var item = $(".item-element[data-id='" + id + "']");
+    deleteItemClick(undefined, undefined, item);
 }
