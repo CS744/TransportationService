@@ -3,34 +3,90 @@
 ///////////////////////////////////////////////////////////
 function updateRoute(routeId) {
     var routeName = $("#routeNameText").val();
-    var license = $("#driverList").val();
-    var busText = $("#busList").val();
+    var isActive = $("#routeActiveButton").hasClass('active') ? true : false;
     var options = document.getElementById('selectedStops').options;
-    var stops = [options.length];
+    var stops = [];
     for (var i = 0; i < options.length; i++) {
-        stops[i] = options[i].value;
+        stops.push(options[i].value);
     }
-    if (routeName == "" || license == null || busText == "") {
-        $("#routeFailureMessage > .error-text").text("Route name and Driver's name must be correctly entered.");
+    var buses = [];
+    var drivers = [];
+    var times = [];
+    var statuses = [];
+    var entryCount = $("#driverBusList option").size();
+    for (var i = 0; i < entryCount; i++) {
+        var entry = $('#driverBusList option')[i];
+        var value = entry.value;
+        var valueArray = value.split(";");
+        buses.push(valueArray[0]);
+        drivers.push(valueArray[1]);
+        times.push(valueArray[2]);
+        statuses.push(valueArray[3]);
+    }
+    var noBuses = true;
+    var noDrivers = true;
+    var noneActive = true;
+    var duplicateDepartureTime = false;
+    for (var i = 0; i < buses.length; i++) {
+        if (buses[i] != "None") {
+            noBuses = false;
+            break;
+        }
+    }
+    for (var i = 0; i < drivers.length; i++) {
+        if (drivers[i] != "None") {
+            noDrivers = false;
+            break;
+        }
+    }
+    for (var i = 0; i < statuses.length; i++) {
+        if (statuses[i] != "INACTIVE") {
+            noneActive = false;
+            break;
+        }
+    }
+    for (var i = 0; i < times.length; i++) {
+        for (var ndx = 0; ndx < times.length; ndx++) {
+            if (i != ndx && times[i] == times[ndx] && statuses[i] == "ACTIVE" && statuses[ndx] == "ACTIVE") {
+                duplicateDepartureTime = true;
+                break;
+            }
+        }
+    }
+
+    if (routeName == "" || (isActive && (stops.length == 0 || noBuses || noDrivers || noneActive || duplicateDepartureTime))) {
+        var messageBuilder = new MessageBuilder();
+        if (routeName == "") {
+            messageBuilder.addMessage("must include a name");
+        }
+        if (isActive && stops.length == 0) {
+            messageBuilder.addMessage("must include at least one stop (or change the route to inactive)");
+        }
+        if (isActive && (noBuses || noDrivers || noneActive)) {
+            messageBuilder.addMessage("must include at least one active bus/driver combination (or change the route to inactive)");
+        }
+        if (isActive && duplicateDepartureTime)
+            messageBuilder.addMessage("must have unique departure times (for all active routes)");
+        $("#routeFailureMessage > .error-text").text(messageBuilder.getMessage("The route cannot be added because you"));
         rollDown($("#routeFailureMessage"));
         setTimeout(function () {
             rollUp($("#routeFailureMessage"));
-        }, 6000);
+        }, 12000);
         return false;
     }
     var request = {
         stopIds: stops,
         routeName: routeName,
-        driverLicense: license,
-        busId: busText,
+        isActive: isActive,
+        buses: buses,
+        drivers: drivers,
+        times: times,
+        statuses: statuses,
         routeId: routeId
     }
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/UpdateRoute", request, function (data) {
         if (data.success == "true") {
-            $(".item-info[data-type='name']").text(request.routeName);
-            $(".item-info[data-type='licensePlate']").text(data.licensePlate);
-            $(".item-info[data-type='driverName']").text(data.driverName);
             $.notify.addMessage("The route was successfully updated!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
         } else {
@@ -69,7 +125,7 @@ function updateBus(busId) {
         if (state == "--State--") {
             messageBuilder.addMessage("must select a state");
         }
-        $("#busFailureMessage > .error-text").text(messageBuilder.getMessage("The Bus cannot be added because you"));
+        $("#busFailureMessage > .error-text").text(messageBuilder.getMessage("The bus cannot be added because you"));
         rollDown($("#busFailureMessage"));
         setTimeout(function () {
             rollUp($("#busFailureMessage"));
@@ -129,7 +185,7 @@ function updateDriver(driverId) {
         if (state == "--State--") {
             messageBuilder.addMessage("must select a state");
         }
-        $("#driverFailureMessage > .error-text").text(messageBuilder.getMessage("The Driver cannot be added because you"));
+        $("#driverFailureMessage > .error-text").text(messageBuilder.getMessage("The driver cannot be added because you"));
         rollDown($("#driverFailureMessage"));
         setTimeout(function () {
             rollUp($("#driverFailureMessage"));
@@ -207,7 +263,7 @@ function updateEmployee(employeeId) {
         if (routeId == null) {
             messageBuilder.addMessage("must select a route");
         }
-        $("#employeeFailureMessage > .error-text").text(messageBuilder.getMessage("The Employee cannot be added because you"));
+        $("#employeeFailureMessage > .error-text").text(messageBuilder.getMessage("The employee cannot be added because you"));
         rollDown($("#employeeFailureMessage"));
         setTimeout(function () {
             rollUp($("#employeeFailureMessage"));

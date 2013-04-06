@@ -168,12 +168,11 @@ namespace TransportationService.Controllers
                 AvailableBuses = db.GetAvailableBuses(),
                 AvailableStops = db.GetAvailableStops(),
                 AvailableDrivers = db.GetAvailableDrivers(),
-                Bus = null,
-                Driver = null,
                 Name = "",
                 RouteId = "",
                 Stops = { },
-                UpdatingRoute = false
+                UpdatingRoute = false,
+                DriverBusList = null
             };
             return PartialView("AddRoute", model);
         }
@@ -190,7 +189,9 @@ namespace TransportationService.Controllers
                 Name = route.Name,
                 RouteId = routeId,
                 Stops = route.Stops,
-                UpdatingRoute = true
+                UpdatingRoute = true,
+                DriverBusList = route.DriverBusList,
+                IsActive = route.IsActive
             };
             return PartialView("AddRoute", model);
         }
@@ -275,7 +276,8 @@ namespace TransportationService.Controllers
 
         }
 
-        public ActionResult UpdateRoute(int routeId, List<int> stopIds, string routeName, int busId, string driverLicense)
+        public ActionResult UpdateRoute(int routeId, List<int> stopIds, string routeName, bool isActive, List<String> buses,
+            List<String> drivers, List<String> times, List<String> statuses)
         {
             DatabaseInterface db = new DatabaseInterface();
             String sRouteId = routeId.ToString();
@@ -286,16 +288,67 @@ namespace TransportationService.Controllers
             {
                 stops.Add(db.GetStopByStopId(id));
             }
-            db.AssignBusToRoute(busId, routeId);
-            db.AssignDriverToRoute(driverLicense, routeId);
+
+            //need to unassign all buses and drivers assigned to this route and then we'll assign the ones that are now assigned to the route
+            //but first (ORDER MATTERS!!!) set those buses and drivers to be inactive
+            db.SetInactiveBusesDriversFromRoute(routeId);
+            db.UnassignBusesDriversFromRoute(routeId);
+
+            List<DriverBus> driverBusList = new List<DriverBus>();
+            for (int i = 0; i < buses.Count; i++)
+            {
+                String busId = buses[i];
+                String driverId = drivers[i];
+                Bus bus;
+                Driver driver;
+                bool entryIsActive = statuses[i].Equals("ACTIVE") ? true : false;
+                if (busId.Equals("None"))
+                    bus = null;
+                else
+                {
+                    //order matters - do NOT assign the bus first
+                    db.AssignBusToRoute(int.Parse(busId), routeId);
+                    if (entryIsActive && isActive)
+                        db.BusSetActive(int.Parse(busId), true);
+                    bus = db.GetBusByBusId(int.Parse(busId));
+                }
+                if (driverId.Equals("None"))
+                    driver = null;
+                else
+                {
+                    //order matters - do NOT assign the driver first
+                    db.AssignDriverToRoute(driverId, routeId);
+                    if (entryIsActive && isActive)
+                        db.DriverSetActive(driverId, true);
+                    driver = db.GetDriverById(driverId);
+                }
+                String[] timeArray = times[i].Split(':');
+                String hour = timeArray[0];
+                timeArray = timeArray[1].Split(' ');
+                String minute = timeArray[0];
+                String ampm = timeArray[1];
+
+                driverBusList.Add(new DriverBus()
+                {
+                    AMPM = ampm,
+                    Bus = bus,
+                    Driver = driver,
+                    Hour = hour,
+                    Minute = minute,
+                    IsActive = entryIsActive
+                });
+            }
+
             Route route = new Route()
             {
                 Stops = stops,
                 Name = routeName,
-                RouteId = routeId
+                RouteId = routeId,
+                IsActive = isActive,
+                DriverBusList = driverBusList
             };
             db.UpdateRoute(route);
-            return Json(new { success = "true" });//TODO there used to be more code here..check the javascript
+            return Json(new { success = "true" });
         }
 
         #endregion

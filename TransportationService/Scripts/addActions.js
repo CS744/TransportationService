@@ -51,7 +51,7 @@
             }
         }
     }
-    //TODO: check if any 2 departure times are the same and add to the error message
+
     if (routeName == "" || (isActive && (stops.length == 0 || noBuses || noDrivers || noneActive || duplicateDepartureTime))) {
         var messageBuilder = new MessageBuilder();
         if (routeName == "") {

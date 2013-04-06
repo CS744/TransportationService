@@ -14,12 +14,11 @@ namespace TransportationService.Models
         public List<Stop> AvailableStops { get; set; }
         public List<Driver> AvailableDrivers { get; set; }
         public Boolean UpdatingRoute { get; set; }
-        public Driver Driver { get; set; }
         public String Name { get; set; }
-        public Bus Bus { get; set; }
         public List<Stop> Stops { get; set; }
         public String RouteId { get; set; }
         public bool IsActive { get; set; }
+        public List<DriverBus> DriverBusList { get; set; }
     }
 
     public class BusModel

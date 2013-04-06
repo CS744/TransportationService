@@ -440,5 +440,17 @@ namespace TransportationService.Utility
             _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("AssignedTo", routeId));
         }
 
+        public void UnassignBusesDriversFromRoute(int routeId)
+        {
+            _database.GetCollection(_busCollectionName).Update(Query.EQ("AssignedTo", routeId), Update.Set("AssignedTo", -1));
+            _database.GetCollection(_driverCollectionName).Update(Query.EQ("AssignedTo", routeId), Update.Set("AssignedTo", -1));
+        }
+
+        public void SetInactiveBusesDriversFromRoute(int routeId)
+        {
+            _database.GetCollection(_busCollectionName).Update(Query.EQ("AssignedTo", routeId), Update.Set("IsActive", false));
+            _database.GetCollection(_driverCollectionName).Update(Query.EQ("AssignedTo", routeId), Update.Set("IsActive", false));
+        }
+
     }
 }
