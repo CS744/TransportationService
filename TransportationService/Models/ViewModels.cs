@@ -13,10 +13,11 @@ namespace TransportationService.Models
       public string LicensePlate { get; set; }
       public string State { get; set; }
       public int Capacity { get; set; }
-      public string Status { get; set; }
+      public string StatusString { get; set; }
       public int BusId { get; set; }
       public string RouteName { get; set; }
       public string ObjectId { get; set; }
+      public bool IsActive { get; set; }
    }
    public class ViewRouteModel
    {
@@ -26,6 +27,7 @@ namespace TransportationService.Models
       public string LicensePlate { get; set; }
       public string RouteId { get; set; }
       public string ObjectId { get; set; }
+      public bool isActive { get; set; }
    }
    public class ViewStopModel
    {
@@ -40,6 +42,7 @@ namespace TransportationService.Models
       public string Name { get; set; }
       public string DriverId { get; set; }
       public string ObjectId { get; set; }
+      public bool IsActive { get; set; }
    }
    public class ViewEmployeeModel
    {

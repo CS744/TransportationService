@@ -4,17 +4,13 @@ using System.Linq;
 using System.Web;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using TransportationService.Models;
 
 // These are the classes we will store in the Database.
 
 namespace TransportationService.Utility
 {
-    public enum BusStatus
-    {
-        Active = 0,
-        Inactive
-    }
-
+    
     public class User
     {
         [BsonId]
@@ -31,7 +27,7 @@ namespace TransportationService.Utility
         public string LicensePlate { get; set; }
         public string State { get; set; }
         public int Capacity { get; set; }
-        public BusStatus Status { get; set; }
+        public bool IsActive { get; set; }
         public int BusId { get; set; }
         public int AssignedTo { get; set; }
     }
@@ -63,16 +59,17 @@ namespace TransportationService.Utility
         public int AssignedTo { get; set; }
         public string State { get; set; }
         public string DriverId { get; set; }
+        public bool IsActive { get; set; }
     }
     public class Route
     {
         [BsonId]
         public ObjectId Id { get; set; }
         public List<Stop> Stops { get; set; }
-        public Driver Driver { get; set; }
         public string Name { get; set; }
         public int RouteId { get; set; }
-        public Bus Bus { get; set; }
+        public bool IsActive { get; set; }
+        public List<DriverBus> DriverBusList { get; set; }
     }
     public class Stop
     {

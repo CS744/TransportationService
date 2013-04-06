@@ -26,7 +26,7 @@ namespace TransportationService.Controllers
             LicensePlate = bus.LicensePlate,
             State = bus.State,
             Capacity = bus.Capacity,
-            Status = bus.Status == BusStatus.Active ? "Active" : "Inactive",
+            IsActive = bus.IsActive,
             BusId = bus.BusId,
             RouteName = bus.AssignedTo == -1 ? "" : db.GetRouteByRouteId(bus.AssignedTo).Name,
             ObjectId = bus.Id.ToString()
@@ -48,9 +48,7 @@ namespace TransportationService.Controllers
             html = RenderPartialViewToString("ViewRouteView", new ViewRouteModel()
                {
                   Stops = route.Stops,
-                  DriverName = route.Driver.Name,
                   Name = route.Name,
-                  LicensePlate = route.Bus.LicensePlate,
                   RouteId = route.RouteId.ToString(),
                   ObjectId = route.Id.ToString()
                })

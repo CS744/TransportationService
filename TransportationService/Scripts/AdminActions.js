@@ -86,19 +86,7 @@ function removeStop() {
     var location = selected.text();
     var index = selected.index();
     $("#stops").append("<option value=\"" + stopId + "\">" + location + "</option>");
-    var mylist = $('#stops');
-    var listitems = mylist.children('option').get();
-    listitems.sort(function (a, b) {
-        var first = parseInt($(a).val());
-        var second = parseInt($(b).val());
-        if (first == second)
-            return 0;
-        else if (first > second)
-            return 1;
-        else
-            return -1;
-    })
-    $.each(listitems, function (idx, itm) { mylist.append(itm); });
+    customSort("#stops");
     var size = $("#selectedStops option").size();
     $("#selectedStops option:selected").remove();
     if (index == size - 1 && size > 1)
@@ -162,7 +150,7 @@ function deleteItemClick(event, elem, item) {
                 $("#confirm-button").click(function (e) {
                     $.post("/Admin/" + action, { id: id }, function (data) {
                         $.notify.addMessage("Successfully deleted!", { type: "success", time: 6000 });
-                        var sel = "removeItemById('"+id+"')";
+                        var sel = "removeItemById('" + id + "')";
                         if ($("button[onclick='" + sel + "']")) {
                             $(".view-container-right").html("");
                         }
@@ -189,4 +177,131 @@ function deleteItemClick(event, elem, item) {
 function removeItemById(id) {
     var item = $(".item-element[data-id='" + id + "']");
     deleteItemClick(undefined, undefined, item);
+}
+
+//"driverBus" is a stupid & terrible name but I couldn't think of anything better and "busDriver" just sounds like a driver
+function addDriverBus() {
+    var driverId = document.getElementById('driverList').value;
+    var busId = document.getElementById('busList').value;
+    var driverDetail = $("#driverList option:selected").text();
+    var busDetail = $("#busList option:selected").text();
+    if (driverId == "None")
+        driverDetail = "Driver: None";
+    if (busId == "None")
+        busDetail = "Bus: None";
+
+    var departureTime = $("#hourList option:selected").text() + ":" + $("#minuteList option:selected").text() + " " + $("#AMPM option:selected").text();
+    var status = $("#driverBusActiveButton").hasClass('active') ? "ACTIVE" : "INACTIVE";
+    if (driverId == "None" && busId == "None")
+        status = "INACTIVE";
+
+    var value = busId + ";" + driverId + ";" + departureTime + ";" + status;
+    var text = busDetail + "; " + driverDetail + "; Departs: " + departureTime + "; " + status;
+    var driverBusList = document.getElementById('driverBusList');
+    driverBusList.options[driverBusList.options.length] = new Option(text, value);
+    if (driverId != "None") {
+        var driverList = document.getElementById('driverList');
+        driverList.remove(driverList.selectedIndex);
+    }
+    if (busId != "None") {
+        var busList = document.getElementById('busList');
+        busList.remove(busList.selectedIndex);
+    }
+    //reset fields
+    document.getElementById("hourList").options[0].selected = true;
+    document.getElementById("minuteList").options[0].selected = true;
+    document.getElementById("AMPM").options[0].selected = true;
+    $("#driverBusActiveButton").removeClass('active');
+    $("#driverBusInactiveButton").addClass('active');
+}
+
+function removeDriverBus(editEntry) {
+    var selected = $("#driverBusList option:selected");
+    var value = selected.val();
+    var text = selected.text();
+    var index = selected.index();
+
+    var valueArray = value.split(";");
+    var busValue = valueArray[0];
+    var driverValue = valueArray[1];
+
+    var textArray = text.split(";");
+    var busText = textArray[0];
+    var driverText = textArray[1];
+
+    //add bus and driver fields back into their lists
+    if (busValue != "None")
+        $("#busList").append("<option value=\"" + busValue + "\">" + busText + "</option>");
+    if (driverValue != "None")
+        $("#driverList").append("<option value=\"" + driverValue + "\">" + driverText + "</option>");
+    customSort("#busList");
+    customSort("#driverList");
+
+    if (editEntry) {
+        var departureTimeValue = valueArray[2];
+        var status = valueArray[3];
+        var timeArray = departureTimeValue.split(":");
+        var hourValue = parseInt(timeArray[0]);
+        timeArray = timeArray[1].split(" ");
+        var minuteValue = parseInt(timeArray[0]);
+        var ampmIndex = 0;
+        if (timeArray[1] == "PM")
+            ampmIndex = 1;
+        var hourIndex = 0;
+        var minuteIndex = 0;
+        for (var i = 1; i <= 12; i++) {
+            if (i == hourValue) {
+                hourIndex = i - 1;
+                break;
+            }
+        }
+        var counter = 0;
+        for (var i = 0; i < 12; i++) {
+            if (counter == minuteValue) {
+                minuteIndex = i;
+                break;
+            }
+            counter += 5;
+        }
+        
+        //set fields to correct value
+        if (busValue != "None")
+            document.getElementById("busList").options[busValue].selected = true;
+        if (driverValue != "None")
+            document.getElementById("driverList").options[driverValue].selected = true;
+        if (status == "ACTIVE") {
+            $("#driverBusInactiveButton").removeClass('active');
+            $("#driverBusActiveButton").addClass('active');
+        } else {
+            $("#driverBusActiveButton").removeClass('active');
+            $("#driverBusInactiveButton").addClass('active');
+        }
+        document.getElementById("AMPM").options[ampmIndex].selected = true;
+        document.getElementById("hourList").options[hourIndex].selected = true;
+        document.getElementById("minuteList").options[minuteIndex].selected = true;
+
+    }
+
+    var size = $("#driverBusList option").size();
+    $("#driverBusList option:selected").remove();
+    if (index == size - 1 && size > 1)
+        index--;
+    $('#driverBusList option')[index].selected = true;
+    $('#driverBusList').focus();
+}
+
+function customSort(list) {//include the # in the name of the list
+    var mylist = $(list);
+    var listitems = mylist.children('option').get();
+    listitems.sort(function (a, b) {
+        var first = parseInt($(a).val());
+        var second = parseInt($(b).val());
+        if (first == second)
+            return 0;
+        else if (first > second)
+            return 1;
+        else
+            return -1;
+    })
+    $.each(listitems, function (idx, itm) { mylist.append(itm); });
 }

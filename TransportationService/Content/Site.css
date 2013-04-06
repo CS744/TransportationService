@@ -93,6 +93,13 @@
 	margin-left: -200px !important;
 }
 
+.wideModal {
+    width: 600px !important;
+    margin-top: -65px;
+    /*left: 50% !important;
+    margin-left: -200px !important;*/
+}
+
 .largeModal {
 	width: 650px !important;
 	left: 50% !important;

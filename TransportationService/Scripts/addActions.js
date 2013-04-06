@@ -1,29 +1,70 @@
 ﻿function addNewRoute() {
     var routeName = $("#routeNameText").val();
-    var license = $("#driverList").val();
-    var busText = $("#busList").val();
-    var isToWork = true;
+    var isToWork = $("#toWorkButton").hasClass('active') ? true : false;
+    var isActive = $("#routeActiveButton").hasClass('active') ? true : false;
     var options = document.getElementById('selectedStops').options;
     var stops = [];
-    for (var i = 0; i < options.length; i++)
+    for (var i = 0; i < options.length; i++) {
         stops.push(options[i].value);
-    if ($("#toHomeButton").hasClass('active')) {
-        isToWork = false;
     }
-    if (routeName == "" || license == null || busText == null || stops.length == 0) {
+    var buses = [];
+    var drivers = [];
+    var times = [];
+    var statuses = [];
+    var entryCount = $("#driverBusList option").size();
+    for (var i = 0; i < entryCount; i++) {
+        var entry = $('#driverBusList option')[i];
+        var value = entry.value;
+        var valueArray = value.split(";");
+        buses.push(valueArray[0]);
+        drivers.push(valueArray[1]);
+        times.push(valueArray[2]);
+        statuses.push(valueArray[3]);
+    }
+    var noBuses = true;
+    var noDrivers = true;
+    var noneActive = true;
+    var duplicateDepartureTime = false;
+    for (var i = 0; i < buses.length; i++) {
+        if (buses[i] != "None") {
+            noBuses = false;
+            break;
+        }
+    }
+    for (var i = 0; i < drivers.length; i++) {
+        if (drivers[i] != "None") {
+            noDrivers = false;
+            break;
+        }
+    }
+    for (var i = 0; i < statuses.length; i++) {
+        if (statuses[i] != "INACTIVE") {
+            noneActive = false;
+            break;
+        }
+    }
+    for (var i = 0; i < times.length; i++) {
+        for (var ndx = 0; ndx < times.length; ndx++) {
+            if (i != ndx && times[i] == times[ndx] && statuses[i] == "ACTIVE" && statuses[ndx] == "ACTIVE") {
+                duplicateDepartureTime = true;
+                break;
+            }
+        }
+    }
+    //TODO: check if any 2 departure times are the same and add to the error message
+    if (routeName == "" || (isActive && (stops.length == 0 || noBuses || noDrivers || noneActive || duplicateDepartureTime))) {
         var messageBuilder = new MessageBuilder();
         if (routeName == "") {
             messageBuilder.addMessage("must include a name");
         }
-        if (license == null) {
-            messageBuilder.addMessage("must add an unused Driver");
+        if (isActive && stops.length == 0) {
+            messageBuilder.addMessage("must include at least one stop (or change the route to inactive)");
         }
-        if (busText == null) {
-            messageBuilder.addMessage("must add an unused Bus");
+        if (isActive && (noBuses || noDrivers || noneActive)) {
+            messageBuilder.addMessage("must include at least one active bus/driver combination (or change the route to inactive)");
         }
-        if (stops.length == 0) {
-            messageBuilder.addMessage("must include at least one stop");
-        }
+        if (isActive && duplicateDepartureTime)
+            messageBuilder.addMessage("must have unique departure times (for all active routes)");
         $("#routeFailureMessage > .error-text").text(messageBuilder.getMessage("The route cannot be added because you"));
         rollDown($("#routeFailureMessage"));
         setTimeout(function () {
@@ -34,9 +75,12 @@
     var request = {
         stopIds: stops,
         routeName: routeName,
-        driverLicense: license,
-        busId: parseInt(busText),
-        startsAtWork: isToWork
+        startsAtWork: isToWork,
+        isActive: isActive,
+        buses: buses,
+        drivers: drivers,
+        times: times,
+        statuses: statuses
     }
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/AddNewRoute", request, function (data) {

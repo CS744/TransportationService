@@ -24,21 +24,7 @@ namespace MvcApplication1
             "~/Scripts/modifyActions.js",
             "~/Scripts/viewActions.js",
             "~/Scripts/routeManager.js",
-            "~/Scripts/validation.js",
-            "~/Scripts/bootstrap-formhelpers-datepicker.en_US.js",
-            "~/Scripts/bootstrap-formhelpers-datepicker.js",
-            "~/Scripts/bootstrap-formhelpers-fonts.codes.js",
-            "~/Scripts/bootstrap-formhelpers-fonts.js",
-            "~/Scripts/bootstrap-formhelpers-fontsizes.codes.js",
-            "~/Scripts/bootstrap-formhelpers-fontsizes.js",
-            "~/Scripts/bootstrap-formhelpers-googlefonts.codes.js",
-            "~/Scripts/bootstrap-formhelpers-googlefonts.js",
-            "~/Scripts/bootstrap-formhelpers-phone.format.js",
-            "~/Scripts/bootstrap-formhelpers-phone.js",
-            "~/Scripts/bootstrap-formhelpers-selectbox.js",
-            "~/Scripts/bootstrap-formhelpers-states.en_US.js",
-            "~/Scripts/bootstrap-formhelpers-states.js",
-            "~/Scripts/bootstrap-formhelpers-timepicker.js"
+            "~/Scripts/validation.js"
          ));
 
          bundles.Add(new StyleBundle("~/Content/css").Include(

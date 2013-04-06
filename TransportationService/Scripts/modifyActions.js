@@ -57,23 +57,30 @@ function updateBus(busId) {
     var state = $("#statesList").val();
     var capacity = $("#capacityText").val();
     var license = $("#licenseText").val();
-    var status = 1;
-    if ($("#isActive").hasClass('active')) {
-        status = "0";
-    }
-    if (license == "" || state == "") {
-        $("#busFailureMessage > .error-text").text("Fill In All Criteria Correctly.");
+    var isActive = ($("#isActive").hasClass('active'));
+    if (!isValidCapacity(capacity) || !isValidPlate(license) || state == "--State--") {
+        var messageBuilder = new MessageBuilder();
+        if (!isValidCapacity(capacity)) {
+            messageBuilder.addMessage("must enter a valid capacity");
+        }
+        if (!isValidPlate(license)) {
+            messageBuilder.addMessage("must enter a six character license plate");
+        }
+        if (state == "--State--") {
+            messageBuilder.addMessage("must select a state");
+        }
+        $("#busFailureMessage > .error-text").text(messageBuilder.getMessage("The Bus cannot be added because you"));
         rollDown($("#busFailureMessage"));
         setTimeout(function () {
             rollUp($("#busFailureMessage"));
-        }, 6000);
+        }, 12000);
         return false;
     }
     var request = {
         capacity: parseInt(capacity),
         license: license,
         state: state,
-        status: status,
+        isActive: isActive,
         busId: busId
     }
     $.post("/Admin/UpdateBus", request, function (data) {

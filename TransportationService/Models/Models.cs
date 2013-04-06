@@ -19,6 +19,7 @@ namespace TransportationService.Models
         public Bus Bus { get; set; }
         public List<Stop> Stops { get; set; }
         public String RouteId { get; set; }
+        public bool IsActive { get; set; }
     }
 
     public class BusModel
@@ -29,7 +30,7 @@ namespace TransportationService.Models
         public String Capacity { get; set; }
         public String License { get; set; }
         public String State { get; set; }
-        public String Status { get; set; }
+        public bool IsActive { get; set; }
         public String BusId { get; set; }
     }
 
@@ -43,6 +44,7 @@ namespace TransportationService.Models
         public ObjectId Id { get; set; }
         public Boolean UpdatingDriver { get; set; }
         public String DriverId { get; set; }
+        public bool IsActive { get; set; }
     }
 
     public class EmployeeModel
@@ -63,5 +65,14 @@ namespace TransportationService.Models
         public int EmployeeId { get; set; }
         public int AssignedTo { get; set; }
         public int Zip { get; set; }
+    }
+    public class DriverBus
+    {
+        public Bus Bus { get; set; }
+        public Driver Driver { get; set; }
+        public String Hour { get; set; }
+        public String Minute { get; set; }
+        public String AMPM { get; set; }
+        public bool IsActive { get; set; }
     }
 }

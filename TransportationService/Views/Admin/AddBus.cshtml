@@ -36,7 +36,7 @@
             <div>
                 <label for="busStatus">Status</label>
                 <div class="btn-group" data-toggle="buttons-radio">
-                    @if (Model.Status.Equals("Active"))
+                    @if (Model.IsActive)
                     {
                         <button type="button" class="btn btn-primary active" value="0" id="isActive">Active</button>
                         <button type="button" class="btn btn-primary" value="1" id="isInactive">Inactive</button>

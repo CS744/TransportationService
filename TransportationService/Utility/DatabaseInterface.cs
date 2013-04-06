@@ -51,6 +51,7 @@ namespace TransportationService.Utility
            var coll = _database.GetCollection(_routeCollectionName);
            coll.Save(route);
         }
+
         public Route GetRouteByRouteId(int id)
         {
             var coll = _database.GetCollection(_routeCollectionName);
@@ -113,7 +114,7 @@ namespace TransportationService.Utility
             }
             return true;
         }
-        
+
         #endregion
 
         
@@ -188,6 +189,11 @@ namespace TransportationService.Utility
             var coll = _database.GetCollection(_busCollectionName);
             var query = Query.EQ("BusId", bId);
             coll.Remove(query);
+        }
+
+        public void BusSetActive(int busId, bool isActive)
+        {
+            _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("IsActive", isActive));
         }
 
         #endregion
@@ -338,6 +344,11 @@ namespace TransportationService.Utility
             return (highest + 1).ToString();
         }
 
+        public void DriverSetActive(string driverId, bool isActive)
+        {
+            _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("IsActive", isActive));
+        }
+
         #endregion
 
 
@@ -424,9 +435,9 @@ namespace TransportationService.Utility
             _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("AssignedTo", routeId));
         }
 
-        public void AssignDriverToRoute(string driverLicense, int routeId)
+        public void AssignDriverToRoute(string driverId, int routeId)
         {
-            _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverLicense", driverLicense), Update.Set("AssignedTo", routeId));
+            _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("AssignedTo", routeId));
         }
 
     }
