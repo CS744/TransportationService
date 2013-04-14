@@ -115,6 +115,12 @@ namespace TransportationService.Utility
             return true;
         }
 
+        public void RouteSetInactive(Route route)
+        {
+            route.IsActive = false;
+        }
+
+
         #endregion
 
         

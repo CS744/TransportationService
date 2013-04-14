@@ -433,15 +433,33 @@ namespace TransportationService.Controllers
         {
             DatabaseInterface db = new DatabaseInterface();
             ObjectId objId = new ObjectId(id);
+            IEnumerable<Route> routes = db.GetAvailableRoutes();
             if (db.GetBusById(objId).AssignedTo == -1)
             {
                 db.DeleteBusByObjId(objId);
-                return Json(new { success = "true", msg = "" });
             }
             else
             {
-                return Json(new { success = "false", msg = "Please unassign the bus first!" });
+                foreach (Route route in routes)
+                {
+                    if (route.DriverBusList.Exists(s => s.Bus.Id == objId))
+                    {
+                        if (route.DriverBusList.Count == 1)
+                        {
+                            //the bus is the only bus of the route
+                            db.RouteSetInactive(route);
+                        }
+
+                        //Set the driverbus to inactive
+                        DriverBus drbs = route.DriverBusList.Find(s => s.Bus.Id == objId);
+                        drbs.IsActive = false;
+                        drbs.Bus = null;
+                        db.UpdateRoute(route);
+                        db.DeleteBusByObjId(objId);
+                    }
+                }
             }
+            return Json(new { success = "true", msg = "" });
 
         }
         #endregion
@@ -475,6 +493,14 @@ namespace TransportationService.Controllers
             DatabaseInterface db = new DatabaseInterface();
             ObjectId objId = new ObjectId(id);
             IEnumerable<Route> routes = db.GetAvailableRoutes();
+            //If stop is the only stop of a route, then the route is set to inactive
+            foreach (Route route in routes)
+            {
+                if (route.Stops.Exists(s => s.Id == objId) && route.Stops.Count == 1)
+                {
+                    db.RouteSetInactive(route);
+                }
+            }
             foreach (Route route in routes)
             {
                 if (route.Stops.RemoveAll(s => s.Id == objId) > 0)
@@ -555,15 +581,33 @@ namespace TransportationService.Controllers
         {
             DatabaseInterface db = new DatabaseInterface();
             ObjectId objId = new ObjectId(id);
+            IEnumerable<Route> routes = db.GetAvailableRoutes();
             if (db.GetDriverByobjId(objId).AssignedTo == -1)
             {
                 db.DeleteDriverByObjId(objId);
-                return null;
             }
             else
             {
-                return Json(new { success = "false", msg = "Please unassign the driver first!" });
+                foreach (Route route in routes)
+                {
+                    if (route.DriverBusList.Exists(s => s.Driver.Id == objId))
+                    {
+                        if (route.DriverBusList.Count == 1)
+                        {
+                            //the bus is the only bus of the route
+                            db.RouteSetInactive(route);
+                        }
+
+                        //Set the driverbus to inactive
+                        DriverBus drbs = route.DriverBusList.Find(s => s.Driver.Id == objId);
+                        drbs.IsActive = false;
+                        drbs.Driver = null;
+                        db.UpdateRoute(route);
+                        db.DeleteDriverByObjId(objId);
+                    }
+                }
             }
+            return null;
 
         }
         #endregion
