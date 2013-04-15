@@ -351,6 +351,37 @@ namespace TransportationService.Controllers
             return Json(new { success = "true" });
         }
 
+        public ActionResult DeleteRoute(string id)
+        {
+            DatabaseInterface db = new DatabaseInterface();
+            ObjectId objId = new ObjectId(id);
+            Route r = db.GetRouteById(objId);
+            IEnumerable<DriverBus> drbss = r.DriverBusList;
+            IEnumerable<Employee> employees = db.GetAvailableEmployees();
+
+            //unassign buses and drivers
+            foreach (DriverBus drbs in drbss)
+            {
+                drbs.Bus.AssignedTo = -1;
+                drbs.Driver.AssignedTo = -1;
+                db.UpdateBus(drbs.Bus);
+                db.UpdateDriver(drbs.Driver);
+            }
+
+            //unassign employees
+            foreach (Employee employee in employees)
+            {
+                if (employee.AssignedTo == r.RouteId)
+                {
+                    employee.AssignedTo = -1;
+                    db.UpdateEmployee(employee);
+                }
+            }
+
+            db.DeleteRouteByObjId(objId);
+            return null;
+
+        }
         #endregion
 
 

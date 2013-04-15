@@ -120,7 +120,12 @@ namespace TransportationService.Utility
             route.IsActive = false;
         }
 
-
+        public void DeleteRouteByObjId(ObjectId id)
+        {
+            var coll = _database.GetCollection(_routeCollectionName);
+            var query = Query.EQ("_id", id);
+            coll.Remove(query);
+        }
         #endregion
 
         
