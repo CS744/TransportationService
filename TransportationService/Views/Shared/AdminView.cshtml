@@ -3,7 +3,15 @@
     ViewBag.Title = Model.Username;
 }
 <div class="btn-group">
-    <button class="btn" onclick="addRoute()">Add Route</button>
+    <div class="btn-group">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Add Route
+    <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="#" onclick="addRoute(true)">Drops off at Work</a></li>
+            <li><a href="#" onclick="addRoute(false)">Drops off at Home</a></li>
+        </ul>
+    </div>
     <button class="btn" onclick="addStop()">Add Stop</button>
     <button class="btn" onclick="addBus()">Add Bus</button>
     <button class="btn" onclick="addDriver()">Add Driver</button>

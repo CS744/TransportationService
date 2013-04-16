@@ -26,9 +26,10 @@ namespace TransportationService.Controllers
             LicensePlate = bus.LicensePlate,
             State = bus.State,
             Capacity = bus.Capacity,
-            IsActive = bus.IsActive,
+            MorningIsActive = bus.MorningIsActive,
+            EveningIsActive = bus.EveningIsActive,
             BusId = bus.BusId,
-            RouteName = bus.AssignedTo == -1 ? "" : db.GetRouteByRouteId(bus.AssignedTo).Name,
+            //RouteName = bus.AssignedTo == -1 ? "" : db.GetRouteByRouteId(bus.AssignedTo).Name, TODO this will need to handle morning and evening
             ObjectId = bus.Id.ToString()
          });
       }

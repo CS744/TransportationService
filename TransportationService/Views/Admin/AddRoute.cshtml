@@ -16,18 +16,6 @@
                         <label for="routeNameText">Route Name:</label>
                         <input id="routeNameText" type="text" placeholder="Enter Route Name" value="@Model.Name"/>
                     </div>
-                    <div id="startsFromSection">
-                        <div>
-                            Employees will be dropped off at <span id="destination-text">Work</span>
-                        </div>
-                        <div class="btn-group" data-toggle="buttons-radio">
-                            @if (!Model.UpdatingRoute)
-                            {
-                                <button type="button" class="btn btn-primary icon-building active" id="toWorkButton" title="Work" onclick="$('#destination-text').text('Work');"></button>
-                                <button type="button" class="btn btn-primary icon-home" id="toHomeButton" title="Home" onclick="$('#destination-text').text('Home');"></button>
-                            }
-                        </div>
-                    </div>
                     <label>Route Status:</label>
                     <div class="btn-group" data-toggle="buttons-radio">
                         @if (Model.UpdatingRoute && !Model.IsActive)
@@ -114,7 +102,7 @@
                             <option value="None">--Bus--</option>
                             @foreach (TransportationService.Utility.Bus bus in Model.AvailableBuses)
                             {
-                                if (bus.AssignedTo == -1)
+                                if ((Model.IsToWork && bus.MorningAssignedTo == -1) || ((!Model.IsToWork && bus.EveningAssignedTo == -1)))
                                 {
                                 <option Value="@bus.BusId">Bus @bus.BusId (Capacity: @bus.Capacity)</option>
                                 }
@@ -126,7 +114,7 @@
                             <option value="None">--Driver--</option>
                             @foreach (TransportationService.Utility.Driver driver in Model.AvailableDrivers)
                             {
-                                if (driver.AssignedTo == -1)
+                                if ((Model.IsToWork && driver.MorningAssignedTo == -1) || ((!Model.IsToWork && driver.EveningAssignedTo == -1)))
                                 {
                                 <option Value="@driver.DriverId">Driver @driver.DriverId (@driver.Name)</option>
                                 }
@@ -145,22 +133,38 @@
                 </tr>
                 <tr id="departureTimeRow">
                     <td>
-                        <select id="hourList" style="width: 55px;">
-                            @for (int i = 1; i <= 12; i++)
-                            {
-                                <option value="@i.ToString("D2")">@i.ToString("D2")</option>
-                            }
-                        </select>
+                        @if (Model.IsToWork)
+                        {
+                            <select id="hourList" style="width: 55px;">
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select id="hourList" style="width: 55px;">
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                            </select>
+                        }
                         <select id="minuteList" style="width: 55px;">
                             @for (int i = 0; i < 60; i = i + 5)
                             {
                                 <option value="@i.ToString("D2")">@i.ToString("D2")</option>
                             }
                         </select>
-                        <select id="AMPM" style="width: 60px;">
-                            <option value="AM">AM</option>
-                            <option value="PM">PM</option>
-                        </select>
+                        @if (Model.IsToWork)
+                        {
+                            <span id="ampmLabel">AM</span>
+                        }
+                        else
+                        {
+                            <span id="ampmLabel">PM</span>
+                        }
                     </td>
                     <td>
                         <div class="btn-group" data-toggle="buttons-radio">
@@ -214,9 +218,11 @@
         {
             <button class="btn btn-success" onclick="updateRoute(@Model.RouteId);">Save</button>
         }
-        else
+        else if (Model.IsToWork) 
         {
-            <button class="btn btn-success" onclick="addNewRoute();">Add Route</button>
+            <button class="btn btn-success" onclick="addNewRoute(true);">Add Route</button>
+        } else {
+            <button class="btn btn-success" onclick="addNewRoute(false);">Add Route</button>
         }
         <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
     </div>

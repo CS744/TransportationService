@@ -17,7 +17,8 @@ namespace TransportationService.Models
       public int BusId { get; set; }
       public string RouteName { get; set; }
       public string ObjectId { get; set; }
-      public bool IsActive { get; set; }
+      public bool MorningIsActive { get; set; }
+      public bool EveningIsActive { get; set; }
    }
    public class ViewRouteModel
    {
@@ -42,7 +43,8 @@ namespace TransportationService.Models
       public string Name { get; set; }
       public string DriverId { get; set; }
       public string ObjectId { get; set; }
-      public bool IsActive { get; set; }
+      public bool MorningIsActive { get; set; }
+      public bool EveningIsActive { get; set; }
    }
    public class ViewEmployeeModel
    {

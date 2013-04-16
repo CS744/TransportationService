@@ -27,9 +27,11 @@ namespace TransportationService.Utility
         public string LicensePlate { get; set; }
         public string State { get; set; }
         public int Capacity { get; set; }
-        public bool IsActive { get; set; }
+        public bool MorningIsActive { get; set; }
+        public bool EveningIsActive { get; set; }
         public int BusId { get; set; }
-        public int AssignedTo { get; set; }
+        public int MorningAssignedTo { get; set; }
+        public int EveningAssignedTo { get; set; }
     }
 
     public class Employee
@@ -56,11 +58,14 @@ namespace TransportationService.Utility
         public ObjectId Id { get; set; }
         public string Name { get; set; }
         public string DriverLicense { get; set; }
-        public int AssignedTo { get; set; }
         public string State { get; set; }
         public string DriverId { get; set; }
-        public bool IsActive { get; set; }
+        public bool MorningIsActive { get; set; }
+        public bool EveningIsActive { get; set; }
+        public int MorningAssignedTo { get; set; }
+        public int EveningAssignedTo { get; set; }
     }
+
     public class Route
     {
         [BsonId]
@@ -71,6 +76,7 @@ namespace TransportationService.Utility
         public bool IsActive { get; set; }
         public List<DriverBus> DriverBusList { get; set; }
     }
+
     public class Stop
     {
         [BsonId]

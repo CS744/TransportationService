@@ -48,8 +48,8 @@ namespace TransportationService.Utility
 
         public void SaveRoute(Route route)
         {
-           var coll = _database.GetCollection(_routeCollectionName);
-           coll.Save(route);
+            var coll = _database.GetCollection(_routeCollectionName);
+            coll.Save(route);
         }
 
         public Route GetRouteByRouteId(int id)
@@ -79,7 +79,10 @@ namespace TransportationService.Utility
             List<Route> routes = GetAvailableRoutes();
             if (routes.OrderBy(r => r.RouteId).LastOrDefault() == null)
                 return 999;
-            return routes.OrderBy(r => r.RouteId).LastOrDefault().RouteId - 1;
+            int temp = routes.OrderBy(r => r.RouteId).LastOrDefault().RouteId - 1;
+            if (temp < 500)
+                return 999;
+            return temp;
         }
 
         public List<Route> GetAvailableRoutes()
@@ -128,7 +131,7 @@ namespace TransportationService.Utility
         }
         #endregion
 
-        
+
         #region BUS
 
         public void AddBus(Bus bus)
@@ -202,9 +205,12 @@ namespace TransportationService.Utility
             coll.Remove(query);
         }
 
-        public void BusSetActive(int busId, bool isActive)
+        public void BusSetActive(int busId, bool isActive, int routeId)
         {
-            _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("IsActive", isActive));
+            if (routeId < 500)
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("MorningIsActive", isActive));
+            else
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("EveningIsActive", isActive));
         }
 
         #endregion
@@ -241,9 +247,9 @@ namespace TransportationService.Utility
 
         public void DeleteStopById(int sId)
         {
-           var coll = _database.GetCollection(_stopCollectionName);
-           var query = Query.EQ("StopId", sId);
-           coll.Remove(query);
+            var coll = _database.GetCollection(_stopCollectionName);
+            var query = Query.EQ("StopId", sId);
+            coll.Remove(query);
         }
 
         public List<Stop> GetAvailableStops()//pass in a list of stops already in the route.
@@ -270,7 +276,7 @@ namespace TransportationService.Utility
             }
             return true;
         }
-        
+
         #endregion
 
 
@@ -355,9 +361,12 @@ namespace TransportationService.Utility
             return (highest + 1).ToString();
         }
 
-        public void DriverSetActive(string driverId, bool isActive)
+        public void DriverSetActive(string driverId, bool isActive, int routeId)
         {
-            _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("IsActive", isActive));
+            if (routeId < 500)
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("MorningIsActive", isActive));
+            else
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("EveningIsActive", isActive));
         }
 
         #endregion
@@ -367,23 +376,23 @@ namespace TransportationService.Utility
 
         public Employee GetEmployeeBySSN(long ssn)
         {
-           var coll = _database.GetCollection(_employeeCollectionName);
-           var query = Query.EQ("SocialSecurityNumber", ssn);
-           return coll.FindOneAs<Employee>(query);
+            var coll = _database.GetCollection(_employeeCollectionName);
+            var query = Query.EQ("SocialSecurityNumber", ssn);
+            return coll.FindOneAs<Employee>(query);
         }
 
         public Employee GetEmployeeById(int id)
         {
-           var coll = _database.GetCollection(_employeeCollectionName);
-           var query = Query.EQ("EmployeeId", id);
-           return coll.FindOneAs<Employee>(query);
+            var coll = _database.GetCollection(_employeeCollectionName);
+            var query = Query.EQ("EmployeeId", id);
+            return coll.FindOneAs<Employee>(query);
         }
 
         public Employee GetEmployeeById(ObjectId id)
         {
-           var coll = _database.GetCollection(_employeeCollectionName);
-           var query = Query.EQ("_id", id);
-           return coll.FindOneAs<Employee>(query);
+            var coll = _database.GetCollection(_employeeCollectionName);
+            var query = Query.EQ("_id", id);
+            return coll.FindOneAs<Employee>(query);
         }
 
         public void SaveEmployee(Employee employee)
@@ -443,24 +452,46 @@ namespace TransportationService.Utility
 
         public void AssignBusToRoute(int busId, int routeId)
         {
-            _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("AssignedTo", routeId));
+            if (routeId < 500)
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("MorningAssignedTo", routeId));
+            else
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("EveningAssignedTo", routeId));
         }
 
         public void AssignDriverToRoute(string driverId, int routeId)
         {
-            _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("AssignedTo", routeId));
+            if (routeId < 500)
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("MorningAssignedTo", routeId));
+            else
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("EveningAssignedTo", routeId));
         }
 
         public void UnassignBusesDriversFromRoute(int routeId)
         {
-            _database.GetCollection(_busCollectionName).Update(Query.EQ("AssignedTo", routeId), Update.Set("AssignedTo", -1));
-            _database.GetCollection(_driverCollectionName).Update(Query.EQ("AssignedTo", routeId), Update.Set("AssignedTo", -1));
+            if (routeId < 500)
+            {
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningAssignedTo", -1));
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningAssignedTo", -1));
+            }
+            else
+            {
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("EveningAssignedTo", routeId), Update.Set("EveningAssignedTo", -1));
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("EveningAssignedTo", routeId), Update.Set("EveningAssignedTo", -1));
+            }
         }
 
         public void SetInactiveBusesDriversFromRoute(int routeId)
         {
-            _database.GetCollection(_busCollectionName).Update(Query.EQ("AssignedTo", routeId), Update.Set("IsActive", false));
-            _database.GetCollection(_driverCollectionName).Update(Query.EQ("AssignedTo", routeId), Update.Set("IsActive", false));
+            if (routeId < 500)
+            {
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningIsActive", false));
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningIsActive", false));
+            }
+            else
+            {
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningIsActive", false));
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningIsActive", false));
+            }
         }
 
     }

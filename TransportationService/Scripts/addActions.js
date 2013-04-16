@@ -1,6 +1,5 @@
-﻿function addNewRoute() {
+﻿function addNewRoute(isToWork) {
     var routeName = $("#routeNameText").val();
-    var isToWork = $("#toWorkButton").hasClass('active') ? true : false;
     var isActive = $("#routeActiveButton").hasClass('active') ? true : false;
     var options = document.getElementById('selectedStops').options;
     var stops = [];
@@ -75,7 +74,7 @@
     var request = {
         stopIds: stops,
         routeName: routeName,
-        startsAtWork: isToWork,
+        isToWork: isToWork,
         isActive: isActive,
         buses: buses,
         drivers: drivers,
@@ -87,7 +86,7 @@
         if (data.success == "true") {
             $.notify.addMessage("The route was successfully added!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
-            var newItem = $("#view-routes").siblings(".view-child-inner").append("<div class='item-element' data-type='route' data-id='"+data.id+"' onclick=\"viewRoute('" + data.id + "')\">" + getInnerViewItem(routeName) + "</div>").children().last();
+            var newItem = $("#view-routes").siblings(".view-child-inner").append("<div class='item-element' data-type='route' data-id='" + data.id + "' onclick=\"viewRoute('" + data.id + "')\">" + getInnerViewItem(routeName) + "</div>").children().last();
             newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
         } else {
             $("#routeFailureMessage > .error-text").text("The route name already exists. Please enter a unique route name.");

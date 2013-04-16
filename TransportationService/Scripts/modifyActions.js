@@ -113,7 +113,6 @@ function updateBus(busId) {
     var state = $("#statesList").val();
     var capacity = $("#capacityText").val();
     var license = $("#licenseText").val();
-    var isActive = ($("#isActive").hasClass('active'));
     if (!isValidCapacity(capacity) || !isValidPlate(license) || state == "--State--") {
         var messageBuilder = new MessageBuilder();
         if (!isValidCapacity(capacity)) {
@@ -136,7 +135,6 @@ function updateBus(busId) {
         capacity: parseInt(capacity),
         license: license,
         state: state,
-        isActive: isActive,
         busId: busId
     }
     $.post("/Admin/UpdateBus", request, function (data) {

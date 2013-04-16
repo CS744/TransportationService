@@ -1,5 +1,5 @@
-﻿function addRoute() {
-    $.post("/Admin/AddRoute", {}, function (data) {
+﻿function addRoute(isToWork) {
+    $.post("/Admin/AddRoute", { isToWork: isToWork }, function (data) {
         $("#modal").replaceWith(data);
         $("#modal").modal();
     });
@@ -190,7 +190,7 @@ function addDriverBus() {
     if (busId == "None")
         busDetail = "Bus: None";
 
-    var departureTime = $("#hourList option:selected").text() + ":" + $("#minuteList option:selected").text() + " " + $("#AMPM option:selected").text();
+    var departureTime = $("#hourList option:selected").text() + ":" + $("#minuteList option:selected").text() + " " + $("#ampmLabel").text();
     var status = $("#driverBusActiveButton").hasClass('active') ? "ACTIVE" : "INACTIVE";
     if (driverId == "None" && busId == "None")
         status = "INACTIVE";
@@ -210,7 +210,6 @@ function addDriverBus() {
     //reset fields
     document.getElementById("hourList").options[0].selected = true;
     document.getElementById("minuteList").options[0].selected = true;
-    document.getElementById("AMPM").options[0].selected = true;
     $("#driverBusActiveButton").removeClass('active');
     $("#driverBusInactiveButton").addClass('active');
 }
@@ -244,17 +243,14 @@ function removeDriverBus(editEntry) {
         var hourValue = parseInt(timeArray[0]);
         timeArray = timeArray[1].split(" ");
         var minuteValue = parseInt(timeArray[0]);
-        var ampmIndex = 0;
-        if (timeArray[1] == "PM")
-            ampmIndex = 1;
         var hourIndex = 0;
         var minuteIndex = 0;
-        for (var i = 1; i <= 12; i++) {
-            if (i == hourValue) {
-                hourIndex = i - 1;
-                break;
-            }
-        }
+        if (hourValue == 7 || hourValue == 4)
+            hourIndex = 1;
+        else if (hourValue == 8 || hourValue == 5)
+            hourIndex = 2;
+        else if (hourValue == 9 || hourValue == 6)
+            hourIndex = 3;
         var counter = 0;
         for (var i = 0; i < 12; i++) {
             if (counter == minuteValue) {
@@ -276,10 +272,8 @@ function removeDriverBus(editEntry) {
             $("#driverBusActiveButton").removeClass('active');
             $("#driverBusInactiveButton").addClass('active');
         }
-        document.getElementById("AMPM").options[ampmIndex].selected = true;
         document.getElementById("hourList").options[hourIndex].selected = true;
         document.getElementById("minuteList").options[minuteIndex].selected = true;
-
     }
 
     var size = $("#driverBusList option").size();
