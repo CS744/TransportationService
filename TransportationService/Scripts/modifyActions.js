@@ -230,12 +230,13 @@ function updateEmployee(employeeId) {
     var phone = $("#phoneText").val();
     var address = $("#addressText").val();
     var position = $("#positionText").val();
-    var routeId = $("#routeList").val();
+    var morningRouteId = $("#morningRouteList").val();
+    var eveningRouteId = $("#eveningRouteList").val();
     var city = $("#cityText").val();
     var state = $("#statesList").val();
     var zip = $("#zipText").val();
 
-    if (email == "" || !isValidPhoneNumber(phone) || address == "" || position == "" || routeId == null || city == "" || state == "--State--" || !isValidZip(zip)) {
+    if (email == "" || !isValidPhoneNumber(phone) || address == "" || position == "" || morningRouteId == null || eveningRouteId == null || city == "" || state == "--State--" || !isValidZip(zip)) {
         var messageBuilder = new MessageBuilder();
         if (position == "") {
             messageBuilder.addMessage("must include a position");
@@ -258,8 +259,11 @@ function updateEmployee(employeeId) {
         if (!isValidZip(zip)) {
             messageBuilder.addMessage("must have valid zip code (5 digits)");
         }
-        if (routeId == null) {
-            messageBuilder.addMessage("must select a route");
+        if (morningRouteId == null) {
+            messageBuilder.addMessage("must select a morning route");
+        }
+        if (eveningRouteId == null) {
+            messageBuilder.addMessage("must select a evening route");
         }
         $("#employeeFailureMessage > .error-text").text(messageBuilder.getMessage("The employee cannot be added because you"));
         rollDown($("#employeeFailureMessage"));
@@ -271,7 +275,8 @@ function updateEmployee(employeeId) {
 
     var request = {
         address: address,
-        assignedTo: routeId,
+        morningAssignedTo: morningRouteId,
+        eveningAssignedTo: eveningRouteId,
         city: city,
         email: email,
         employeeId: employeeId,
@@ -289,7 +294,8 @@ function updateEmployee(employeeId) {
             $(".item-info[data-type='email']").text(request.email);
             $(".item-info[data-type='phone']").text(request.phone);
             $(".item-info[data-type='position']").text(request.position);
-            $(".item-info[data-type='assignedTo']").text(request.assignedTo);
+            $(".item-info[data-type='morningAssignedTo']").text(request.morningAssignedTo);
+            $(".item-info[data-type='eveningAssignedTo']").text(request.eveningAssignedTo);
 
             $.notify.addMessage("The employee was successfully updated!", { type: "success", time: 6000 });
             $("#modal").modal('hide');

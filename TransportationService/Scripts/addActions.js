@@ -245,12 +245,13 @@ function addNewEmployee(addAnother) {
     var ssn = $("#ssnText").val();
     var position = $("#positionText").val();
     var name = $("#nameText").val();
-    var routeId = $("#routeList").val();
+    var morningRouteId = $("#morningRouteList").val();
+    var eveningRouteId = $("#eveningRouteList").val();
     var city = $("#cityText").val();
     var state = $("#statesList").val();
     var zip = $("#zipText").val();
 
-    if (email == "" || !isValidPhoneNumber(phone) || address == "" || !isValidSSN(ssn) || position == "" || name == "" || routeId == null || city == "" || state == "--State--" || !isValidZip(zip)) {
+    if (email == "" || !isValidPhoneNumber(phone) || address == "" || !isValidSSN(ssn) || position == "" || name == "" || morningRouteId == null || eveningRouteId == null || city == "" || state == "--State--" || !isValidZip(zip)) {
         var messageBuilder = new MessageBuilder();
         if (name == "") {
             messageBuilder.addMessage("must include a name");
@@ -279,8 +280,11 @@ function addNewEmployee(addAnother) {
         if (!isValidZip(zip)) {
             messageBuilder.addMessage("must have valid zip code (5 digits)");
         }
-        if (routeId == null) {
-            messageBuilder.addMessage("must select a route");
+        if (morningRouteId == null) {
+            messageBuilder.addMessage("must select a morning route");
+        }
+        if (eveningRouteId == null) {
+            messageBuilder.addMessage("must select a evening route");
         }
         $("#employeeFailureMessage > .error-text").text(messageBuilder.getMessage("The Employee cannot be added because you"));
         rollDown($("#employeeFailureMessage"));
@@ -297,7 +301,8 @@ function addNewEmployee(addAnother) {
         address: address,
         city: city,
         state: state,
-        routeId: parseInt(routeId),
+        morningRouteId: parseInt(morningRouteId),
+        eveningRouteId: parseInt(eveningRouteId),
         ssn: ssn,
         position: position,
         name: name,

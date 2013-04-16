@@ -57,7 +57,8 @@ namespace TransportationService.Models
       public string Address { get; set; }
       public string City { get; set; }
       public string State { get; set; }
-      public string RouteName { get; set; }
+      public string MorningRouteName { get; set; }
+      public string EveningRouteName { get; set; }
       public string Id { get; set; }
       public int Zip { get; set; }
       public string ObjectId { get; set; }

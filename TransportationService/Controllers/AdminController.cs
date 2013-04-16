@@ -392,9 +392,14 @@ namespace TransportationService.Controllers
             //unassign employees
             foreach (Employee employee in employees)
             {
-                if (employee.AssignedTo == r.RouteId)
+                if (employee.MorningAssignedTo == r.RouteId)
                 {
-                    employee.AssignedTo = -1;
+                    employee.MorningAssignedTo = -1;
+                    db.UpdateEmployee(employee);
+                }
+                if (employee.EveningAssignedTo == r.RouteId)
+                {
+                    employee.EveningAssignedTo = -1;
                     db.UpdateEmployee(employee);
                 }
             }
@@ -689,7 +694,7 @@ namespace TransportationService.Controllers
             return PartialView("AddEmployee", model);
         }
 
-        public ActionResult AddNewEmployee(bool isMale, string email, string phone, string address, string city, string state, int zip, int routeId, long ssn, string position, string name)
+        public ActionResult AddNewEmployee(bool isMale, string email, string phone, string address, string city, string state, int zip, int morningRouteId, int eveningRouteId, long ssn, string position, string name)
         {
             DatabaseInterface db = new DatabaseInterface();
             if (!db.IsSocialSecurityNumberUnique(ssn))
@@ -708,7 +713,8 @@ namespace TransportationService.Controllers
                 City = city,
                 State = state,
                 Zip = zip,
-                AssignedTo = routeId,
+                MorningAssignedTo = morningRouteId,
+                EveningAssignedTo = eveningRouteId,
                 EmployeeId = db.GetNextEmployeeId()
 
             };
@@ -726,7 +732,8 @@ namespace TransportationService.Controllers
                 StateAbbreviations = stateAbbreviations,
                 Name = employee.Name,
                 Address = employee.Address,
-                AssignedTo = employee.AssignedTo,
+                MorningAssignedTo = employee.MorningAssignedTo,
+                EveningAssignedTo = employee.EveningAssignedTo,
                 AvailableRoutes = db.GetAvailableRoutes(),
                 City = employee.City,
                 Email = employee.Email,
@@ -742,13 +749,14 @@ namespace TransportationService.Controllers
             return PartialView("AddEmployee", model);
         }
 
-        public ActionResult UpdateEmployee(int employeeId, string address, int assignedTo, string city, string email,
+        public ActionResult UpdateEmployee(int employeeId, string address, int morningRouteId, int eveningRouteId, string city, string email,
             string phone, string position, string state, int zip)
         {
             DatabaseInterface db = new DatabaseInterface();
             Employee e = db.GetEmployeeById(employeeId);
             e.Address = address;
-            e.AssignedTo = assignedTo;
+            e.MorningAssignedTo = morningRouteId;
+            e.EveningAssignedTo = eveningRouteId;
             e.City = city;
             e.Email = email;
             e.Phone = phone;

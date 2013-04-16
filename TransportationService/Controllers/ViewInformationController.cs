@@ -121,7 +121,8 @@ namespace TransportationService.Controllers
                Address = employee.Address,
                City = employee.City,
                State = employee.State,
-               RouteName = employee.AssignedTo == -1 ? "" : db.GetRouteByRouteId(employee.AssignedTo).Name,
+               MorningRouteName = employee.MorningAssignedTo == -1 ? "" : db.GetRouteByRouteId(employee.MorningAssignedTo).Name,
+               EveningRouteName = employee.EveningAssignedTo == -1 ? "" : db.GetRouteByRouteId(employee.EveningAssignedTo).Name,
                Id = employee.EmployeeId.ToString(),
                Zip = employee.Zip,
                ObjectId = employee.Id.ToString()

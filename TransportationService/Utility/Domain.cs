@@ -48,7 +48,8 @@ namespace TransportationService.Utility
         public string City { get; set; }
         public string State { get; set; }
         public int EmployeeId { get; set; }
-        public int AssignedTo { get; set; }
+        public int MorningAssignedTo { get; set; }
+        public int EveningAssignedTo { get; set; }
         public int Zip { get; set; }
     }
 
