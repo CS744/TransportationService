@@ -27,9 +27,9 @@ namespace TransportationService.Utility
         public string LicensePlate { get; set; }
         public string State { get; set; }
         public int Capacity { get; set; }
+        public int BusId { get; set; }
         public bool MorningIsActive { get; set; }
         public bool EveningIsActive { get; set; }
-        public int BusId { get; set; }
         public int MorningAssignedTo { get; set; }
         public int EveningAssignedTo { get; set; }
     }
@@ -60,7 +60,7 @@ namespace TransportationService.Utility
         public string Name { get; set; }
         public string DriverLicense { get; set; }
         public string State { get; set; }
-        public string DriverId { get; set; }
+        public int DriverId { get; set; }
         public bool MorningIsActive { get; set; }
         public bool EveningIsActive { get; set; }
         public int MorningAssignedTo { get; set; }

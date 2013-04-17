@@ -79,7 +79,7 @@ namespace TransportationService.Controllers
       }
 
       [HttpPost]
-      public ActionResult ViewDriver(string driverId)
+      public ActionResult ViewDriver(int driverId)
       {
          DatabaseInterface db = new DatabaseInterface();
          Driver driver = db.GetDriverById(driverId);

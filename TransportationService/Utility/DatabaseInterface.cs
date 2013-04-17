@@ -302,7 +302,7 @@ namespace TransportationService.Utility
             return coll.FindOneAs<Driver>(query);
         }
 
-        public Driver GetDriverById(string driverId)
+        public Driver GetDriverById(int driverId)
         {
             var coll = _database.GetCollection(_driverCollectionName);
             var query = Query.EQ("DriverId", driverId);
@@ -336,12 +336,12 @@ namespace TransportationService.Utility
             return coll.FindAllAs<Driver>().SetSortOrder(SortBy.Ascending("DriverId")).ToList();
         }
 
-        public Boolean IsDriverLicenseUnique(string license, string state, string driverId = "")
+        public Boolean IsDriverLicenseUnique(string license, string state, int driverId = -2)
         {
             List<Driver> drivers = GetAvailableDrivers();
             foreach (Driver d in drivers)
             {
-                if (driverId.Equals("") || !(d.Id.Equals(driverId)))
+                if (driverId == -2 || d.DriverId != driverId)
                 {
                     if (license.Equals(d.DriverLicense) && state.Equals(d.State))
                     {
@@ -359,16 +359,16 @@ namespace TransportationService.Utility
             coll.Save(driver);
         }
 
-        public string GetNextDriverId()
+        public int GetNextDriverId()
         {
             List<Driver> drivers = GetAvailableDrivers();
             if (drivers.OrderBy(s => s.DriverId).LastOrDefault() == null)
-                return "1";
-            int highest = int.Parse(drivers.OrderBy(s => s.DriverId).LastOrDefault().DriverId);
-            return (highest + 1).ToString();
+                return 1;
+            int highest = drivers.OrderBy(s => s.DriverId).LastOrDefault().DriverId;
+            return highest + 1;
         }
 
-        public void DriverSetActive(string driverId, bool isActive, int routeId)
+        public void DriverSetActive(int driverId, bool isActive, int routeId)
         {
             if (routeId < 500)
                 _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("MorningIsActive", isActive));
@@ -465,7 +465,7 @@ namespace TransportationService.Utility
                 _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("EveningAssignedTo", routeId));
         }
 
-        public void AssignDriverToRoute(string driverId, int routeId)
+        public void AssignDriverToRoute(int driverId, int routeId)
         {
             if (routeId < 500)
                 _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("MorningAssignedTo", routeId));

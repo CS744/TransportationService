@@ -193,8 +193,8 @@ namespace TransportationService.Controllers
             return PartialView("AddRoute", model);
         }
 
-        public ActionResult AddNewRoute(List<int> stopIds, string routeName, bool isToWork, bool isActive, List<String> buses,
-            List<String> drivers, List<String> times, List<String> statuses)
+        public ActionResult AddNewRoute(List<int> stopIds, string routeName, bool isToWork, bool isActive, List<string> buses,
+            List<int> drivers, List<string> times, List<string> statuses)
         {
             DatabaseInterface db = new DatabaseInterface();
             if (!db.IsRouteNameUnique(routeName))
@@ -218,36 +218,26 @@ namespace TransportationService.Controllers
 
                 for (int i = 0; i < buses.Count; i++)
                 {
-                    String sBusId = buses[i];
-                    String sDriverId = drivers[i];
+                    string sBusId = buses[i];
+                    int sDriverId = drivers[i];
                     int busId;
                     int driverId;
                     bool entryIsActive = statuses[i].Equals("ACTIVE") ? true : false;
-                    if (sBusId.Equals("None"))
-                        busId = -1;
-                    else
-                    {
-                        //order matters - do NOT assign the bus first
-                        busId = int.Parse(sBusId);
-                        db.AssignBusToRoute(busId, routeId);
-                        if (entryIsActive && isActive)
-                            db.BusSetActive(busId, true, routeId);
-                    }
-                    if (sDriverId.Equals("None"))
-                        driverId = -1;
-                    else
-                    {
-                        //order matters - do NOT assign the driver first
-                        driverId = int.Parse(sDriverId);
-                        db.AssignDriverToRoute(sDriverId, routeId);
-                        if (entryIsActive && isActive)
-                            db.DriverSetActive(sDriverId, true, routeId);
-                    }
-                    String[] timeArray = times[i].Split(':');
-                    String hour = timeArray[0];
+                    //order matters - do NOT assign the bus first
+                    busId = int.Parse(sBusId);
+                    db.AssignBusToRoute(busId, routeId);
+                    if (entryIsActive && isActive)
+                       db.BusSetActive(busId, true, routeId);
+                    //order matters - do NOT assign the driver first
+                    driverId = sDriverId;
+                    db.AssignDriverToRoute(sDriverId, routeId);
+                    if (entryIsActive && isActive)
+                       db.DriverSetActive(sDriverId, true, routeId);
+                    string[] timeArray = times[i].Split(':');
+                    string hour = timeArray[0];
                     timeArray = timeArray[1].Split(' ');
-                    String minute = timeArray[0];
-                    String ampm = timeArray[1];
+                    string minute = timeArray[0];
+                    string ampm = timeArray[1];
 
                     driverBusList.Add(new DriverBus()
                     {
@@ -281,10 +271,10 @@ namespace TransportationService.Controllers
         }
 
         public ActionResult UpdateRoute(int routeId, List<int> stopIds, string routeName, bool isActive, List<String> buses,
-            List<String> drivers, List<String> times, List<String> statuses)
+            List<int> drivers, List<string> times, List<string> statuses)
         {
             DatabaseInterface db = new DatabaseInterface();
-            String sRouteId = routeId.ToString();
+            string sRouteId = routeId.ToString();
             if (!db.IsRouteNameUnique(routeName, sRouteId))
                 return Json("false");
             List<Stop> stops = new List<Stop>();
@@ -306,36 +296,26 @@ namespace TransportationService.Controllers
             {
                 for (int i = 0; i < buses.Count; i++)
                 {
-                    String sBusId = buses[i];
-                    String sDriverId = drivers[i];
+                    string sBusId = buses[i];
+                    int sDriverId = drivers[i];
                     int busId;
                     int driverId;
                     bool entryIsActive = statuses[i].Equals("ACTIVE") ? true : false;
-                    if (sBusId.Equals("None"))
-                        busId = -1;
-                    else
-                    {
-                        //order matters - do NOT assign the bus first
-                        busId = int.Parse(sBusId);
-                        db.AssignBusToRoute(busId, routeId);
-                        if (entryIsActive && isActive)
-                            db.BusSetActive(busId, true, routeId);
-                    }
-                    if (sDriverId.Equals("None"))
-                        driverId = -1;
-                    else
-                    {
-                        //order matters - do NOT assign the driver first
-                        driverId = int.Parse(sDriverId);
-                        db.AssignDriverToRoute(sDriverId, routeId);
-                        if (entryIsActive && isActive)
-                            db.DriverSetActive(sDriverId, true, routeId);
-                    }
-                    String[] timeArray = times[i].Split(':');
-                    String hour = timeArray[0];
+                    //order matters - do NOT assign the bus first
+                    busId = int.Parse(sBusId);
+                    db.AssignBusToRoute(busId, routeId);
+                    if (entryIsActive && isActive)
+                       db.BusSetActive(busId, true, routeId);
+                    //order matters - do NOT assign the driver first
+                    driverId = sDriverId;
+                    db.AssignDriverToRoute(sDriverId, routeId);
+                    if (entryIsActive && isActive)
+                       db.DriverSetActive(sDriverId, true, routeId);
+                    string[] timeArray = times[i].Split(':');
+                    string hour = timeArray[0];
                     timeArray = timeArray[1].Split(' ');
-                    String minute = timeArray[0];
-                    String ampm = timeArray[1];
+                    string minute = timeArray[0];
+                    string ampm = timeArray[1];
 
                     driverBusList.Add(new DriverBus()
                     {
@@ -442,8 +422,6 @@ namespace TransportationService.Controllers
                 Id = ObjectId.GenerateNewId(),
                 LicensePlate = license,
                 BusId = db.GetNextBusId(),
-                MorningIsActive = false,
-                EveningIsActive = false,
                 Capacity = capacity,
                 State = state,
                 MorningAssignedTo = -1,
@@ -604,15 +582,13 @@ namespace TransportationService.Controllers
                 MorningAssignedTo = -1,
                 EveningAssignedTo = -1,
                 State = state,
-                DriverId = db.GetNextDriverId(),
-                MorningIsActive = false,
-                EveningIsActive = false
+                DriverId = db.GetNextDriverId()
             };
             db.SaveDriver(driver);
             return Json(new { success = "true", id = driver.Id.ToString(), driverId = driver.DriverId });
         }
 
-        public ActionResult ModifyDriver(string driverId)
+        public ActionResult ModifyDriver(int driverId)
         {
             DatabaseInterface db = new DatabaseInterface();
             Driver driver = db.GetDriverById(driverId);
@@ -629,7 +605,7 @@ namespace TransportationService.Controllers
             return PartialView("AddDriver", model);
         }
 
-        public ActionResult UpdateDriver(string driverId, string state, string name, string license)
+        public ActionResult UpdateDriver(int driverId, string state, string name, string license)
         {
             DatabaseInterface db = new DatabaseInterface();
             if (!db.IsDriverLicenseUnique(license, state, driverId))
@@ -656,7 +632,7 @@ namespace TransportationService.Controllers
             {
                 foreach (Route route in routes)
                 {
-                    if (route.DriverBusList.Exists(s => s.DriverId == int.Parse(driver.DriverId)))//TODO this also needs to check if 
+                    if (route.DriverBusList.Exists(s => s.DriverId == driver.DriverId))//TODO this also needs to check if 
                     {
                         if (route.DriverBusList.Count == 1)
                         {
@@ -665,7 +641,7 @@ namespace TransportationService.Controllers
                         }
 
                         //Set the driverbus to inactive
-                        DriverBus drbs = route.DriverBusList.Find(s => s.DriverId == int.Parse(driver.DriverId));
+                        DriverBus drbs = route.DriverBusList.Find(s => s.DriverId == driver.DriverId);
                         drbs.IsActive = false;
                         drbs.DriverId = -1;
                         db.UpdateRoute(route);
@@ -828,7 +804,7 @@ namespace TransportationService.Controllers
                 Rows = employees.Select(e => new CustomRow()
                 {
                     ObjectId = e.Id.ToString(),
-                    ModifyCall = "modifyRoute(" + e.EmployeeId + ")",
+                    ModifyCall = "modifyEmployee(" + e.EmployeeId + ")",
                     DeleteCall = "alert('not sure where this is')",
                     Columns = new List<string>(){
                e.Name,
@@ -845,6 +821,74 @@ namespace TransportationService.Controllers
                 }).ToList()
             };
             return PartialView("ViewItem", model);
+        }
+
+        public ActionResult ViewBuses()
+        {
+           DatabaseInterface db = new DatabaseInterface();
+           var buses = db.GetAvailableBuses();
+           var model = new CustomTable()
+           {
+              Headers = new List<string>(){
+               "LicensePlate",
+               "State",
+               "Capacity",
+               "MorningRoute",
+               "MorningDriver",
+               "EveningRoute",
+               "EveningDriver"
+               },
+              Rows = buses.Select(b => new CustomRow()
+              {
+                 ObjectId = b.Id.ToString(),
+                 ModifyCall = "modifyBus(" + b.BusId + ")",
+                 DeleteCall = "alert('not sure where this is')",
+                 Columns = new List<string>(){
+               b.LicensePlate.ToString(),
+               b.State,
+               b.Capacity.ToString(),
+               b.MorningAssignedTo  == -1? "none" : db.GetRouteByRouteId(b.MorningAssignedTo).Name,
+               b.MorningAssignedTo  == -1? "none" : db.GetDriverById(db.GetRouteByRouteId(b.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).Name,
+               b.EveningAssignedTo  == -1? "none" : db.GetRouteByRouteId(b.EveningAssignedTo).Name,
+               b.EveningAssignedTo  == -1? "none" : db.GetDriverById(db.GetRouteByRouteId(b.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).Name,
+               }
+              }).ToList()
+           };
+           return PartialView("ViewItem", model);
+        }
+
+        public ActionResult ViewDrivers()
+        {
+           DatabaseInterface db = new DatabaseInterface();
+           var drivers = db.GetAvailableDrivers();
+           var model = new CustomTable()
+           {
+              Headers = new List<string>(){
+               "Name",
+               "DriverLicense",
+               "State",
+               "MorningRoute",
+               "Morningbus",
+               "EveningRoute",
+               "EveningBus"
+               },
+              Rows = drivers.Select(d => new CustomRow()
+              {
+                 ObjectId = d.Id.ToString(),
+                 ModifyCall = "modifyBus(" + d.DriverId + ")",
+                 DeleteCall = "alert('not sure where this is')",
+                 Columns = new List<string>(){
+               d.Name,
+               d.DriverLicense,
+               d.State,
+               d.MorningAssignedTo  == -1? "none" : db.GetRouteByRouteId(d.MorningAssignedTo).Name,
+               d.MorningAssignedTo  == -1? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).LicensePlate,
+               d.EveningAssignedTo  == -1? "none" : db.GetRouteByRouteId(d.EveningAssignedTo).Name,
+               d.EveningAssignedTo  == -1? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).LicensePlate,
+               }
+              }).ToList()
+           };
+           return PartialView("ViewItem", model);
         }
     }
 }

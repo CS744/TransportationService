@@ -14,9 +14,9 @@ namespace TransportationService.Models
         public List<Stop> AvailableStops { get; set; }
         public List<Driver> AvailableDrivers { get; set; }
         public Boolean UpdatingRoute { get; set; }
-        public String Name { get; set; }
+        public string Name { get; set; }
         public List<Stop> Stops { get; set; }
-        public String RouteId { get; set; }
+        public string RouteId { get; set; }
         public bool IsActive { get; set; }
         public List<DriverBus> DriverBusList { get; set; }
         public Boolean IsToWork { get; set; }
@@ -24,27 +24,27 @@ namespace TransportationService.Models
 
     public class BusModel
     {
-        public List<String> StateNames { get; set; }
-        public List<String> StateAbbreviations { get; set; }
+        public List<string> StateNames { get; set; }
+        public List<string> StateAbbreviations { get; set; }
         public bool UpdatingBus { get; set; }
-        public String Capacity { get; set; }
-        public String License { get; set; }
-        public String State { get; set; }
+        public string Capacity { get; set; }
+        public string License { get; set; }
+        public string State { get; set; }
         public bool MorningIsActive { get; set; }
         public bool EveningIsActive { get; set; }
-        public String BusId { get; set; }
+        public string BusId { get; set; }
     }
 
     public class DriverModel
     {
-        public List<String> StateNames { get; set; }
-        public List<String> StateAbbreviations { get; set; }
-        public String Name { get; set; }
-        public String State { get; set; }
-        public String License { get; set; }
+        public List<string> StateNames { get; set; }
+        public List<string> StateAbbreviations { get; set; }
+        public string Name { get; set; }
+        public string State { get; set; }
+        public string License { get; set; }
         public ObjectId Id { get; set; }
         public Boolean UpdatingDriver { get; set; }
-        public String DriverId { get; set; }
+        public int DriverId { get; set; }
         public bool MorningIsActive { get; set; }
         public bool EveningIsActive { get; set; }
     }
@@ -52,8 +52,8 @@ namespace TransportationService.Models
     public class EmployeeModel
     {
         public List<Route> AvailableRoutes { get; set; }
-        public List<String> StateNames { get; set; }
-        public List<String> StateAbbreviations { get; set; }
+        public List<string> StateNames { get; set; }
+        public List<string> StateAbbreviations { get; set; }
         public bool UpdatingEmployee { get; set; }
         public long SocialSecurityNumber { get; set; }
         public string Position { get; set; }
@@ -74,9 +74,9 @@ namespace TransportationService.Models
     {
         public int BusId { get; set; }
         public int DriverId { get; set; }
-        public String Hour { get; set; }
-        public String Minute { get; set; }
-        public String AMPM { get; set; }
+        public string Hour { get; set; }
+        public string Minute { get; set; }
+        public string AMPM { get; set; }
         public bool IsActive { get; set; }
     }
 

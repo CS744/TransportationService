@@ -317,3 +317,21 @@ function viewEmployees() {
         $("#view-item-table").tablesorter();
     });
 }
+function viewBuses() {
+    $.post("/Admin/ViewBuses", {}, function (html) {
+        $("#view-container").html(html);
+        $("#view-item-table").tablesorter();
+    });
+}
+function viewDrivers() {
+    $.post("/Admin/viewDrivers", {}, function (html) {
+        $("#view-container").html(html);
+        $("#view-item-table").tablesorter();
+    });
+}
+function viewStops() {
+    $.post("/Admin/viewStops", {}, function (html) {
+        $("#view-container").html(html);
+        $("#view-item-table").tablesorter();
+    });
+}

@@ -99,7 +99,7 @@
                 <tr>
                     <td>
                         <select id="busList">
-                            <option value="None">--Bus--</option>
+                            <option value="-1">--Bus--</option>
                             @foreach (TransportationService.Utility.Bus bus in Model.AvailableBuses)
                             {
                                 if ((Model.IsToWork && bus.MorningAssignedTo == -1) || ((!Model.IsToWork && bus.EveningAssignedTo == -1)))
@@ -111,7 +111,7 @@
                     </td>
                     <td colspan="2">
                         <select id="driverList">
-                            <option value="None">--Driver--</option>
+                            <option value="-1">--Driver--</option>
                             @foreach (TransportationService.Utility.Driver driver in Model.AvailableDrivers)
                             {
                                 if ((Model.IsToWork && driver.MorningAssignedTo == -1) || ((!Model.IsToWork && driver.EveningAssignedTo == -1)))
@@ -191,7 +191,7 @@
                         TransportationService.Utility.DatabaseInterface db = new TransportationService.Utility.DatabaseInterface();
                         if (entry.DriverId != -1)
                         {
-                            driverDetail = "Driver " + entry.DriverId + " (" + db.GetDriverById(entry.DriverId.ToString()).Name + ")";
+                            driverDetail = "Driver " + entry.DriverId + " (" + db.GetDriverById(entry.DriverId).Name + ")";
                         }
                         if (entry.BusId != -1)
                         {
