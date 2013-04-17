@@ -73,26 +73,31 @@ namespace TransportationService.Utility
         public int GetNextLowRouteId()
         {
             List<Route> routes = GetAvailableRoutes();
-            if (routes.OrderBy(r => r.RouteId).LastOrDefault() == null)
-                return 1;
-            return routes.OrderBy(r => r.RouteId).LastOrDefault().RouteId + 1;
+            int nextId = 1;
+            foreach (Route r in routes)
+            {
+                if (r.RouteId < 500)
+                    nextId++;
+            }
+            return nextId;
         }
 
         public int GetNextHighRouteId()
         {
             List<Route> routes = GetAvailableRoutes();
-            if (routes.OrderBy(r => r.RouteId).LastOrDefault() == null)
-                return 999;
-            int temp = routes.OrderBy(r => r.RouteId).LastOrDefault().RouteId - 1;
-            if (temp < 500)
-                return 999;
-            return temp;
+            int nextId = 999;
+            foreach (Route r in routes)
+            {
+                if (r.RouteId > 500)
+                    nextId--;
+            }
+            return nextId;
         }
 
         public List<Route> GetAvailableRoutes()
         {
             var coll = _database.GetCollection(_routeCollectionName);
-            return coll.FindAllAs<Route>().ToList();
+            return coll.FindAllAs<Route>().SetSortOrder(SortBy.Ascending("RouteId")).ToList();
         }
 
         public void AddRoute(Route route)
@@ -168,9 +173,7 @@ namespace TransportationService.Utility
         public List<Bus> GetAvailableBuses()
         {
             var coll = _database.GetCollection(_busCollectionName);
-            //var query = Query.EQ("_id", id);
-            //return coll.FindAll<Bus>();
-            return coll.FindAllAs<Bus>().ToList();
+            return coll.FindAllAs<Bus>().SetSortOrder(SortBy.Ascending("BusId")).ToList();
         }
 
         public Boolean IsLicenseUnique(string license, string busId = "")
@@ -256,10 +259,10 @@ namespace TransportationService.Utility
             coll.Remove(query);
         }
 
-        public List<Stop> GetAvailableStops()//pass in a list of stops already in the route.
+        public List<Stop> GetAvailableStops()
         {
             var coll = _database.GetCollection(_stopCollectionName);
-            return coll.FindAllAs<Stop>().ToList();
+            return coll.FindAllAs<Stop>().SetSortOrder(SortBy.Ascending("StopId")).ToList();
         }
 
         public int GetNextStopId()
@@ -330,7 +333,7 @@ namespace TransportationService.Utility
         public List<Driver> GetAvailableDrivers()
         {
             var coll = _database.GetCollection(_driverCollectionName);
-            return coll.FindAllAs<Driver>().ToList();
+            return coll.FindAllAs<Driver>().SetSortOrder(SortBy.Ascending("DriverId")).ToList();
         }
 
         public Boolean IsDriverLicenseUnique(string license, string state, string driverId = "")
@@ -408,7 +411,7 @@ namespace TransportationService.Utility
         public List<Employee> GetAvailableEmployees()
         {
             var coll = _database.GetCollection(_employeeCollectionName);
-            return coll.FindAllAs<Employee>().ToList();
+            return coll.FindAllAs<Employee>().SetSortOrder(SortBy.Ascending("EmployeeId")).ToList();
         }
 
         public Boolean IsSocialSecurityNumberUnique(long ssn)

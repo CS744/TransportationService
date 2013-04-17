@@ -58,10 +58,11 @@ function addEmployee() {
 function moveStopUp() {
     var selected = $("#selectedStops option:selected");
     var text = selected.text();
+    var value = selected.val();
     var index = $("#selectedStops option").index(selected);
     if (index != 0) {
         selected.remove();
-        $("#selectedStops option:eq(" + (index - 1) + ")").before("<option value='1'>" + text + "</option>");
+        $("#selectedStops option:eq(" + (index - 1) + ")").before("<option value='" + value + "'>" + text + "</option>");
         $('#selectedStops option')[index - 1].selected = true;
     }
     $('#selectedStops').focus();
@@ -70,11 +71,12 @@ function moveStopUp() {
 function moveStopDown() {
     var selected = $("#selectedStops option:selected");
     var text = selected.text();
+    var value = selected.val();
     var index = $("#selectedStops option").index(selected);
     var size = $("#selectedStops option").size();
     if (index != size - 1) {
         selected.remove();
-        $("#selectedStops option:eq(" + index + ")").after("<option value='1'>" + text + "</option>");
+        $("#selectedStops option:eq(" + index + ")").after("<option value='" + value + "'>" + text + "</option>");
         $('#selectedStops option')[index + 1].selected = true;
     }
     $('#selectedStops').focus();

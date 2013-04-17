@@ -69,10 +69,11 @@ namespace TransportationService.Models
         public int EveningAssignedTo { get; set; }
         public int Zip { get; set; }
     }
+
     public class DriverBus
     {
-        public Bus Bus { get; set; }
-        public Driver Driver { get; set; }
+        public int BusId { get; set; }
+        public int DriverId { get; set; }
         public String Hour { get; set; }
         public String Minute { get; set; }
         public String AMPM { get; set; }

@@ -188,17 +188,18 @@
                         string departureTime = entry.Hour + ":" + entry.Minute + " " + entry.AMPM;
                         string driverDetail = "Driver: None";
                         string busDetail = "Bus: None";
-                        if (entry.Driver != null)
+                        TransportationService.Utility.DatabaseInterface db = new TransportationService.Utility.DatabaseInterface();
+                        if (entry.DriverId != -1)
                         {
-                            driverDetail = "Driver " + entry.Driver.DriverId + " (" + entry.Driver.Name + ")";
+                            driverDetail = "Driver " + entry.DriverId + " (" + db.GetDriverById(entry.DriverId.ToString()).Name + ")";
                         }
-                        if (entry.Bus != null)
+                        if (entry.BusId != -1)
                         {
-                            busDetail = "Bus " + entry.Bus.BusId + " (Capactiy: " + entry.Bus.Capacity + ")";
+                            busDetail = "Bus " + entry.BusId + " (Capactiy: " + db.GetBusByBusId(entry.BusId).Capacity + ")";
                         }
                         string text = busDetail + "; " + driverDetail + "; Departs: " + departureTime + "; " + status;
-                        string busValue = entry.Bus == null ? "None" : entry.Bus.BusId.ToString();
-                        string driverValue = entry.Driver == null ? "None" : entry.Driver.DriverId;
+                        string busValue = entry.BusId == -1 ? "None" : entry.BusId.ToString();
+                        string driverValue = entry.DriverId == -1 ? "None" : entry.DriverId.ToString();
                         string value = busValue + ";" + driverValue + ";" + departureTime + ";" + status;
                     <option value="@value">@text</option>
                     }
