@@ -147,6 +147,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\EmployeeManagementController.cs" />
     <Compile Include="Controllers\ViewInformationController.cs" />
     <Compile Include="Controllers\TransportationBaseController.cs" />
     <Compile Include="Controllers\UtilityController.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EmployeeManagementModel.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Models\ViewModels.cs" />
     <Compile Include="Models\OutputViewModel.cs" />
@@ -165,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-formhelpers.css" />
+    <Content Include="Content\datepicker.css" />
     <Content Include="Scripts\addActions.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\utility.css" />
@@ -173,9 +176,12 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\buslogo.png" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\AdminActions.js" />
+    <Content Include="Scripts\adminActions.js" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\employeeManagement.js" />
+    <Content Include="Scripts\jquery.tablesorter.js" />
     <Content Include="Scripts\messageBuilder.js" />
     <Content Include="Scripts\validation.js" />
     <Content Include="Scripts\viewActions.js" />
@@ -185,7 +191,7 @@
     <Content Include="Scripts\roll_utility.js" />
     <Content Include="Scripts\routeManager.js" />
     <Content Include="Scripts\userManager.js" />
-    <Content Include="Scripts\Logon.js" />
+    <Content Include="Scripts\logon.js" />
     <Content Include="Scripts\jquery-1.9.0.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -258,6 +264,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Utility\Confirmation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EmployeeManagement\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EmployeeManagement\RouteView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\ViewItem.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

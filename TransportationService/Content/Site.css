@@ -94,9 +94,9 @@
 }
 
 .wideModal {
-    width: 600px !important;
-    margin-top: -65px;
-    /*left: 50% !important;
+	width: 600px !important;
+	margin-top: -65px;
+	/*left: 50% !important;
     margin-left: -200px !important;*/
 }
 
@@ -160,71 +160,9 @@
 }
 
 #view-container {
-	margin-left: -51px;
 	margin-top: 10px;
 	height: auto;
 }
-
-	#view-container > .view-container-left {
-		max-width: 150px;
-		width: 165px;
-		height: auto;
-		border: 1px solid #222;
-		border-radius: 4px;
-		display: inline-block;
-	}
-
-	#view-container > .view-container-right {
-		width: -webkit-calc(100% - 165px);
-		width: calc(100% - 165px);
-		height: auto;
-		display: inline-block;
-		float: right;
-		min-height: 1px;
-	}
-
-	#view-container #view-title {
-		width: 100%;
-		display: inline-block;
-		font-weight: bold;
-		background: #222;
-		color: #d8d8d8;
-	}
-
-	#view-container .view-child {
-		width: 100%;
-		display: inline-block;
-	}
-
-		#view-container .view-child:not(:last-child) {
-			border-bottom: 1px solid black;
-		}
-
-		#view-container .view-child > .view-child-header {
-			background: #999;
-			padding: 2px 4px;
-			cursor: pointer;
-		}
-
-		#view-container .view-child > .view-child-inner {
-			display: none;
-			max-height: 147px;
-			overflow-y: auto;
-			background: #c8c8c8;
-			margin-bottom: -6px;
-		}
-
-			#view-container .view-child > .view-child-inner > .item-element {
-				display: inline-block;
-				width: 100%;
-				padding: 2px 0px;
-				cursor: pointer;
-				overflow-x: hidden;
-			}
-
-				#view-container .view-child > .view-child-inner > .item-element:not(:last-child) {
-					border-bottom: 1px solid black;
-				}
 
 .two-column-modal-container {
 	display: inline-block;
@@ -268,3 +206,41 @@ float-left {
 		-o-transform: scale(1.275,1.275);
 		-moz-transform: scale(1.275,1.275);
 	}
+
+#employee-management-submit {
+	margin-bottom: 10px;
+}
+
+#employee-table, #view-item-table {
+	width: 100%;
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+}
+
+	#view-item-table tr .employee-row, #view-item-table tr {
+		border-bottom: 1px solid black;
+	}
+
+.employee-row > td {
+	vertical-align: middle;
+	padding: 5px;
+}
+
+.table-select {
+	width: 125px;
+}
+
+td > select {
+	margin: 0px;
+}
+
+#datepicker {
+	display: inline;
+	margin-right: 5px;
+}
+
+.btn.icon-plus {
+	line-height: inherit;
+	vertical-align: inherit;
+}

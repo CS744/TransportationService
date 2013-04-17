@@ -12,14 +12,17 @@ namespace MvcApplication1
             "~/Scripts/jquery-1.9.0.min.js"
          ));
          bundles.Add(new ScriptBundle("~/bundles/TransportationService").Include(
-            "~/Scripts/Logon.js",
+            "~/Scripts/logon.js",
             "~/Scripts/notifier.js",
             "~/Scripts/roll_utility.js",
             "~/Scripts/bootstrap.js",
             "~/Scripts/jquery.transit.js",
             "~/Scripts/userManager.js",
-            "~/Scripts/AdminActions.js",
+            "~/Scripts/adminActions.js",
             "~/Scripts/addActions.js",
+            "~/Scripts/bootstrap-datepicker.js",
+            "~/Scripts/employeeManagement.js",
+            "~/Scripts/jquery.tablesorter.js",
             "~/Scripts/messageBuilder.js",
             "~/Scripts/modifyActions.js",
             "~/Scripts/viewActions.js",
@@ -31,6 +34,7 @@ namespace MvcApplication1
             "~/Content/site.css",
             "~/Content/utility.css",
             "~/Content/bootstrap.css",
+            "~/Content/datepicker.css",
             "~/Content/font-awesome.css",
             "~/Content/bootstrap-formhelpers.css"
          ));

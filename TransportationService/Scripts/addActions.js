@@ -325,6 +325,7 @@ function addNewEmployeeCallback(data, hideModal, name) {
         else {
             $("#nameText").val("");
             $("#ssnText").val("");
+            $("#positionText").val("");
             $("#emailText").val("");
             $("#phoneText").val("");
             $("#addressText").val("");

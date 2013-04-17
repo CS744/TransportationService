@@ -78,4 +78,17 @@ namespace TransportationService.Models
         public String AMPM { get; set; }
         public bool IsActive { get; set; }
     }
+
+    public class CustomRow
+    {
+       public List<string> Columns { get; set; }
+       public string ModifyCall { get; set; }
+       public string DeleteCall { get; set; }
+       public string ObjectId { get; set; }
+    }
+    public class CustomTable
+    {
+       public List<string> Headers { get; set; }
+       public List<CustomRow> Rows { get; set; }
+    }
 }

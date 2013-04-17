@@ -85,4 +85,14 @@ namespace TransportationService.Utility
         public string Location { get; set; }
         public int StopId { get; set; }
     }
+    public class EmployeeInstance
+    {
+       [BsonId]
+       public ObjectId Id { get; set; }
+       public ObjectId RouteId { get; set; }
+       public ObjectId EmployeeId { get; set; }
+       public ObjectId StopId { get; set; }
+       public ObjectId BusId { get; set; }
+       public DateTime Date { get; set; }
+    }
 }

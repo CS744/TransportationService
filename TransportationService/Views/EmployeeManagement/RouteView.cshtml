@@ -1,0 +1,56 @@
+﻿@model TransportationService.Models.ManagementModel
+@{
+    Layout = null;
+}
+
+<table id="employee-table">
+    <thead>
+        <tr style="border-bottom: 1px solid black; padding: 5px;">
+            <th style="font-weight: bold; padding: 7px 0px;">Employee</th>
+            <th style="font-weight: bold; padding: 7px 0px;">Stop</th>
+            <th style="font-weight: bold; padding: 7px 0px;">Bus</th>
+            <th style="font-weight: bold; padding: 7px 0px;" colspan="2">Time (military)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (TransportationService.Utility.Employee employee in Model.Employees)
+        {
+            <tr id="tr-@employee.Id.ToString()" class="employee-row" data-id="@employee.Id.ToString()">
+                <td>@employee.Name</td>
+                <td>
+                    <select class="table-select select-stop">
+                        <option value="">--Stop--</option>
+                        @foreach (TransportationService.Utility.Stop stop in Model.Stops)
+                        {
+                            <option value="@stop.Id.ToString()">@stop.Location</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <select class="table-select select-bus">
+                        <option value="">--Bus--</option>
+                        @foreach (TransportationService.Utility.Bus bus in Model.Buses)
+                        {
+                            <option value="@bus.Id.ToString()">@bus.LicensePlate</option>
+                        }
+                    </select>
+                </td>
+                <td colspan="2">
+                    <select class="hourList" style="width: 55px;">
+                        @for (int i = 0; i <= 23; i++)
+                        {
+                            <option value="@i.ToString("D2")">@i.ToString("D2")</option>
+                        }
+                    </select>
+                    :
+                <select class="minuteList" style="width: 55px;">
+                    @for (int i = 0; i < 60; i = i + 5)
+                    {
+                        <option value="@i.ToString("D2")">@i.ToString("D2")</option>
+                    }
+                </select>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

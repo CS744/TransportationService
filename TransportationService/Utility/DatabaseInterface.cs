@@ -17,6 +17,7 @@ namespace TransportationService.Utility
         const string _busCollectionName = "Buses";
         const string _routeCollectionName = "Routes";
         const string _driverCollectionName = "Drivers";
+        const string _instanceCollectionName = "EmployeeInstance";
 
         public DatabaseInterface()
         {
@@ -24,6 +25,7 @@ namespace TransportationService.Utility
             _database = MongoDatabase.Create(connectionString);
         }
 
+        #region USER
         public void SaveUser(User user)
         {
             var coll = _database.GetCollection(_usersCollectionName);
@@ -43,6 +45,8 @@ namespace TransportationService.Utility
             var query = Query.EQ("_id", id);
             return coll.FindOneAs<User>(query);
         }
+        #endregion
+
 
         #region ROUTE
 
@@ -494,5 +498,34 @@ namespace TransportationService.Utility
             }
         }
 
+
+        public IEnumerable<Employee> GetEmployeesAssignedToRoute(int routeId, bool isToWork)
+        {
+           var coll = _database.GetCollection(_employeeCollectionName);
+           string varName = isToWork ? "MorningAssignedTo" : "EveningAssignedTo";
+           var query = Query.EQ(varName, routeId);
+           return coll.FindAs<Employee>(query);
+        }
+
+        public IEnumerable<Stop> GetStopsAssignedToRoute(int routeId)
+        {
+           var coll = _database.GetCollection(_stopCollectionName);
+           var query = Query.EQ("AssignedTo", routeId);
+           return coll.FindAs<Stop>(query);
+        }
+
+        public IEnumerable<Bus> GetBusesAssignedToRoute(int routeId, bool isToWork)
+        {
+           var coll = _database.GetCollection(_busCollectionName);
+           string varName = isToWork ? "MorningAssignedTo" : "EveningAssignedTo";
+           var query = Query.EQ(varName, routeId);
+           return coll.FindAs<Bus>(query);
+        }
+
+        public void SaveEmployeeInstance(EmployeeInstance instance)
+        {
+           var coll = _database.GetCollection(_instanceCollectionName);
+           coll.Save(instance);
+        }
     }
 }

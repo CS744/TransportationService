@@ -106,6 +106,10 @@ function addStopToRoute() {
 }
 
 $(document).ready(function () {
+    if (window.location.pathname == "/EmployeeManagement") {
+        document.getElementById("mainArea-header").innerHTML = "Employee Management";
+        return false;
+    }
     $.post("/Admin/RefreshAdmin", {}, function (data) {
         if (data.error == undefined || data.error != true) {
             userManager.currentUser = data.user;
@@ -259,7 +263,7 @@ function removeDriverBus(editEntry) {
             }
             counter += 5;
         }
-        
+
         //set fields to correct value
         if (busValue != "None")
             document.getElementById("busList").options[busValue].selected = true;
@@ -298,4 +302,16 @@ function customSort(list) {//include the # in the name of the list
             return -1;
     })
     $.each(listitems, function (idx, itm) { mylist.append(itm); });
+}
+function viewRoutes() {
+    $.post("/Admin/ViewRoutes", {}, function (html) {
+        $("#view-container").html(html);
+        $("#view-item-table").tablesorter();
+    });
+}
+function viewEmployees() {
+    $.post("/Admin/ViewEmployees", {}, function (html) {
+        $("#view-container").html(html);
+        $("#view-item-table").tablesorter();
+    });
 }
