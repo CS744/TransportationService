@@ -236,7 +236,7 @@ function updateEmployee(employeeId) {
     var state = $("#statesList").val();
     var zip = $("#zipText").val();
 
-    if (email == "" || !isValidPhoneNumber(phone) || address == "" || position == "" || morningRouteId == null || eveningRouteId == null || city == "" || state == "--State--" || !isValidZip(zip)) {
+    if (email == "" || !isValidPhoneNumber(phone) || address == "" || position == "" || city == "" || state == "--State--" || !isValidZip(zip)) {
         var messageBuilder = new MessageBuilder();
         if (position == "") {
             messageBuilder.addMessage("must include a position");
@@ -259,18 +259,21 @@ function updateEmployee(employeeId) {
         if (!isValidZip(zip)) {
             messageBuilder.addMessage("must have valid zip code (5 digits)");
         }
-        if (morningRouteId == null) {
-            messageBuilder.addMessage("must select a morning route");
-        }
-        if (eveningRouteId == null) {
-            messageBuilder.addMessage("must select a evening route");
-        }
+
         $("#employeeFailureMessage > .error-text").text(messageBuilder.getMessage("The employee cannot be added because you"));
         rollDown($("#employeeFailureMessage"));
         setTimeout(function () {
             rollUp($("#employeeFailureMessage"));
         }, 12000);
         return false;
+    }
+
+    if (morningRouteId == "--Route--") {
+        morningRouteId = -1;
+    }
+
+    if (eveningRouteId == "--Route--") {
+        eveningRouteId = -1;
     }
 
     var request = {

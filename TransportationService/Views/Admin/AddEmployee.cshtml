@@ -89,6 +89,7 @@
             }
             <label for="morningRouteList">Morning Route:</label>
             <select id="morningRouteList">
+                <option value="--Route--">--Route--</option>
                 @foreach (TransportationService.Utility.Route route in Model.AvailableRoutes)
                 {
                     if(route.RouteId<500)
@@ -106,11 +107,12 @@
             </select>
             <label for="eveningRouteList">Evening Route:</label>
             <select id="eveningRouteList">
+                <option value="--Route--">--Route--</option>
                 @foreach (TransportationService.Utility.Route route in Model.AvailableRoutes)
                 {
                     if(route.RouteId>=500)
                     {
-                        if (Model.UpdatingEmployee && Model.MorningAssignedTo == route.RouteId)
+                        if (Model.UpdatingEmployee && Model.EveningAssignedTo == route.RouteId)
                         {
                         <option value="@route.RouteId" selected="selected">Route @route.RouteId (@route.Name )</option>
                         }

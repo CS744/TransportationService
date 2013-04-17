@@ -251,7 +251,7 @@ function addNewEmployee(addAnother) {
     var state = $("#statesList").val();
     var zip = $("#zipText").val();
 
-    if (email == "" || !isValidPhoneNumber(phone) || address == "" || !isValidSSN(ssn) || position == "" || name == "" || morningRouteId == null || eveningRouteId == null || city == "" || state == "--State--" || !isValidZip(zip)) {
+    if (email == "" || !isValidPhoneNumber(phone) || address == "" || !isValidSSN(ssn) || position == "" || name == "" || city == "" || state == "--State--" || !isValidZip(zip)) {
         var messageBuilder = new MessageBuilder();
         if (name == "") {
             messageBuilder.addMessage("must include a name");
@@ -280,18 +280,21 @@ function addNewEmployee(addAnother) {
         if (!isValidZip(zip)) {
             messageBuilder.addMessage("must have valid zip code (5 digits)");
         }
-        if (morningRouteId == null) {
-            messageBuilder.addMessage("must select a morning route");
-        }
-        if (eveningRouteId == null) {
-            messageBuilder.addMessage("must select a evening route");
-        }
+
         $("#employeeFailureMessage > .error-text").text(messageBuilder.getMessage("The Employee cannot be added because you"));
         rollDown($("#employeeFailureMessage"));
         setTimeout(function () {
             rollUp($("#employeeFailureMessage"));
         }, 12000);
         return false;
+    }
+
+    if (morningRouteId == "--Route--") {
+        morningRouteId = -1;
+    }
+
+    if (eveningRouteId == "--Route--") {
+        eveningRouteId = -1;
     }
 
     var request = {
@@ -331,6 +334,8 @@ function addNewEmployeeCallback(data, hideModal, name) {
             $("#addressText").val("");
             $("#cityText").val("");
             $("#statesList").val("--State--");
+            $("#morningRouteList").val("--Route--");
+            $("#eveningRouteList").val("--Route--");
             $("#zipText").val("");
         }
     } else {
