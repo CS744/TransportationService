@@ -4,7 +4,14 @@
 }
 
 <div id="modal" class="modal hide smallModal">
-    <div class="modal-header">Add a New Bus</div>
+    @if (Model.UpdatingBus)
+    {
+        <div class="modal-header">Update Bus</div>
+    }
+    else
+    {
+        <div class="modal-header">Add a New Bus</div>
+    }
     <div class="modal-body" style="min-height: 200px; max-height: 400px; overflow: visible;">
         <div>
             <label for="capacityText">Capacity</label>

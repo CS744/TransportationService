@@ -4,7 +4,14 @@
 }
 
 <div id="modal" class="modal hide wideModal">
-    <div class="modal-header">Add a New Route</div>
+    @if (Model.UpdatingRoute)
+    {
+        <div class="modal-header">Update Route</div>
+    }
+    else
+    {
+        <div class="modal-header">Add a New Route</div>
+    }
     <div class="alert alert-error hide" id="routeFailureMessage">
         <div class="error-text">The route name already exists. Please enter a unique route name.</div>
     </div>

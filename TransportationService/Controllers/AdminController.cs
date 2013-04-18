@@ -328,9 +328,10 @@ namespace TransportationService.Controllers
                     });
                 }
             }
-
+            Route INeedTheRealId = db.GetRouteByRouteId(routeId);
             Route route = new Route()
             {
+                Id = INeedTheRealId.Id,
                 Stops = stops,
                 Name = routeName,
                 RouteId = routeId,
@@ -338,7 +339,7 @@ namespace TransportationService.Controllers
                 DriverBusList = driverBusList
             };
             db.UpdateRoute(route);
-            return Json(new { success = "true" });
+            return Json(new { success = "true", id = route.Id.ToString() });
         }
 
         public ActionResult DeleteRoute(string id)
@@ -466,7 +467,7 @@ namespace TransportationService.Controllers
             bus.Capacity = capacity;
             bus.State = state;
             db.UpdateBus(bus);
-            return Json("true");
+            return Json(new { success = "true", id = bus.Id.ToString() });
         }
 
         public ActionResult DeleteBus(string id)
@@ -615,7 +616,7 @@ namespace TransportationService.Controllers
             driver.Name = name;
             driver.State = state;
             db.UpdateDriver(driver);
-            return Json("true");
+            return Json(new { success = "true", id = driver.Id.ToString() });
         }
 
         public ActionResult DeleteDriver(string id)
@@ -746,7 +747,7 @@ namespace TransportationService.Controllers
             e.State = state;
             e.Zip = zip;
             db.UpdateEmployee(e);
-            return Json("true");
+            return Json(new { success = "true", id = e.Id.ToString() });
         }
 
         public ActionResult DeleteEmployee(string id)
@@ -773,7 +774,7 @@ namespace TransportationService.Controllers
                 {
                     ObjectId = r.Id.ToString(),
                     ModifyCall = "modifyRoute(" + r.RouteId + ")",
-                    DeleteCall = "alert('not sure where this is')",
+                    DeleteCall = "deleteItemClick('route', '" + r.Id.ToString() + "')",
                     Columns = new List<string>(){
                r.Name,
                r.IsActive? "Active" : "InActive"
@@ -805,7 +806,7 @@ namespace TransportationService.Controllers
                 {
                     ObjectId = e.Id.ToString(),
                     ModifyCall = "modifyEmployee(" + e.EmployeeId + ")",
-                    DeleteCall = "alert('not sure where this is')",
+                    DeleteCall = "deleteItemClick('employee', '" + e.Id.ToString() + "')",
                     Columns = new List<string>(){
                e.Name,
                e.SocialSecurityNumber.ToString(),
@@ -842,7 +843,7 @@ namespace TransportationService.Controllers
               {
                  ObjectId = b.Id.ToString(),
                  ModifyCall = "modifyBus(" + b.BusId + ")",
-                 DeleteCall = "alert('not sure where this is')",
+                 DeleteCall = "deleteItemClick('bus', '" + b.Id.ToString() + "')",
                  Columns = new List<string>(){
                b.LicensePlate.ToString(),
                b.State,
@@ -875,8 +876,8 @@ namespace TransportationService.Controllers
               Rows = drivers.Select(d => new CustomRow()
               {
                  ObjectId = d.Id.ToString(),
-                 ModifyCall = "modifyBus(" + d.DriverId + ")",
-                 DeleteCall = "alert('not sure where this is')",
+                 ModifyCall = "modifyDriver(" + d.DriverId + ")",
+                 DeleteCall = "deleteItemClick('driver', '" + d.Id.ToString() + "')",
                  Columns = new List<string>(){
                d.Name,
                d.DriverLicense,
@@ -886,6 +887,28 @@ namespace TransportationService.Controllers
                d.EveningAssignedTo  == -1? "none" : db.GetRouteByRouteId(d.EveningAssignedTo).Name,
                d.EveningAssignedTo  == -1? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).LicensePlate,
                }
+              }).ToList()
+           };
+           return PartialView("ViewItem", model);
+        }
+
+        public ActionResult ViewStops()
+        {
+           DatabaseInterface db = new DatabaseInterface();
+           var stops = db.GetAvailableStops();
+           var model = new CustomTable()
+           {
+              Headers = new List<string>(){
+               "Location",
+               },
+              Rows = stops.Select(s => new CustomRow()
+              {
+                 ObjectId = s.Id.ToString(),
+                 ModifyCall = "",
+                 DeleteCall = "deleteItemClick('stop', '" + s.Id.ToString() + "')",
+                 Columns = new List<string>(){
+                     s.Location,
+                  }
               }).ToList()
            };
            return PartialView("ViewItem", model);

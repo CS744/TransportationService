@@ -4,7 +4,14 @@
 }
 
 <div id="modal" class="modal hide smallModal">
-    <div class="modal-header">Add a New Driver</div>
+    @if (Model.UpdatingDriver)
+    {
+        <div class="modal-header">Update Driver</div>
+    }
+    else
+    {
+        <div class="modal-header">Add a New Driver</div>
+    }
     <div class="modal-body" style="overflow-y: visible;">
         <input id="nameText" type="text" placeholder="Enter driver's name" value="@Model.Name"/>
         <label for="licenseText">Please provide the driver's license</label>
@@ -36,9 +43,11 @@
         @if (Model.UpdatingDriver)
         {
             <button class="btn btn-success" onclick="updateDriver(@Model.DriverId)">Save</button>
-        } else {
-        <button class="btn btn-success" onclick="addNewDriver(false)">Add Driver</button>
-        <button class="btn btn-success" onclick="addNewDriver(true)">Add and Add Another</button>
+        }
+        else
+        {
+            <button class="btn btn-success" onclick="addNewDriver(false)">Add Driver</button>
+            <button class="btn btn-success" onclick="addNewDriver(true)">Add and Add Another</button>
         }
         <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
     </div>

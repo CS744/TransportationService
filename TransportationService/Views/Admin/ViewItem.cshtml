@@ -3,14 +3,17 @@
     Layout = null;
 }
 
-<table id="view-item-table">
+<table id="view-item-table" class="good-style">
     <thead>
         <tr style="border-bottom: 1px solid black; padding: 5px;">
             @foreach (var header in Model.Headers)
             {
-                <th style="font-weight: bold; padding: 7px 0px;">@header</th>
+                <th style="font-weight: bold; padding: 7px 0px;">@header<i class=" no-opacity"></i></th>
             }
-            <th style="font-weight: bold; padding: 7px 0px;">Modify</th>
+            @if (Model.Rows.Any() && Model.Rows.First().ModifyCall != "")
+            {
+                <th style="font-weight: bold; padding: 7px 0px;">Modify</th>
+            }
             <th style="font-weight: bold; padding: 7px 0px;">Delete</th>
         </tr>
     </thead>
@@ -22,7 +25,10 @@
                 {
                     <td>@col</td>
                 }
-                <td style="cursor:pointer;" onclick="@row.ModifyCall"><i class="icon-pencil"></i></td>
+                @if (row.ModifyCall != "")
+                {
+                    <td style="cursor:pointer;" onclick="@row.ModifyCall"><i class="icon-pencil"></i></td>
+                }
                 <td style="cursor:pointer;" onclick="@row.DeleteCall"><i class="icon-trash"></i></td>
             </tr>
         }

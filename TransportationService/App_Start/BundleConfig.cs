@@ -33,6 +33,7 @@ namespace MvcApplication1
          bundles.Add(new StyleBundle("~/Content/css").Include(
             "~/Content/site.css",
             "~/Content/utility.css",
+            "~/Content/tableStyle.css",
             "~/Content/bootstrap.css",
             "~/Content/datepicker.css",
             "~/Content/font-awesome.css",

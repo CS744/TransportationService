@@ -40,7 +40,7 @@ function submitRouteData() {
     var employeeDict = {};
     var s = document.getElementById("route-select");
     var validSelection = true;
-    $("#employee-table").find("tr").each(function () {
+    $("#employee-table").find("tr.employee-row").each(function () {
         $this = $(this);
         var stopSelect = $this.find(".select-stop")[0];
         var busSelect = $this.find(".select-bus")[0];

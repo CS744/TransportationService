@@ -84,10 +84,11 @@
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/AddNewRoute", request, function (data) {
         if (data.success == "true") {
+            $("#route-viewer-btn").click();
             $.notify.addMessage("The route was successfully added!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
-            var newItem = $("#view-routes").siblings(".view-child-inner").append("<div class='item-element' data-type='route' data-id='" + data.id + "' onclick=\"viewRoute('" + data.id + "')\">" + getInnerViewItem(routeName) + "</div>").children().last();
-            newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
+            //var newItem = $("#view-routes").siblings(".view-child-inner").append("<div class='item-element' data-type='route' data-id='" + data.id + "' onclick=\"viewRoute('" + data.id + "')\">" + getInnerViewItem(routeName) + "</div>").children().last();
+            //newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
         } else {
             $("#routeFailureMessage > .error-text").text("The route name already exists. Please enter a unique route name.");
             rollDown($("#routeFailureMessage"));
@@ -116,8 +117,10 @@ function addNewStop(addAnother) {
 
 function addNewStopCallback(data, hideModal, location) {
     if (data.success == "true") {
-        var newItem = $("#view-Stops").siblings(".view-child-inner").append("<div class='item-element' data-type='stop' data-id='" + data.id + "'  onclick=\"viewStop('" + data.id + "')\">" + getInnerViewItem(location) + "</div>").children().last();
-        newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
+
+        $("#stop-viewer-btn").click();
+        //var newItem = $("#view-Stops").siblings(".view-child-inner").append("<div class='item-element' data-type='stop' data-id='" + data.id + "'  onclick=\"viewStop('" + data.id + "')\">" + getInnerViewItem(location) + "</div>").children().last();
+        //newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
         $.notify.addMessage("The stop was successfully added!", { type: "success", time: 6000 });
         if (hideModal) {
             $("#modal").modal('hide');
@@ -166,8 +169,10 @@ function addNewBus(addAnother) {
 function addNewBusCallback(data, hideModal, license) {
     if (data.success == "true") {
         $.notify.addMessage("The bus was successfully added!", { type: "success", time: 6000 });
-        var newItem = $("#view-buses").siblings(".view-child-inner").append("<div class='item-element' data-type='bus' data-id='" + data.id + "'  onclick=\"viewBus('" + data.id + "')\">" + getInnerViewItem(license) + "</div>").children().last();
-        newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
+
+        $("#bus-viewer-btn").click();
+        //var newItem = $("#view-buses").siblings(".view-child-inner").append("<div class='item-element' data-type='bus' data-id='" + data.id + "'  onclick=\"viewBus('" + data.id + "')\">" + getInnerViewItem(license) + "</div>").children().last();
+        //newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
         if (hideModal) {
             $("#modal").modal('hide');
         }
@@ -217,8 +222,9 @@ function addNewDriver(addAnother) {
 
 function addNewDriverCallback(data, hideModal, name) {
     if (data.success == "true") {
-        var newItem = $("#view-Drivers").siblings(".view-child-inner").append("<div class='item-element' data-type='driver' data-id='" + data.id + "'  onclick=\"viewDriver('" + data.driverId + "')\">" + getInnerViewItem(name) + "</div>").children().last();
-        newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
+        $("#driver-viewer-btn").click();
+       // var newItem = $("#view-Drivers").siblings(".view-child-inner").append("<div class='item-element' data-type='driver' data-id='" + data.id + "'  onclick=\"viewDriver('" + data.driverId + "')\">" + getInnerViewItem(name) + "</div>").children().last();
+        //newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
         $.notify.addMessage("The driver was successfully added!", { type: "success", time: 6000 });
         if (hideModal) {
             $("#modal").modal('hide');
@@ -319,8 +325,9 @@ function addNewEmployee(addAnother) {
 
 function addNewEmployeeCallback(data, hideModal, name) {
     if (data.success == "true") {
-        var newItem = $("#view-Employees").siblings(".view-child-inner").append("<div class='item-element' data-type='employee' data-id='" + data.id + "'  onclick=\"viewEmployee('" + data.employeeId + "')\">" + getInnerViewItem(name) + "</div>").children().last();
-        newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
+        $("#employee-viewer-btn").click();
+        //var newItem = $("#view-Employees").siblings(".view-child-inner").append("<div class='item-element' data-type='employee' data-id='" + data.id + "'  onclick=\"viewEmployee('" + data.employeeId + "')\">" + getInnerViewItem(name) + "</div>").children().last();
+        //newItem.find(".delete-item").click(function (event) { deleteItemClick(event, $(this)); });
         $.notify.addMessage("The employee was successfully added!", { type: "success", time: 6000 });
         if (hideModal) {
             $("#modal").modal('hide');

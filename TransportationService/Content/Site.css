@@ -82,6 +82,9 @@
 .hidden {
 	opacity: 0 !important;
 }
+.no-opacity {
+	opacity: 0
+}
 
 /* Log in Style. */
 #loginContainer {
@@ -211,18 +214,18 @@ float-left {
 	margin-bottom: 10px;
 }
 
-#employee-table, #view-item-table {
+table.good-style, #view-item-table {
 	width: 100%;
 	border-top: 1px solid black;
 	border-right: 1px solid black;
 	border-left: 1px solid black;
 }
 
-	#view-item-table tr .employee-row, #view-item-table tr {
+	table.good-style tbody tr, table.good-style tr {
 		border-bottom: 1px solid black;
 	}
 
-.employee-row > td {
+tbody tr > td {
 	vertical-align: middle;
 	padding: 5px;
 }

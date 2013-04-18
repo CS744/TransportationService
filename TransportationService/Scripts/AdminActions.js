@@ -122,12 +122,7 @@ $(document).ready(function () {
     $(".delete-item").click(function (event) { return deleteItemClick(event, $(this)); });
 });
 
-function deleteItemClick(event, elem, item) {
-    if (!item) {
-        item = elem.parent();
-    }
-    var type = item.attr("data-type");
-    var id = item.attr("data-id");
+function deleteItemClick(type, id) {
     var action = "";
     if (type == "route") {
         action = "DeleteRoute";
@@ -160,6 +155,7 @@ function deleteItemClick(event, elem, item) {
                         if ($("button[onclick='" + sel + "']")) {
                             $(".view-container-right").html("");
                         }
+                        var item = $("#view-tr-" + id);
                         rollUp(item, 300, function () { item.remove(); });
                         $("#modal").modal("hide");
                     });
@@ -171,7 +167,7 @@ function deleteItemClick(event, elem, item) {
             $("#modal").modal();
         }
     }
-    $.post("/Utility/IsValid" + action, { id: item.attr("data-id") }, function (d) {
+    $.post("/Utility/IsValid" + action, { id: id }, function (d) {
         callback(d);
     });
     if (event) {
@@ -180,10 +176,6 @@ function deleteItemClick(event, elem, item) {
     return false;
 }
 
-function removeItemById(id) {
-    var item = $(".item-element[data-id='" + id + "']");
-    deleteItemClick(undefined, undefined, item);
-}
 
 //"driverBus" is a stupid & terrible name but I couldn't think of anything better and "busDriver" just sounds like a driver
 function addDriverBus() {

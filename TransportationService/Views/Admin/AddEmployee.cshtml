@@ -4,7 +4,14 @@
 }
 
 <div id="modal" class="modal hide largeModal">
-    <div class="modal-header">Add a New Employee</div>
+    @if (Model.UpdatingEmployee)
+    {
+        <div class="modal-header">Update Employee</div>
+    }
+    else
+    {
+        <div class="modal-header">Add a New Employee</div>
+    }
     <div class="alert alert-error hide" id="employeeFailureMessage">
         <div class="error-text">The social security number already exists. Please enter a unique social security number.</div>
     </div>

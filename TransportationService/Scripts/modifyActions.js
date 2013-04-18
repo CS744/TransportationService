@@ -87,8 +87,11 @@ function updateRoute(routeId) {
     jQuery.ajaxSettings.traditional = true;
     $.post("/Admin/UpdateRoute", request, function (data) {
         if (data.success == "true") {
+            $("#view-tr-" + data.id + " > td:nth-child(1)").text(request.routeName);
+            $("#view-tr-" + data.id + " > td:nth-child(2)").text(request.isActive ? "Active" : "Inactive");
             $.notify.addMessage("The route was successfully updated!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
+            $("#view-item-table").trigger("update");
         } else {
             $("#routeFailureMessage > .error-text").text("The route name already exists. Please enter a unique route name.");
             rollDown($("#routeFailureMessage"));
@@ -138,15 +141,14 @@ function updateBus(busId) {
         busId: busId
     }
     $.post("/Admin/UpdateBus", request, function (data) {
-        if (data == "true") {
-            var statusText = request.status == 0 ? "Active" : "Inactive";
-            $(".item-info[data-type='status']").text(statusText);
-            $(".item-info[data-type='state']").text(request.state);
-            $(".item-info[data-type='licensePlate']").text(request.license);
-            $(".item-info[data-type='capacity']").text(request.capacity);
+        if (data.success == "true") {
+            $("#view-tr-" + data.id + " > td:nth-child(1)").text(request.license);
+            $("#view-tr-" + data.id + " > td:nth-child(2)").text(request.state);
+            $("#view-tr-" + data.id + " > td:nth-child(3)").text(request.capacity);
 
             $.notify.addMessage("The bus was successfully updated!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
+            $("#view-item-table").trigger("update");
         } else {
             $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
             rollDown($("#busFailureMessage"));
@@ -197,13 +199,14 @@ function updateDriver(driverId) {
         driverId: driverId
     }
     $.post("/Admin/UpdateDriver", request, function (data) {
-        if (data == "true") {
-            $(".item-info[data-type='name']").text(name);
-            $(".item-info[data-type='state']").text(request.state);
-            $(".item-info[data-type='licensePlate']").text(request.license);
+        if (data.success == "true") {
+            $("#view-tr-" + data.id + " > td:nth-child(1)").text(name);
+            $("#view-tr-" + data.id + " > td:nth-child(2)").text(request.license);
+            $("#view-tr-" + data.id + " > td:nth-child(3)").text(request.state);
 
             $.notify.addMessage("The driver was successfully updated!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
+            $("#view-item-table").trigger("update");
         } else {
             $("#driverFailureMessage > .error-text").text("The license plate, state combination already exists. Please enter a unique license plate, state combination.");
             rollDown($("#driverFailureMessage"));
@@ -278,8 +281,8 @@ function updateEmployee(employeeId) {
 
     var request = {
         address: address,
-        morningAssignedTo: morningRouteId,
-        eveningAssignedTo: eveningRouteId,
+        morningRouteId: morningRouteId,
+        eveningRouteId: eveningRouteId,
         city: city,
         email: email,
         employeeId: employeeId,
@@ -289,19 +292,25 @@ function updateEmployee(employeeId) {
         zip: zip
     }
     $.post("/Admin/UpdateEmployee", request, function (data) {
-        if (data == "true") {
-            $(".item-info[data-type='address']").text(request.address);
-            $(".item-info[data-type='city']").text(request.city);
-            $(".item-info[data-type='zip']").text(request.zip);
-            $(".item-info[data-type='state']").text(request.state);
-            $(".item-info[data-type='email']").text(request.email);
-            $(".item-info[data-type='phone']").text(request.phone);
-            $(".item-info[data-type='position']").text(request.position);
-            $(".item-info[data-type='morningAssignedTo']").text(request.morningAssignedTo);
-            $(".item-info[data-type='eveningAssignedTo']").text(request.eveningAssignedTo);
+        if (data.success == "true") {
+            //name
+            //ssn
+            $("#view-tr-" + data.id + " > td:nth-child(3)").text(request.position);
+            $("#view-tr-" + data.id + " > td:nth-child(4)").text(request.email);
+            //gender
+            $("#view-tr-" + data.id + " > td:nth-child(6)").text(request.phone);
+            $("#view-tr-" + data.id + " > td:nth-child(7)").text(request.address);
+            $("#view-tr-" + data.id + " > td:nth-child(8)").text(request.city);
+            $("#view-tr-" + data.id + " > td:nth-child(9)").text(request.state);
+            $("#view-tr-" + data.id + " > td:nth-child(10)").text(request.zip);
+
+            //$(".item-info[data-type='morningAssignedTo']").text(request.morningAssignedTo);
+            //$(".item-info[data-type='eveningAssignedTo']").text(request.eveningAssignedTo);
 
             $.notify.addMessage("The employee was successfully updated!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
+
+            $("#view-item-table").trigger("update");
         } else {
             $("#employeeFailureMessage > .error-text").text("An error occurred ");
             rollDown($("#employeeFailureMessage"));
