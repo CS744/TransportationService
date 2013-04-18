@@ -1,96 +1,7 @@
-﻿function addRoute() {
-    $.post("/Admin/AddRoute", {}, function (data) {
+﻿function addRoute(isToWork) {
+    $.post("/Admin/AddRoute", { isToWork: isToWork }, function (data) {
         $("#modal").replaceWith(data);
         $("#modal").modal();
-    });
-}
-
-function addNewRoute() {
-    var routeName = $("#routeNameText").val();
-    var license = $("#driverList").val();
-    var busText = $("#busList").val();
-    var isToWork = true;
-    var options = document.getElementById('selectedStops').options;
-    var stops = [options.length];
-    for (var i = 0; i < options.length; i++)
-        stops[i] = options[i].value;
-    if ($("#toHomeButton").hasClass('active')) {
-        isToWork = false;
-    }
-    if (routeName == "" || license == null || busText == "") {
-        $("#routeFailureMessage > .error-text").text("Route name and Driver's name must be correctly entered.");
-        rollDown($("#routeFailureMessage"));
-        setTimeout(function () {
-            rollUp($("#routeFailureMessage"));
-        }, 6000);
-        return false;
-    }
-    var request = {
-        stopIds: stops,
-        routeName: routeName,
-        driverLicense: license,
-        busId: parseInt(busText),
-        startsAtWork: isToWork
-    }
-    jQuery.ajaxSettings.traditional = true;
-    $.post("/Admin/AddNewRoute", request, function (data) {
-        if (data.success == "true") {
-            $.notify.addMessage("The route was successfully added!", { type: "success", time: 6000 });
-            $("#modal").modal('hide');
-            $("#view-routes").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewRoute('" + data.id + "')\">" + routeName + "</div>");
-        } else {
-            $("#routeFailureMessage > .error-text").text("The route name already exists. Please enter a unique route name.");
-            rollDown($("#routeFailureMessage"));
-            setTimeout(function () {
-                rollUp($("#routeFailureMessage"));
-            }, 6000);
-        }
-    });
-}
-
-function modifyRoute(rId) {
-    $.post("/Admin/ModifyRoute", {routeId: rId}, function (data) {
-        $("#modal").replaceWith(data);
-        $("#modal").modal();
-    });
-}
-
-function updateRoute(routeId) {
-    var routeName = $("#routeNameText").val();
-    var license = $("#driverList").val();
-    var busText = $("#busList").val();
-    var options = document.getElementById('selectedStops').options;
-    var stops = [options.length];
-    for (var i = 0; i < options.length; i++) {
-        stops[i] = options[i].value;
-    }
-    if (routeName == "" || license == null || busText == "") {
-        $("#routeFailureMessage > .error-text").text("Route name and Driver's name must be correctly entered.");
-        rollDown($("#routeFailureMessage"));
-        setTimeout(function () {
-            rollUp($("#routeFailureMessage"));
-        }, 6000);
-        return false;
-    }
-    var request = {
-        stopIds: stops,
-        routeName: routeName,
-        driverLicense: license,
-        busId: busText,
-        routeId: routeId
-    }
-    jQuery.ajaxSettings.traditional = true;
-    $.post("/Admin/UpdateRoute", request, function (data) {
-        if (data == "true") {
-            $.notify.addMessage("The route was successfully updated!", { type: "success", time: 6000 });
-            $("#modal").modal('hide');
-        } else {
-            $("#routeFailureMessage > .error-text").text("The route name already exists. Please enter a unique route name.");
-            rollDown($("#routeFailureMessage"));
-            setTimeout(function () {
-                rollUp($("#routeFailureMessage"));
-            }, 6000);
-        }
     });
 }
 
@@ -100,48 +11,6 @@ function addStop() {
         $("#modal").replaceWith(data);
         $("#modal").modal();
     });
-}
-
-function addNewStop(addAnother) {
-    var location = $("#locationText").val();
-    var request = {
-        location: location,
-    }
-    if (location == "") {
-        $("#stopFailureMessage > .error-text").text("Must Give a Location.");
-        rollDown($("#stopFailureMessage"));
-        setTimeout(function () {
-            rollUp($("#stopFailureMessage"));
-        }, 6000);
-        return false;
-    }
-    if (addAnother) {
-        $.post("/Admin/AddNewStop", request, function (data) {
-            if (data == "true") {
-                $("#locationText").val("");
-                $.notify.addMessage("The stop was successfully added!", { type: "success", time: 6000 });
-            } else {
-                $("#stopFailureMessage > .error-text").text("The stop location already exists. Please enter a unique stop location.");
-                rollDown($("#stopFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#stopFailureMessage"));
-                }, 6000);
-            }
-        });
-    } else {
-        $.post("/Admin/AddNewStop", request, function (data) {
-            if (data == "true") {
-                $.notify.addMessage("The stop was successfully added!", { type: "success", time: 6000 });
-                $("#modal").modal('hide');
-            } else {
-                $("#stopFailureMessage > .error-text").text("The stop location already exists. Please enter a unique stop location.");
-                rollDown($("#stopFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#stopFailureMessage"));
-                }, 6000);
-            }
-        });
-    }
 }
 
 function addStopToRoute(elem) {
@@ -170,155 +39,12 @@ function addBus() {
     });
 }
 
-function addNewBus(addAnother) {
-    var state = $("#statesList").val();
-    var capacity = $("#capacityText").val();
-    var license = $("#licenseText").val();
-    if (license.length != 7 || state == "") {
-        $("#busFailureMessage > .error-text").text("Fill In All Criteria Correctly.");
-        rollDown($("#busFailureMessage"));
-        setTimeout(function () {
-            rollUp($("#busFailureMessage"));
-        }, 6000);
-        return false;
-    }
-    var request = {
-        capacity: parseInt(capacity),
-        license: license,
-        state: state
-    }
-    if (addAnother) {
-        $.post("/Admin/AddNewBus", request, function (data) {
-            if (data.success == "true") {
-                $("#capacityText").val("");
-                $("#licenseText").val("");
-                $("#statesList").val("--State--");
-                $.notify.addMessage("The bus was successfully added!", { type: "success", time: 6000 });
-                $("#view-buses").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewBus('" + data.id + "')\">" + license + "</div>");
-            } else {
-                $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
-                rollDown($("#busFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#busFailureMessage"));
-                }, 6000);
-            }
-        });
-    } else {
-        $.post("/Admin/AddNewBus", request, function (data) {
-            if (data.success == "true") {
-                $.notify.addMessage("The bus was successfully added!", { type: "success", time: 6000 });
-                $("#view-buses").siblings(".view-child-inner").append("<div class='item-element' onclick=\"viewBus('" + data.id + "')\">" + license + "</div>");
-                $("#modal").modal('hide');
-            } else {
-                $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
-                rollDown($("#busFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#busFailureMessage"));
-                }, 6000);
-            }
-        });
-    }
-}
-
-function modifyBus(bId) {
-    console.log("supposed to be modifying bus");
-    $.post("/Admin/ModifyBus", {busId: bId}, function (data) {
-        $("#modal").replaceWith(data);
-        $("#modal").modal();
-            });
-}
-
-function updateBus(busId) {
-    var state = $("#statesList").val();
-    var capacity = $("#capacityText").val();
-    var license = $("#licenseText").val();
-    var status = 1;
-    if ($("#isActive").hasClass('active')) {
-        status = "0";
-    }
-    if (license == "" || state == "") {
-        $("#busFailureMessage > .error-text").text("Fill In All Criteria Correctly.");
-        rollDown($("#busFailureMessage"));
-        setTimeout(function () {
-            rollUp($("#busFailureMessage"));
-        }, 6000);
-        return false;
-    }
-    var request = {
-        capacity: parseInt(capacity),
-        license: license,
-        state: state,
-        status: status,
-        busId: busId
-    }
-    $.post("/Admin/UpdateBus", request, function (data) {
-        if (data == "true") {
-            $.notify.addMessage("The bus was successfully updated!", { type: "success", time: 6000 });
-            $("#modal").modal('hide');
-        } else {
-            $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
-            rollDown($("#busFailureMessage"));
-            setTimeout(function () {
-                rollUp($("#busFailureMessage"));
-            }, 6000);
-        }
-    });
-}
-
 function addDriver() {
     console.log("supposed to be adding driver");
     $.post("/Admin/AddDriver", {}, function (data) {
         $("#modal").replaceWith(data);
         $("#modal").modal();
     });
-}
-
-function addNewDriver(addAnother) {
-    var state = $("#statesList").val();
-    var name = $("#nameText").val();
-    var license = $("#licenseText").val();
-    if (state == "" || name == "" || license == "") {
-        $("#driverFailureMessage > .error-text").text("Must fill out ALL information.");
-        rollDown($("#employeeFailureMessage"));
-        setTimeout(function () {
-            rollUp($("#employeeFailureMessage"));
-        }, 6000);
-        return false;
-    }
-    var request = {
-        state: state,
-        name: name,
-        license: license
-    }
-    if (addAnother) {
-        $.post("/Admin/AddNewDriver", request, function (data) {
-            if (data == "true") {
-                $("#nameText").val("");
-                $("#licenseText").val("");
-                $("#statesList").val("--State--");
-                $.notify.addMessage("The driver was successfully added!", { type: "success", time: 6000 });
-            } else {
-                $("#driverFailureMessage > .error-text").text("The driver's license already exists. Please enter a unique license.");
-                rollDown($("#driverFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#driverFailureMessage"));
-                }, 6000);
-            }
-        });
-    } else {
-        $.post("/Admin/AddNewDriver", request, function (data) {
-            if (data == "true") {
-                $.notify.addMessage("The driver was successfully added!", { type: "success", time: 6000 });
-                $("#modal").modal('hide');
-            } else {
-                $("#driverFailureMessage > .error-text").text("The driver's license already exists. Please enter a unique license.");
-                rollDown($("#driverFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#driverFailureMessage"));
-                }, 6000);
-            }
-        });
-    }
 }
 
 function addEmployee() {
@@ -329,107 +55,14 @@ function addEmployee() {
     });
 }
 
-function addNewEmployee(addAnother) {
-    var isMale = $("#isMale").hasClass("active");
-    var email = $("#emailText").val();
-    var phone = $("#phoneText").val();
-    var address = $("#addressText").val();
-    var city = $("#cityText").val();
-    var state = $("#statesList").val();
-    var routeId = $("#routeList").val();
-    var ssn = $("#ssnText").val();
-    var position = $("#positionText").val();
-    var name = $("#nameText").val();
-
-    if (email == "" || phone == "" || address == "" || ssn == "" || position == "" || name == "" || routeId == null) {
-        $("#employeeFailureMessage > .error-text").text("Must fill out ALL information.");
-        rollDown($("#employeeFailureMessage"));
-        setTimeout(function () {
-            rollUp($("#employeeFailureMessage"));
-        }, 6000);
-        return false;
-    }
-
-    var request = {
-        isMale: isMale,
-        email: email,
-        phone: phone,
-        address: address,
-        city: city,
-        state:state,
-        routeId: parseInt(routeId),
-        ssn: ssn,
-        position: position,
-        name: name
-    }
-    if (addAnother) {
-        $.post("/Admin/AddNewEmployee", request, function (data) {
-            if (data == "true") {
-                $("#ssnText").val("");
-                $("#positionText").val("");
-                $("#nameText").val("");
-                $.notify.addMessage("The employee was successfully added!", { type: "success", time: 6000 });
-            } else {
-                $("#employeeFailureMessage > .error-text").text("The social security number already exists. Please enter a unique social security number.");
-                rollDown($("#employeeFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#employeeFailureMessage"));
-                }, 6000);
-            }
-        });
-    } else {
-        $.post("/Admin/AddNewEmployee", request, function (data) {
-            if (data == "true") {
-                $.notify.addMessage("The employee was successfully added!", { type: "success", time: 6000 });
-                $("#modal").modal('hide');
-            } else {
-                $("#employeeFailureMessage > .error-text").text("The social security number already exists. Please enter a unique social security number.");
-                rollDown($("#employeeFailureMessage"));
-                setTimeout(function () {
-                    rollUp($("#employeeFailureMessage"));
-                }, 6000);
-            }
-        });
-    }
-}
-
-function viewMe(id) {
-    elem = $(id);
-    if (elem.hasClass("viewing")) {
-        elem.removeClass("viewing")
-        rollUp(elem.siblings(".view-child-inner"));
-    }
-    else {
-        $(".view-child-header.viewing").each(function (ndx) {
-            rollUp($(this).siblings(".view-child-inner"));
-            $(this).removeClass("viewing");
-        });
-        elem.addClass("viewing");
-        rollDown(elem.siblings(".view-child-inner"));
-    }
-}
-
-function viewBus(id) {
-    var request = { id: id };
-    $.post("/ViewInformation/ViewBus", request, function (data) {
-        $("#view-container > .view-container-right").html(data);
-    });
-}
-
-function viewRoute(id) {
-    var request = { id: id };
-    $.post("/ViewInformation/ViewRoute", request, function (data) {
-        $("#view-container > .view-container-right").html(data.html);
-    });
-}
-
 function moveStopUp() {
     var selected = $("#selectedStops option:selected");
     var text = selected.text();
+    var value = selected.val();
     var index = $("#selectedStops option").index(selected);
     if (index != 0) {
         selected.remove();
-        $("#selectedStops option:eq(" + (index - 1) + ")").before("<option value='1'>" + text + "</option>");
+        $("#selectedStops option:eq(" + (index - 1) + ")").before("<option value='" + value + "'>" + text + "</option>");
         $('#selectedStops option')[index - 1].selected = true;
     }
     $('#selectedStops').focus();
@@ -438,11 +71,12 @@ function moveStopUp() {
 function moveStopDown() {
     var selected = $("#selectedStops option:selected");
     var text = selected.text();
+    var value = selected.val();
     var index = $("#selectedStops option").index(selected);
     var size = $("#selectedStops option").size();
     if (index != size - 1) {
         selected.remove();
-        $("#selectedStops option:eq(" + index + ")").after("<option value='1'>" + text + "</option>");
+        $("#selectedStops option:eq(" + index + ")").after("<option value='" + value + "'>" + text + "</option>");
         $('#selectedStops option')[index + 1].selected = true;
     }
     $('#selectedStops').focus();
@@ -454,19 +88,7 @@ function removeStop() {
     var location = selected.text();
     var index = selected.index();
     $("#stops").append("<option value=\"" + stopId + "\">" + location + "</option>");
-    var mylist = $('#stops');
-    var listitems = mylist.children('option').get();
-    listitems.sort(function (a, b) {
-        var first = parseInt($(a).val());
-        var second = parseInt($(b).val());
-        if (first == second)
-            return 0;
-        else if (first > second)
-            return 1;
-        else
-            return -1;
-    })
-    $.each(listitems, function (idx, itm) { mylist.append(itm); });
+    customSort("#stops");
     var size = $("#selectedStops option").size();
     $("#selectedStops option:selected").remove();
     if (index == size - 1 && size > 1)
@@ -483,4 +105,225 @@ function addStopToRoute() {
     var select = document.getElementById('stops');
     select.remove(select.selectedIndex);
     document.getElementById('stops').focus();
+}
+
+$(document).ready(function () {
+    if (window.location.pathname == "/EmployeeManagement") {
+        document.getElementById("mainArea-header").innerHTML = "Employee Management";
+        return false;
+    }
+    $.post("/Admin/RefreshAdmin", {}, function (data) {
+        if (data.error == undefined || data.error != true) {
+            userManager.currentUser = data.user;
+            $("#mainArea-header").html(data.headerText);
+            $("#sign-out-text").removeClass('hidden');
+        }
+    });
+    $(".delete-item").click(function (event) { return deleteItemClick(event, $(this)); });
+});
+
+function deleteItemClick(type, id) {
+    var action = "";
+    if (type == "route") {
+        action = "DeleteRoute";
+    }
+    else if (type == "stop") {
+        action = "DeleteStop";
+    }
+    else if (type == "bus") {
+        action = "DeleteBus";
+    }
+    else if (type == "driver") {
+        action = "DeleteDriver";
+    }
+    else if (type == "employee") {
+        action = "DeleteEmployee";
+    }
+    else {
+        alert("ERROR HAS OCCURED");
+        return false;
+    }
+    var callback = function (d) {
+        if (d.isValid) {
+            $.post("/Utility/GetConfirmationHTML", {}, function (html) {
+                $("#modal").replaceWith(html);
+                $("#modal").modal();
+                $("#confirm-button").click(function (e) {
+                    $.post("/Admin/" + action, { id: id }, function (data) {
+                        $.notify.addMessage("Successfully deleted!", { type: "success", time: 6000 });
+                        var sel = "removeItemById('" + id + "')";
+                        if ($("button[onclick='" + sel + "']")) {
+                            $(".view-container-right").html("");
+                        }
+                        var item = $("#view-tr-" + id);
+                        rollUp(item, 300, function () { item.remove(); });
+                        $("#modal").modal("hide");
+                    });
+                });
+            });
+        } else {
+            var jqueryString = "$('#modal').modal('hide')";
+            $("#modal").replaceWith('<div id="modal" class="modal hide" style="margin-left: -125px; width: 250px;"><div class="modal-header">Cannot Delete</div><div class="modal-body" style="text-align: center;">' + d.message + '</div><div class="modal-footer" style="padding:5px;"><button class="btn" onclick="' + jqueryString + '">OK</button></div></div>');
+            $("#modal").modal();
+        }
+    }
+    $.post("/Utility/IsValid" + action, { id: id }, function (d) {
+        callback(d);
+    });
+    if (event) {
+        event.preventDefault();
+    }
+    return false;
+}
+
+
+//"driverBus" is a stupid & terrible name but I couldn't think of anything better and "busDriver" just sounds like a driver
+function addDriverBus() {
+    var driverId = document.getElementById('driverList').value;
+    var busId = document.getElementById('busList').value;
+    var driverDetail = $("#driverList option:selected").text();
+    var busDetail = $("#busList option:selected").text();
+    if (driverId == "None")
+        driverDetail = "Driver: None";
+    if (busId == "None")
+        busDetail = "Bus: None";
+
+    var departureTime = $("#hourList option:selected").text() + ":" + $("#minuteList option:selected").text() + " " + $("#ampmLabel").text();
+    var status = $("#driverBusActiveButton").hasClass('active') ? "ACTIVE" : "INACTIVE";
+    if (driverId == "None" && busId == "None")
+        status = "INACTIVE";
+
+    var value = busId + ";" + driverId + ";" + departureTime + ";" + status;
+    var text = busDetail + "; " + driverDetail + "; Departs: " + departureTime + "; " + status;
+    var driverBusList = document.getElementById('driverBusList');
+    driverBusList.options[driverBusList.options.length] = new Option(text, value);
+    if (driverId != "None") {
+        var driverList = document.getElementById('driverList');
+        driverList.remove(driverList.selectedIndex);
+    }
+    if (busId != "None") {
+        var busList = document.getElementById('busList');
+        busList.remove(busList.selectedIndex);
+    }
+    //reset fields
+    document.getElementById("hourList").options[0].selected = true;
+    document.getElementById("minuteList").options[0].selected = true;
+    $("#driverBusActiveButton").removeClass('active');
+    $("#driverBusInactiveButton").addClass('active');
+}
+
+function removeDriverBus(editEntry) {
+    var selected = $("#driverBusList option:selected");
+    var value = selected.val();
+    var text = selected.text();
+    var index = selected.index();
+
+    var valueArray = value.split(";");
+    var busValue = valueArray[0];
+    var driverValue = valueArray[1];
+
+    var textArray = text.split(";");
+    var busText = textArray[0];
+    var driverText = textArray[1];
+
+    //add bus and driver fields back into their lists
+    if (busValue != "None")
+        $("#busList").append("<option value=\"" + busValue + "\">" + busText + "</option>");
+    if (driverValue != "None")
+        $("#driverList").append("<option value=\"" + driverValue + "\">" + driverText + "</option>");
+    customSort("#busList");
+    customSort("#driverList");
+
+    if (editEntry) {
+        var departureTimeValue = valueArray[2];
+        var status = valueArray[3];
+        var timeArray = departureTimeValue.split(":");
+        var hourValue = parseInt(timeArray[0]);
+        timeArray = timeArray[1].split(" ");
+        var minuteValue = parseInt(timeArray[0]);
+        var hourIndex = 0;
+        var minuteIndex = 0;
+        if (hourValue == 7 || hourValue == 4)
+            hourIndex = 1;
+        else if (hourValue == 8 || hourValue == 5)
+            hourIndex = 2;
+        else if (hourValue == 9 || hourValue == 6)
+            hourIndex = 3;
+        var counter = 0;
+        for (var i = 0; i < 12; i++) {
+            if (counter == minuteValue) {
+                minuteIndex = i;
+                break;
+            }
+            counter += 5;
+        }
+
+        //set fields to correct value
+        if (busValue != "None")
+            document.getElementById("busList").options[busValue].selected = true;
+        if (driverValue != "None")
+            document.getElementById("driverList").options[driverValue].selected = true;
+        if (status == "ACTIVE") {
+            $("#driverBusInactiveButton").removeClass('active');
+            $("#driverBusActiveButton").addClass('active');
+        } else {
+            $("#driverBusActiveButton").removeClass('active');
+            $("#driverBusInactiveButton").addClass('active');
+        }
+        document.getElementById("hourList").options[hourIndex].selected = true;
+        document.getElementById("minuteList").options[minuteIndex].selected = true;
+    }
+
+    var size = $("#driverBusList option").size();
+    $("#driverBusList option:selected").remove();
+    if (index == size - 1 && size > 1)
+        index--;
+    $('#driverBusList option')[index].selected = true;
+    $('#driverBusList').focus();
+}
+
+function customSort(list) {//include the # in the name of the list
+    var mylist = $(list);
+    var listitems = mylist.children('option').get();
+    listitems.sort(function (a, b) {
+        var first = parseInt($(a).val());
+        var second = parseInt($(b).val());
+        if (first == second)
+            return 0;
+        else if (first > second)
+            return 1;
+        else
+            return -1;
+    })
+    $.each(listitems, function (idx, itm) { mylist.append(itm); });
+}
+function viewRoutes() {
+    $.post("/Admin/ViewRoutes", {}, function (html) {
+        $("#view-container").html(html);
+        $("#view-item-table").tablesorter();
+    });
+}
+function viewEmployees() {
+    $.post("/Admin/ViewEmployees", {}, function (html) {
+        $("#view-container").html(html);
+        $("#view-item-table").tablesorter();
+    });
+}
+function viewBuses() {
+    $.post("/Admin/ViewBuses", {}, function (html) {
+        $("#view-container").html(html);
+        $("#view-item-table").tablesorter();
+    });
+}
+function viewDrivers() {
+    $.post("/Admin/viewDrivers", {}, function (html) {
+        $("#view-container").html(html);
+        $("#view-item-table").tablesorter();
+    });
+}
+function viewStops() {
+    $.post("/Admin/viewStops", {}, function (html) {
+        $("#view-container").html(html);
+        $("#view-item-table").tablesorter();
+    });
 }

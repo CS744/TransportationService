@@ -49,3 +49,9 @@
 .modal select {
 	height: 25px;
 }
+.btn-group > .btn.btn-primary {
+	opacity: .45;
+}
+.btn-group > .btn.btn-primary.active {
+	opacity: 1;
+}

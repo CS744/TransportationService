@@ -36,12 +36,7 @@ namespace TransportationService.Controllers
          sessionManager.User = user;
          var model = new OutputViewModel()
          {
-            Username = user.Username,
-            Routes = db.GetAvailableRoutes(),
-            Buses = db.GetAvailableBuses(),
-            Employees = db.GetAvailableEmployees(),
-            Stops = db.GetAvailableStops(),
-            Drivers = db.GetAvailableDrivers()
+            Username = user.Username
          };
 
          return Json(new

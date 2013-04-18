@@ -1,0 +1,48 @@
+﻿@model TransportationService.Models.ViewEmployeeModel
+@{
+    ViewBag.Title = "ViewRouteView";
+}
+
+<div>
+    <b>The Employee's name is:</b>
+    <div class="item-info" data-type="name">@Model.Name</div>
+</div>
+<div>
+    <b>The Employee is a:</b>
+    <div class="item-info" data-type="licensePlate">@Model.Gender</div>
+</div>
+<div>
+    <b>The Employee's social security number is:</b>
+    <div class="item-info" data-type="driverName">@Model.SSN</div>
+</div>
+<div>
+    <b>The Employee's position is:</b>
+    <div class="item-info" data-type="driverName">@Model.Position</div>
+</div>
+<div>
+    <b>The Employee's email address is:</b>
+    <div class="item-info" data-type="driverName">@Model.Email</div>
+</div>
+<div>
+    <b>The Employee's phone number is:</b>
+    <div class="item-info" data-type="driverName">@Model.Number</div>
+</div>
+<div>
+    <b>The Employee's address is:</b>
+    <div class="item-info" data-type="driverName">@Model.Address</div>
+</div>
+<div>
+    <b>The Employee is from :</b>
+    <div class="item-info" data-type="driverName">@Model.City, @Model.State</div>
+</div>
+@if (Model.RouteName != "")
+{
+    <div>
+        The route the bus is assigned to is:
+    <div class="item-info" data-type="routeName">@Model.RouteName</div>
+    </div>
+}
+<div>
+    <button class="btn btn-primary" onclick="modifyEmployee(@Model.Id)">Modify Employee</button>
+    <button class="btn btn-danger" onclick="removeItemById('@Model.ObjectId')">Remove Employee</button>
+</div>

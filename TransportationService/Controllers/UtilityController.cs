@@ -15,12 +15,36 @@ namespace TransportationService.Controllers
 
       public ActionResult Index()
       {
-      return View();
+         return View();
       }
 
       public ActionResult GetRegisterModal()
       {
          return View();
+      }
+      public ActionResult GetConfirmationHTML()
+      {
+         return PartialView("Confirmation");
+      }
+      public ActionResult IsValidDeleteRoute(string id)
+      {
+         return Json(new { isValid = "true" });
+      }
+      public ActionResult IsValidDeleteBus(string id)
+      {
+          return Json(new { isValid = "true" });
+      }
+      public ActionResult IsValidDeleteStop(string id)
+      {
+          return Json(new { isValid = "true" });         
+      }
+      public ActionResult IsValidDeleteDriver(string id)
+      {
+          return Json(new { isValid = "true" });
+      }
+      public ActionResult IsValidDeleteEmployee(string id)
+      {
+         return Json(new { isValid = "true" });
       }
    }
 }

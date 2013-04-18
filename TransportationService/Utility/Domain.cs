@@ -4,17 +4,13 @@ using System.Linq;
 using System.Web;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using TransportationService.Models;
 
 // These are the classes we will store in the Database.
 
 namespace TransportationService.Utility
 {
-    public enum BusStatus
-    {
-        Active = 0,
-        Inactive
-    }
-
+    
     public class User
     {
         [BsonId]
@@ -31,9 +27,11 @@ namespace TransportationService.Utility
         public string LicensePlate { get; set; }
         public string State { get; set; }
         public int Capacity { get; set; }
-        public BusStatus Status { get; set; }
         public int BusId { get; set; }
-        public int AssignedTo { get; set; }
+        public bool MorningIsActive { get; set; }
+        public bool EveningIsActive { get; set; }
+        public int MorningAssignedTo { get; set; }
+        public int EveningAssignedTo { get; set; }
     }
 
     public class Employee
@@ -50,7 +48,9 @@ namespace TransportationService.Utility
         public string City { get; set; }
         public string State { get; set; }
         public int EmployeeId { get; set; }
-        public Route route { get; set; }
+        public int MorningAssignedTo { get; set; }
+        public int EveningAssignedTo { get; set; }
+        public int Zip { get; set; }
     }
 
     public class Driver
@@ -59,25 +59,40 @@ namespace TransportationService.Utility
         public ObjectId Id { get; set; }
         public string Name { get; set; }
         public string DriverLicense { get; set; }
-        public int AssignedTo { get; set; }
-        public string Gender { get; set; }
         public string State { get; set; }
+        public int DriverId { get; set; }
+        public bool MorningIsActive { get; set; }
+        public bool EveningIsActive { get; set; }
+        public int MorningAssignedTo { get; set; }
+        public int EveningAssignedTo { get; set; }
     }
+
     public class Route
     {
         [BsonId]
         public ObjectId Id { get; set; }
         public List<Stop> Stops { get; set; }
-        public Driver Driver { get; set; }
         public string Name { get; set; }
         public int RouteId { get; set; }
-        public Bus Bus { get; set; }
+        public bool IsActive { get; set; }
+        public List<DriverBus> DriverBusList { get; set; }
     }
+
     public class Stop
     {
         [BsonId]
         public ObjectId Id { get; set; }
         public string Location { get; set; }
         public int StopId { get; set; }
+    }
+    public class EmployeeInstance
+    {
+       [BsonId]
+       public ObjectId Id { get; set; }
+       public ObjectId RouteId { get; set; }
+       public ObjectId EmployeeId { get; set; }
+       public ObjectId StopId { get; set; }
+       public ObjectId BusId { get; set; }
+       public DateTime Date { get; set; }
     }
 }

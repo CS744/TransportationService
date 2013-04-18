@@ -9,7 +9,7 @@
             <label for="locationText">Please provide the intersection or address</label>
             <input id="locationText" type="text" placeholder="Enter Location" />
         </div>
-        <div class="alert alert-error" id="stopFailureMessage">
+        <div class="alert alert-error hide" id="stopFailureMessage">
             <div class="error-text">The stop location already exists. Please enter a unique stop location.</div>
         </div>
     </div>
@@ -19,9 +19,3 @@
         <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $("#stopSuccessModalMessage").hide();
-        $("#stopFailureMessage").hide();
-    });
-</script>

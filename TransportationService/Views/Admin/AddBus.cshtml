@@ -1,18 +1,25 @@
-﻿@model TransportationService.Models.AddBusModel
+﻿@model TransportationService.Models.BusModel
 @{
     ViewBag.Title = "AddBus";
 }
 
 <div id="modal" class="modal hide smallModal">
-    <div class="modal-header">Add a New Bus</div>
+    @if (Model.UpdatingBus)
+    {
+        <div class="modal-header">Update Bus</div>
+    }
+    else
+    {
+        <div class="modal-header">Add a New Bus</div>
+    }
     <div class="modal-body" style="min-height: 200px; max-height: 400px; overflow: visible;">
         <div>
             <label for="capacityText">Capacity</label>
-            <input id="capacityText" type="text" placeholder="Enter Capacity" value="@Model.Capacity"/>
+            <input id="capacityText" type="text" placeholder="Enter Capacity" value="@Model.Capacity" onkeypress="return capacityKeyPress(event);" onpaste="return false;" />
         </div>
         <div>
             <label for="licenseText">License Plate</label>
-            <input id="licenseText" type="text" placeholder="Enter License" value="@Model.License"/>
+            <input id="licenseText" type="text" placeholder="Enter License" value="@Model.License" onkeypress="return plateKeyPress(event);" onpaste="return false;" />
         </div>
         <div class="bfh-selectbox bfh-states" data-country="US" data-state="CA">
             <label>State the Bus is Registered in</label>
@@ -31,25 +38,7 @@
                 }
             </select>
         </div>
-        @if (Model.UpdatingBus)
-        {
-            <div>
-                <label for="busStatus">Status</label>
-                <div class="btn-group" data-toggle="buttons-radio">
-                    @if (Model.Status.Equals("Active"))
-                    {
-                        <button type="button" class="btn btn-primary active" value="0" id="isActive">Active</button>
-                        <button type="button" class="btn btn-primary" value="1" id="isInactive">Inactive</button>
-                    }
-                    else
-                    {
-                        <button type="button" class="btn btn-primary" value="0" id="isActive">Active</button>
-                        <button type="button" class="btn btn-primary active" value="1" id="isInactive">Inactive</button>
-                    }
-                </div>
-            </div>
-        }
-        <div class="alert alert-error" id="busFailureMessage">
+        <div class="alert alert-error hide" id="busFailureMessage">
             <div class="error-text">The license plate already exists. Please enter a unique license plate.</div>
         </div>
     </div>
@@ -66,17 +55,3 @@
         <button class="btn" onclick="$('#modal').modal('hide')">Cancel</button>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $("#busSuccessModalMessage").hide();
-        $("#busFailureMessage").hide();
-        for (var state in BFHStatesList) {
-            $("#statesList").append('<li><a href="#"><input type="hidden" value="' + state + '">' + BFHStatesList[state] + '</a></li>')
-        }
-        $("#statesList > li > a").click(function (e) {
-            e.preventDefault();
-            var state = $('input[type="hidden"]', this).val();
-            $("#selectedState").val(state);
-        });
-    });
-</script>

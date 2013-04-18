@@ -1,0 +1,16 @@
+﻿@model TransportationService.Models.ViewStopModel
+@{
+}
+
+<div>
+    <b>The Location of the stop is:</b>
+    <div class="item-info" data-type="location">@Model.StopLocation</div>
+</div>
+<div>
+    <b>The stop's identification is:</b>
+    <div class="item-info" data-type="ID">@Model.StopId</div>
+</div>
+<div>
+    @*Can't modify a stop.*@
+    <button class="btn btn-danger" onclick="removeItemById('@Model.ObjectId')">Remove Stop</button>
+</div>

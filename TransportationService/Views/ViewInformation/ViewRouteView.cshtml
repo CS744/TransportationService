@@ -5,18 +5,18 @@
 
 <div>
     <b>The name of the route is:</b>
-    <div class="item-info">@Model.Name</div>
+    <div class="item-info" data-type="name">@Model.Name</div>
 </div>
 <div>
     <b>The bus's license plate is:</b>
-    <div class="item-info">@Model.LicensePlate</div>
+    <div class="item-info" data-type="licensePlate">@Model.LicensePlate</div>
 </div>
 <div>
     <b>The driver of the route's name is:</b>
-    <div class="item-info">@Model.DriverName</div>
+    <div class="item-info" data-type="driverName">@Model.DriverName</div>
 </div>
 <div>
-    <div class="added-stops">
+    <div class="added-stops" data-type="stops">
         <label style="font-weight: bold">Stops:</label>
         @foreach (TransportationService.Utility.Stop stop in @Model.Stops)
         {
@@ -41,5 +41,5 @@
 </div>
 <div>
     <button class="btn btn-primary" onclick="modifyRoute(@Model.RouteId)">Modify Route</button>
-    @*<button class="btn btn-danger" onclick="removeRoute()">Remove Route</button>*@
+    @*<button class="btn btn-danger" onclick="removeItemById('@Model.ObjectId')">Remove Route</button>*@
 </div>

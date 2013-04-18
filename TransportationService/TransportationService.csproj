@@ -147,6 +147,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\EmployeeManagementController.cs" />
     <Compile Include="Controllers\ViewInformationController.cs" />
     <Compile Include="Controllers\TransportationBaseController.cs" />
     <Compile Include="Controllers\UtilityController.cs" />
@@ -154,12 +155,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AddDriverModel.cs" />
-    <Compile Include="Models\AddEmployeeModel.cs" />
-    <Compile Include="Models\AddRouteModel.cs" />
-    <Compile Include="Models\AddBusModel.cs" />
-    <Compile Include="Models\UpdateRouteModel.cs" />
-    <Compile Include="Models\ViewBusModel.cs" />
+    <Compile Include="Models\EmployeeManagementModel.cs" />
+    <Compile Include="Models\Models.cs" />
+    <Compile Include="Models\ViewModels.cs" />
     <Compile Include="Models\OutputViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\DatabaseInterface.cs" />
@@ -169,20 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-formhelpers.css" />
-    <Content Include="Scripts\bootstrap-formhelpers-datepicker.en_US.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-datepicker.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-fonts.codes.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-fonts.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-fontsizes.codes.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-fontsizes.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-googlefonts.codes.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-googlefonts.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-phone.format.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-phone.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-selectbox.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-states.en_US.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-states.js" />
-    <Content Include="Scripts\bootstrap-formhelpers-timepicker.js" />
+    <Content Include="Content\tableStyle.css" />
+    <Content Include="Content\datepicker.css" />
+    <Content Include="Scripts\addActions.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\utility.css" />
     <Content Include="Content\font-awesome.css" />
@@ -190,15 +177,22 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\buslogo.png" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\AdminActions.js" />
+    <Content Include="Scripts\adminActions.js" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\employeeManagement.js" />
+    <Content Include="Scripts\jquery.tablesorter.js" />
+    <Content Include="Scripts\messageBuilder.js" />
+    <Content Include="Scripts\validation.js" />
+    <Content Include="Scripts\viewActions.js" />
+    <Content Include="Scripts\modifyActions.js" />
     <Content Include="Scripts\jquery.transit.js" />
     <Content Include="Scripts\notifier.js" />
     <Content Include="Scripts\roll_utility.js" />
     <Content Include="Scripts\routeManager.js" />
     <Content Include="Scripts\userManager.js" />
-    <Content Include="Scripts\Logon.js" />
+    <Content Include="Scripts\logon.js" />
     <Content Include="Scripts\jquery-1.9.0.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -259,6 +253,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\ViewInformation\ViewRouteView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ViewInformation\ViewEmployeeView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ViewInformation\ViewStopView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ViewInformation\ViewDriverView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Utility\Confirmation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EmployeeManagement\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EmployeeManagement\RouteView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\ViewItem.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

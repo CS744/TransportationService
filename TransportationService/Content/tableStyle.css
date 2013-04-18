@@ -1,0 +1,97 @@
+﻿
+table.good-style {
+	width: 100%;
+}
+
+th i {
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: inherit;
+	-webkit-font-smoothing: antialiased;
+	display: inline;
+	width: auto;
+	height: auto;
+	line-height: normal;
+	vertical-align: baseline;
+	background-image: none;
+	background-position: 0% 0%;
+	background-repeat: repeat;
+	margin-top: 0;
+}
+
+table.good-style > thead > tr {
+	background-color: rgb(185, 182, 182);
+	cursor: pointer;
+}
+
+	table.good-style > thead > tr > th {
+		text-align: center;
+	}
+
+		table.good-style > thead > tr > th.tablesorter-header {
+			height: auto;
+		}
+
+			table.good-style > thead > tr > th.tablesorter-header i {
+				font-size: 18px;
+				opacity: .15;
+			}
+
+			table.good-style > thead > tr > th.tablesorter-header:after {
+				height: auto;
+			}
+
+		table.good-style > thead > tr > th.headerSortDown i:before {
+			content: "\f0d7";
+		}
+
+		table.good-style > thead > tr > th.headerSortDown i {
+			content: "\f0d7";
+			opacity: 1;
+		}
+
+		table.good-style > thead > tr > th.headerSortUp i:before {
+			content: "\f0d8";
+		}
+
+		table.good-style > thead > tr > th.headerSortUp i {
+			opacity: 1;
+			content: "\f0d8";
+		}
+
+table.good-style > tbody > tr {
+	padding: 3px;
+}
+
+	table.good-style > tbody > tr > td {
+		padding: 5px;
+	}
+
+	table.good-style > tbody > tr:nth-child(2n+1):hover > td {
+		background-color: rgb(243, 240, 240);
+	}
+
+	table.good-style > tbody > tr:nth-child(2n) {
+		background-color: rgb(225, 220, 220);
+	}
+
+		table.good-style > tbody > tr:nth-child(2n):hover {
+			background-color: rgb(215, 211, 211);
+		}
+
+	table.good-style > tbody > tr.group-hidden {
+		display: none;
+	}
+
+table.good-style > tbody > tr {
+	cursor: pointer;
+}
+
+	table.good-style > tbody > tr > td {
+		text-align: center;
+	}
+
+	table.good-style > tbody > tr.collapsed > td > i:before {
+		content: "\f0da";
+	}

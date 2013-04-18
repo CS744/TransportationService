@@ -1,0 +1,21 @@
+﻿@model TransportationService.Models.ViewDriverModel
+@{
+    ViewBag.Title = "ViewDriverView";
+}
+
+<div>
+    <b>The Driver's name is:</b>
+    <div class="item-info" data-type="name">@Model.Name</div>
+</div>
+<div>
+    <b>The driver's license is:</b>
+    <div class="item-info" data-type="licensePlate">@Model.License</div>
+</div>
+<div>
+    <b>The driver is registered in:</b>
+    <div class="item-info" data-type="state">@Model.State</div>
+</div>
+<div>
+    <button class="btn btn-primary" onclick="modifyDriver(@Model.DriverId)">Modify Driver</button>
+    <button class="btn btn-danger" onclick="removeItemById('@Model.ObjectId')">Remove Driver</button>
+</div>

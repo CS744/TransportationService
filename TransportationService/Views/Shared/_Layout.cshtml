@@ -21,7 +21,10 @@
         </div>
         <div id="mainArea">
             @RenderBody()
-            @Html.Action("LoadView", "Admin")
+            @if (ApplicationInstance.Request.RawUrl == "/")
+            {
+                @Html.Action("LoadView", "Admin")
+            }
         </div>
     </div>
     <div id="modal" class="modal hide"></div>
