@@ -768,6 +768,7 @@ namespace TransportationService.Controllers
             {
                 Headers = new List<string>(){
                "Name",
+               "Route Id",
                "IsActive"
                },
                 Rows = routes.Select(r => new CustomRow()
@@ -777,6 +778,7 @@ namespace TransportationService.Controllers
                     DeleteCall = "deleteItemClick('route', '" + r.Id.ToString() + "')",
                     Columns = new List<string>(){
                r.Name,
+               r.RouteId.ToString(),
                r.IsActive? "Active" : "InActive"
                }
                 }).ToList()
@@ -792,6 +794,7 @@ namespace TransportationService.Controllers
             {
                 Headers = new List<string>(){
                "Name",
+               "Employee Id",
                "SocialSecurityNumber",
                "Position",
                "Email",
@@ -809,6 +812,7 @@ namespace TransportationService.Controllers
                     DeleteCall = "deleteItemClick('employee', '" + e.Id.ToString() + "')",
                     Columns = new List<string>(){
                e.Name,
+               e.EmployeeId.ToString(),
                e.SocialSecurityNumber.ToString(),
                e.Position,
                e.Email,
@@ -832,12 +836,13 @@ namespace TransportationService.Controllers
            {
               Headers = new List<string>(){
                "LicensePlate",
+               "Bus Id",
                "State",
                "Capacity",
-               "MorningRoute",
-               "MorningDriver",
-               "EveningRoute",
-               "EveningDriver"
+               "Morning Route",
+               "Morning Driver",
+               "Evening Route",
+               "Evening Driver"
                },
               Rows = buses.Select(b => new CustomRow()
               {
@@ -846,6 +851,7 @@ namespace TransportationService.Controllers
                  DeleteCall = "deleteItemClick('bus', '" + b.Id.ToString() + "')",
                  Columns = new List<string>(){
                b.LicensePlate.ToString(),
+               b.BusId.ToString(),
                b.State,
                b.Capacity.ToString(),
                b.MorningAssignedTo  == -1? "none" : db.GetRouteByRouteId(b.MorningAssignedTo).Name,
@@ -866,12 +872,13 @@ namespace TransportationService.Controllers
            {
               Headers = new List<string>(){
                "Name",
-               "DriverLicense",
+               "Driver Id",
+               "Driver License",
                "State",
-               "MorningRoute",
-               "Morningbus",
-               "EveningRoute",
-               "EveningBus"
+               "Morning Route",
+               "Morning bus",
+               "Evening Route",
+               "Evening Bus"
                },
               Rows = drivers.Select(d => new CustomRow()
               {
@@ -880,6 +887,7 @@ namespace TransportationService.Controllers
                  DeleteCall = "deleteItemClick('driver', '" + d.Id.ToString() + "')",
                  Columns = new List<string>(){
                d.Name,
+               d.DriverId.ToString(),
                d.DriverLicense,
                d.State,
                d.MorningAssignedTo  == -1? "none" : db.GetRouteByRouteId(d.MorningAssignedTo).Name,
@@ -900,6 +908,7 @@ namespace TransportationService.Controllers
            {
               Headers = new List<string>(){
                "Location",
+               "Stop Id"
                },
               Rows = stops.Select(s => new CustomRow()
               {
@@ -908,6 +917,7 @@ namespace TransportationService.Controllers
                  DeleteCall = "deleteItemClick('stop', '" + s.Id.ToString() + "')",
                  Columns = new List<string>(){
                      s.Location,
+                     s.StopId.ToString()
                   }
               }).ToList()
            };
