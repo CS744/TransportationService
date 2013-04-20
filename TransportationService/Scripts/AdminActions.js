@@ -297,30 +297,35 @@ function customSort(list) {//include the # in the name of the list
     })
     $.each(listitems, function (idx, itm) { mylist.append(itm); });
 }
+
 function viewRoutes() {
     $.post("/Admin/ViewRoutes", {}, function (html) {
         $("#view-container").html(html);
         $("#view-item-table").tablesorter();
     });
 }
+
 function viewEmployees() {
     $.post("/Admin/ViewEmployees", {}, function (html) {
         $("#view-container").html(html);
         $("#view-item-table").tablesorter();
     });
 }
+
 function viewBuses() {
     $.post("/Admin/ViewBuses", {}, function (html) {
         $("#view-container").html(html);
         $("#view-item-table").tablesorter();
     });
 }
+
 function viewDrivers() {
     $.post("/Admin/viewDrivers", {}, function (html) {
         $("#view-container").html(html);
         $("#view-item-table").tablesorter();
     });
 }
+
 function viewStops() {
     $.post("/Admin/viewStops", {}, function (html) {
         $("#view-container").html(html);

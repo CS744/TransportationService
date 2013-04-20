@@ -820,8 +820,8 @@ namespace TransportationService.Controllers
                        e.IsMale? "Male": "Female",
                        e.Phone.ToString(),
                        e.Address + ", " + e.City + ", " + e.State + " " + e.Zip.ToString(),
-                       e.MorningAssignedTo == -1 ? "none" : e.MorningAssignedTo.ToString(),
-                       e.EveningAssignedTo == -1 ? "none" : e.EveningAssignedTo.ToString()
+                       e.MorningAssignedTo == -1 ? "none" : e.MorningAssignedTo.ToString() + " - " + db.GetRouteByRouteId(e.MorningAssignedTo).Name,
+                       e.EveningAssignedTo == -1 ? "none" : e.EveningAssignedTo.ToString() + " - " + db.GetRouteByRouteId(e.EveningAssignedTo).Name
                        }
                 }).ToList()
             };
@@ -854,10 +854,10 @@ namespace TransportationService.Controllers
                        b.LicensePlate.ToString(),
                        b.State,
                        b.Capacity.ToString(),
-                       b.MorningAssignedTo  == -1? "none" : b.MorningAssignedTo.ToString(),
-                       b.MorningAssignedTo  == -1? "none" : db.GetDriverById(db.GetRouteByRouteId(b.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).DriverId == -1 ? "none" : db.GetDriverById(db.GetRouteByRouteId(b.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).DriverId.ToString(),
-                       b.EveningAssignedTo  == -1? "none" : b.EveningAssignedTo.ToString(),
-                       b.EveningAssignedTo  == -1? "none" : db.GetDriverById(db.GetRouteByRouteId(b.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).DriverId == -1 ? "none" : db.GetDriverById(db.GetRouteByRouteId(b.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).DriverId.ToString(),
+                       b.MorningAssignedTo  == -1? "none" : b.MorningAssignedTo.ToString() + " - " + db.GetRouteByRouteId(b.MorningAssignedTo).Name,
+                       b.MorningAssignedTo  == -1? "none" : db.GetDriverById(db.GetRouteByRouteId(b.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).DriverId == -1 ? "none" : db.GetDriverById(db.GetRouteByRouteId(b.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).DriverId.ToString() + " - " + db.GetDriverById(db.GetRouteByRouteId(b.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).Name,
+                       b.EveningAssignedTo  == -1? "none" : b.EveningAssignedTo.ToString() + " - " + db.GetRouteByRouteId(b.EveningAssignedTo).Name,
+                       b.EveningAssignedTo  == -1? "none" : db.GetDriverById(db.GetRouteByRouteId(b.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).DriverId == -1 ? "none" : db.GetDriverById(db.GetRouteByRouteId(b.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).DriverId.ToString() + " - " +  db.GetDriverById(db.GetRouteByRouteId(b.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).Name,
 
                        //b.MorningAssignedTo  == -1? "none" : b.MorningAssignedTo.ToString(),
                        //b.MorningAssignedTo  == -1? "none" : db.GetDriverById(db.GetRouteByRouteId(b.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.BusId == b.BusId).DriverId).DriverId.ToString(),
@@ -895,10 +895,10 @@ namespace TransportationService.Controllers
                        d.Name,
                        d.DriverLicense,
                        d.State,
-                       d.MorningAssignedTo  == -1? "none" : d.MorningAssignedTo.ToString(),
-                       d.MorningAssignedTo  == -1? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).BusId == -1 ? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).BusId.ToString(),
-                       d.EveningAssignedTo  == -1? "none" : d.EveningAssignedTo.ToString(),
-                       d.EveningAssignedTo  == -1? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).BusId == -1 ? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).BusId.ToString(),
+                       d.MorningAssignedTo  == -1? "none" : d.MorningAssignedTo.ToString() + " - " + db.GetRouteByRouteId(d.MorningAssignedTo).Name,
+                       d.MorningAssignedTo  == -1? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).BusId == -1 ? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).BusId.ToString() + " - " + db.GetBusByBusId(db.GetRouteByRouteId(d.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).LicensePlate,
+                       d.EveningAssignedTo  == -1? "none" : d.EveningAssignedTo.ToString() + " - " + db.GetRouteByRouteId(d.EveningAssignedTo).Name,
+                       d.EveningAssignedTo  == -1? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).BusId == -1 ? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).BusId.ToString() + " - " + db.GetBusByBusId(db.GetRouteByRouteId(d.EveningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).LicensePlate,
                        
                       //d.MorningAssignedTo  == -1? "none" : db.GetRouteByRouteId(d.MorningAssignedTo).Name,
                        //d.MorningAssignedTo  == -1? "none" : db.GetBusByBusId(db.GetRouteByRouteId(d.MorningAssignedTo).DriverBusList.FirstOrDefault(driverBus => driverBus.DriverId == d.DriverId).BusId).LicensePlate,

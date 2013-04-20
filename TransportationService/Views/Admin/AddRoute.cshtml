@@ -106,7 +106,7 @@
                 <tr>
                     <td>
                         <select id="busList">
-                            <option value="-1">--Bus--</option>
+                            <option value="None">--Bus--</option>
                             @foreach (TransportationService.Utility.Bus bus in Model.AvailableBuses)
                             {
                                 if ((Model.IsToWork && bus.MorningAssignedTo == -1) || ((!Model.IsToWork && bus.EveningAssignedTo == -1)))
@@ -118,7 +118,7 @@
                     </td>
                     <td colspan="2">
                         <select id="driverList">
-                            <option value="-1">--Driver--</option>
+                            <option value="None">--Driver--</option>
                             @foreach (TransportationService.Utility.Driver driver in Model.AvailableDrivers)
                             {
                                 if ((Model.IsToWork && driver.MorningAssignedTo == -1) || ((!Model.IsToWork && driver.EveningAssignedTo == -1)))
