@@ -18,11 +18,39 @@ namespace TransportationService.Utility
         const string _routeCollectionName = "Routes";
         const string _driverCollectionName = "Drivers";
         const string _instanceCollectionName = "EmployeeInstance";
+        const string _seedCollectionName = "Seeds";
 
         public DatabaseInterface()
         {
             string connectionString = "mongodb://localhost/TransportationService";
             _database = MongoDatabase.Create(connectionString);
+        }
+
+        public void CreateSeedTable()
+        {
+            var coll = _database.GetCollection(_seedCollectionName);
+            coll.Save(new Seed()
+            {
+                RouteIdLow = 1,
+                RouteIdHigh = 999,
+                BusId = 1,
+                DriverId = 1,
+                StopId = 1,
+                EmployeeId = 1,
+                Id = ObjectId.GenerateNewId()
+            });
+        }
+
+        public Seed GetSeed()
+        {
+            var coll = _database.GetCollection(_seedCollectionName);
+            return coll.FindOneAs<Seed>();
+        }
+
+        public void SaveSeed(Seed seed)
+        {
+            var coll = _database.GetCollection(_seedCollectionName);
+            coll.Save(seed);
         }
 
         #region USER
@@ -72,25 +100,19 @@ namespace TransportationService.Utility
 
         public int GetNextLowRouteId()
         {
-            List<Route> routes = GetAvailableRoutes();
-            int nextId = 1;
-            foreach (Route r in routes)
-            {
-                if (r.RouteId < 500)
-                    nextId++;
-            }
+            Seed seed = GetSeed();
+            int nextId = seed.RouteIdLow;
+            seed.RouteIdLow = nextId + 1;
+            SaveSeed(seed);
             return nextId;
         }
 
         public int GetNextHighRouteId()
         {
-            List<Route> routes = GetAvailableRoutes();
-            int nextId = 999;
-            foreach (Route r in routes)
-            {
-                if (r.RouteId > 500)
-                    nextId--;
-            }
+            Seed seed = GetSeed();
+            int nextId = seed.RouteIdHigh;
+            seed.RouteIdHigh = nextId - 1;
+            SaveSeed(seed);
             return nextId;
         }
 
@@ -200,10 +222,11 @@ namespace TransportationService.Utility
 
         public int GetNextBusId()
         {
-            List<Bus> buses = GetAvailableBuses();
-            if (buses.OrderBy(b => b.BusId).LastOrDefault() == null)
-                return 1;
-            return buses.OrderBy(b => b.BusId).LastOrDefault().BusId + 1;
+            Seed seed = GetSeed();
+            int nextId = seed.BusId;
+            seed.BusId = nextId + 1;
+            SaveSeed(seed);
+            return nextId;
         }
 
         public void DeleteBusByObjId(ObjectId id)
@@ -275,10 +298,11 @@ namespace TransportationService.Utility
 
         public int GetNextStopId()
         {
-            List<Stop> stops = GetAvailableStops();
-            if (stops.OrderBy(s => s.StopId).LastOrDefault() == null)
-                return 1;
-            return stops.OrderBy(s => s.StopId).LastOrDefault().StopId + 1;
+            Seed seed = GetSeed();
+            int nextId = seed.StopId;
+            seed.StopId = nextId + 1;
+            SaveSeed(seed);
+            return nextId;
         }
 
         public Boolean IsStopLocationUnique(string location)
@@ -376,11 +400,11 @@ namespace TransportationService.Utility
 
         public int GetNextDriverId()
         {
-            List<Driver> drivers = GetAvailableDrivers();
-            if (drivers.OrderBy(s => s.DriverId).LastOrDefault() == null)
-                return 1;
-            int highest = drivers.OrderBy(s => s.DriverId).LastOrDefault().DriverId;
-            return highest + 1;
+            Seed seed = GetSeed();
+            int nextId = seed.DriverId;
+            seed.DriverId = nextId + 1;
+            SaveSeed(seed);
+            return nextId;
         }
 
         public void DriverSetActive(int driverId, bool isActive, int routeId)
@@ -442,10 +466,11 @@ namespace TransportationService.Utility
 
         public int GetNextEmployeeId()
         {
-            List<Employee> employees = GetAvailableEmployees();
-            if (employees.OrderBy(e => e.EmployeeId).LastOrDefault() == null)
-                return 1;
-            return employees.OrderBy(e => e.EmployeeId).LastOrDefault().EmployeeId + 1;
+            Seed seed = GetSeed();
+            int nextId = seed.EmployeeId;
+            seed.EmployeeId = nextId + 1;
+            SaveSeed(seed);
+            return nextId;
         }
 
         public void UpdateEmployee(Employee e)

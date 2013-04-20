@@ -23,6 +23,7 @@ namespace TransportationService.Controllers
       public ActionResult LogIn(string username, string password)
       {
          DatabaseInterface db = new DatabaseInterface();
+         //db.CreateSeedTable();
          User user = db.GetUser(username, password);
          if (user == null)
          {

@@ -20,6 +20,18 @@ namespace TransportationService.Utility
         public string Email { get; set; }
     }
 
+    public class Seed
+    {
+        [BsonId]
+        public ObjectId Id { get; set; }
+        public int RouteIdHigh { get; set; }
+        public int RouteIdLow { get; set; }
+        public int BusId { get; set; }
+        public int DriverId { get; set; }
+        public int StopId { get; set; }
+        public int EmployeeId { get; set; }
+    }
+
     public class Bus
     {
         [BsonId]
