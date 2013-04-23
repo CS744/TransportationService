@@ -5,6 +5,7 @@ using System.Web;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using MongoDB.Driver.Linq;
 
 namespace TransportationService.Utility
 {
@@ -587,8 +588,14 @@ namespace TransportationService.Utility
 
         public void SaveEmployeeInstance(EmployeeInstance instance)
         {
-            var coll = _database.GetCollection(_instanceCollectionName);
-            coll.Save(instance);
+           var coll = _database.GetCollection(_instanceCollectionName);
+           coll.Save(instance);
+        }
+
+        public IEnumerable<EmployeeInstance> GetEmployeeInstanceByRoute(ObjectId routeId)
+        {
+           var coll = _database.GetCollection(_instanceCollectionName);
+           return coll.AsQueryable<EmployeeInstance>().Where(ei => ei.RouteId == routeId).OrderBy(ei => ei.Date);
         }
     }
 }

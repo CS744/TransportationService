@@ -22,7 +22,7 @@ namespace TransportationService.Controllers
       {
          DatabaseInterface db = new DatabaseInterface();
          Route route = db.GetRouteById(new ObjectId(id));
-         bool isToWork = route.RouteId < 500;
+
          ManagementModel model = new ManagementModel()
          {
             Buses = db.GetBusesAssignedToRoute(route.RouteId),
@@ -34,8 +34,43 @@ namespace TransportationService.Controllers
          return Json(new
          {
             html = RenderPartialViewToString("RouteView", model),
-            hour = isToWork ? 15 : 6
+            hour = route.RouteId < 500 ? 6 : 15
          });
+      }
+      public ActionResult GetRouteInformation(string routeId)
+      {
+         DatabaseInterface db = new DatabaseInterface();
+         ObjectId rId = new ObjectId(routeId);
+         IEnumerable<EmployeeInstance> instances = db.GetEmployeeInstanceByRoute(rId);
+         ViewInstanceModel model = new ViewInstanceModel()
+         {
+            Route = db.GetRouteById(rId),
+            Rows = new List<InstanceRow>()
+         };
+         instances.Aggregate<EmployeeInstance, ViewInstanceModel>(model, (vi, instance) =>
+         {
+            instance.Date = TimeZoneInfo.ConvertTimeFromUtc(instance.Date, TimeZoneInfo.Local);
+            InstanceRow row = vi.Rows.FirstOrDefault(r => r.Bus.Id == instance.BusId && r.Date.Date == instance.Date.Date);
+            if (row == null)
+            {
+               row = new InstanceRow()
+               {
+                  Bus = db.GetBusById(instance.BusId),
+                  Date = instance.Date.Date,
+                  Employees = new List<EmployeeCell>()
+               };
+               model.Rows.Add(row);
+            }
+            row.Employees.Add(new EmployeeCell()
+            {
+               Employee = db.GetEmployeeById(instance.EmployeeId),
+               Stop = db.GetStop(instance.StopId),
+               Date = instance.Date
+            });
+            return model;
+         });
+
+         return PartialView("RouteInformation", model);
       }
 
       public ActionResult RecordInstance(string employees, string routeId)

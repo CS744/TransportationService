@@ -1,0 +1,58 @@
+﻿@model TransportationService.Models.ViewInstanceModel
+@{
+    ViewBag.Title = "Route Information";
+    int counter = 0;
+}
+
+<h4>@Model.Route.Name's Information</h4>
+<table id="route-information" class="good-style">
+    <thead>
+        <th>Bus</th>
+        <th>Date</th>
+        <th>Capacity</th>
+    </thead>
+    <tbody>
+        @foreach (var row in Model.Rows)
+        {
+            <tr class="clickable" onclick="viewEmployees(@counter)">
+                <td>@row.Bus.BusId - @row.Bus.LicensePlate</td>
+                <td>@row.Date.Month/@row.Date.Day/@row.Date.Year</td>
+                <td>@row.Employees.Count() / @row.Bus.Capacity</td>
+            </tr>
+
+            if (counter % 2 == 0)
+            {
+            <tr class="hide"></tr>
+            }
+            <tr id="employees-@counter" class="hide">
+                <td colspan="3">
+                    <div class="well" style="margin: 15px; margin-right: 25%; margin-top: 0px">
+                        <table class="good-style">
+                            <thead>
+                                <th>Employee<i class=" no-opacity"></i></th>
+                                <th>Stop<i class=" no-opacity"></i></th>
+                                <th>Time<i class=" no-opacity"></i></th>
+                            </thead>
+                            <tbody>
+                                @foreach (var emp in row.Employees)
+                                {
+                                    <tr>
+                                        <td>@emp.Employee.Name</td>
+                                        <td>@emp.Stop.StopId - @emp.Stop.Location</td>
+                                        <td>@emp.Date.TimeOfDay.Hours: @emp.Date.TimeOfDay.Minutes</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+                                if (counter % 2 == 1)
+                                {
+            <tr class="hide"></tr>
+                                }
+                                counter = counter + 1;
+        }
+    </tbody>
+
+</table>

@@ -86,3 +86,21 @@ function validateDate(d) {
         return "0" + d;
     return d;
 }
+
+function viewRouteInformation(routeId) {
+    $.post("/EmployeeManagement/GetRouteInformation",
+        { routeId: routeId },
+        function (html) {
+            $("#view-container").html(html);
+            $("table table").tablesorter();
+        });
+}
+function viewEmployees(employeeRowId) {
+    var id = "#employees-" + employeeRowId;
+    var row = $(id);
+    if (row.hasClass("hide")) {
+        row.removeClass("hide");
+    } else {
+        row.addClass("hide");
+    }
+}

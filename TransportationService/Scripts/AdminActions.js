@@ -313,6 +313,11 @@ function viewRoutes() {
     $.post("/Admin/ViewRoutes", {}, function (html) {
         $("#view-container").html(html);
         $("#view-item-table").tablesorter();
+        $("#view-item-table tr").addClass("clickable");
+        $("#view-item-table tr").attr("title", "View Route Information");
+        $("#view-item-table tr").click(function (event) {
+            viewRouteInformation(this.dataset.id);
+        });
     });
 }
 
