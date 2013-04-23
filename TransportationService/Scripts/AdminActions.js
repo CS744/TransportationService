@@ -122,7 +122,7 @@ $(document).ready(function () {
     $(".delete-item").click(function (event) { return deleteItemClick(event, $(this)); });
 });
 
-function deleteItemClick(type, id) {
+function deleteItemClick(type, id, event) {
     var action = "";
     if (type == "route") {
         action = "DeleteRoute";
@@ -171,6 +171,7 @@ function deleteItemClick(type, id) {
         callback(d);
     });
     if (event) {
+        event.stopPropagation();
         event.preventDefault();
     }
     return false;
@@ -228,7 +229,7 @@ function removeDriverBus(editEntry) {
     var busText = textArray[0];
     var driverText = textArray[1];
 
-    
+
 
     if (editEntry) {
         var departureTimeValue = valueArray[2];

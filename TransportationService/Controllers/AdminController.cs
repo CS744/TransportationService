@@ -340,21 +340,20 @@ namespace TransportationService.Controllers
                 }
             }
 
-            Route route = new Route()
-            {
-                Stops = stops,
-                Name = routeName,
-                RouteId = routeId,
-                IsActive = isActive,
-                DriverBusList = driverBusList
-            };
+            Route route = db.GetRouteByRouteId(routeId);
+            route.Stops = stops;
+            route.Name = routeName;
+            route.RouteId = routeId;
+            route.IsActive = isActive;
+            route.DriverBusList = driverBusList;
             db.UpdateRoute(route);
             return Json(new
             {
                 success = "true",
                 assigned = db.GetEmployeesAssignedToRoute(routeId).Count().ToString(),
                 capacity = db.GetTotalCapacity(routeId),
-                stops = db.GetStopsAssignedToRoute(routeId).Count().ToString()
+                stops = db.GetStopsAssignedToRoute(routeId).Count().ToString(),
+                id = route.Id.ToString()
             });
         }
 
@@ -793,8 +792,8 @@ namespace TransportationService.Controllers
                 Rows = routes.Select(r => new CustomRow()
                 {
                     ObjectId = r.Id.ToString(),
-                    ModifyCall = "modifyRoute(" + r.RouteId + ")",
-                    DeleteCall = "deleteItemClick('route', '" + r.Id.ToString() + "')",
+                    ModifyCall = "modifyRoute(event," + r.RouteId + ")",
+                    DeleteCall = "deleteItemClick('route', '" + r.Id.ToString() + "', event)",
                     Columns = new List<string>(){
                         r.RouteId.ToString(),
                         r.Name,
@@ -829,8 +828,8 @@ namespace TransportationService.Controllers
                 Rows = employees.Select(e => new CustomRow()
                 {
                     ObjectId = e.Id.ToString(),
-                    ModifyCall = "modifyEmployee(" + e.EmployeeId + ")",
-                    DeleteCall = "deleteItemClick('employee', '" + e.Id.ToString() + "')",
+                    ModifyCall = "modifyEmployee(event," + e.EmployeeId + ")",
+                    DeleteCall = "deleteItemClick('employee', '" + e.Id.ToString() + "', event)",
                     Columns = new List<string>(){
                        e.EmployeeId.ToString(),
                        e.Name,
@@ -867,8 +866,8 @@ namespace TransportationService.Controllers
                 Rows = buses.Select(b => new CustomRow()
                 {
                     ObjectId = b.Id.ToString(),
-                    ModifyCall = "modifyBus(" + b.BusId + ")",
-                    DeleteCall = "deleteItemClick('bus', '" + b.Id.ToString() + "')",
+                    ModifyCall = "modifyBus(event," + b.BusId + ")",
+                    DeleteCall = "deleteItemClick('bus', '" + b.Id.ToString() + "', event)",
                     Columns = new List<string>(){
                        b.BusId.ToString(),
                        b.LicensePlate.ToString(),
@@ -908,8 +907,8 @@ namespace TransportationService.Controllers
                 Rows = drivers.Select(d => new CustomRow()
                 {
                     ObjectId = d.Id.ToString(),
-                    ModifyCall = "modifyDriver(" + d.DriverId + ")",
-                    DeleteCall = "deleteItemClick('driver', '" + d.Id.ToString() + "')",
+                    ModifyCall = "modifyDriver(event," + d.DriverId + ")",
+                    DeleteCall = "deleteItemClick('driver', '" + d.Id.ToString() + "', event)",
                     Columns = new List<string>(){
                        d.DriverId.ToString(),
                        d.Name,
@@ -944,7 +943,7 @@ namespace TransportationService.Controllers
                 {
                     ObjectId = s.Id.ToString(),
                     ModifyCall = "",
-                    DeleteCall = "deleteItemClick('stop', '" + s.Id.ToString() + "')",
+                    DeleteCall = "deleteItemClick('stop', '" + s.Id.ToString() + "', event)",
                     Columns = new List<string>(){
                         s.StopId.ToString(),
                         s.Location,

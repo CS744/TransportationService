@@ -104,11 +104,14 @@ function updateRoute(routeId) {
     });
 }
 
-function modifyRoute(rId) {
+function modifyRoute(event, rId) {
     $.post("/Admin/ModifyRoute", { routeId: rId }, function (data) {
         $("#modal").replaceWith(data);
         $("#modal").modal();
     });
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
 }
 
 ///////////////////////////////////////////////////////////
@@ -161,12 +164,15 @@ function updateBus(busId) {
     });
 }
 
-function modifyBus(bId) {
+function modifyBus(event, bId) {
     console.log("supposed to be modifying bus");
     $.post("/Admin/ModifyBus", { busId: bId }, function (data) {
         $("#modal").replaceWith(data);
         $("#modal").modal();
     });
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
 }
 
 ///////////////////////////////////////////////////////////
@@ -219,12 +225,15 @@ function updateDriver(driverId) {
     });
 }
 
-function modifyDriver(dId) {
+function modifyDriver(event, dId) {
     console.log("supposed to be modifying driver");
     $.post("/Admin/ModifyDriver", { driverId: dId }, function (data) {
         $("#modal").replaceWith(data);
         $("#modal").modal();
     });
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
 }
 
 ///////////////////////////////////////////////////////////
@@ -322,10 +331,13 @@ function updateEmployee(employeeId) {
     });
 }
 
-function modifyEmployee(eId) {
+function modifyEmployee(event, eId) {
     console.log("supposed to be modifying employee");
     $.post("/Admin/ModifyEmployee", { employeeId: eId }, function (data) {
         $("#modal").replaceWith(data);
         $("#modal").modal();
     });
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
 }
