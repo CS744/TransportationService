@@ -14,4 +14,23 @@ namespace TransportationService.Models
       public IEnumerable<Stop> Stops { get; set; }
       public IEnumerable<Bus> Buses { get; set; }
    }
+
+   public class ViewInstanceModel
+   {
+      public Route Route { get; set; }
+      public List<InstanceRow> Rows { get; set; }
+
+   }
+   public class InstanceRow
+   {
+      public Bus Bus { get; set; }
+      public DateTime Date { get; set; }
+      public List<EmployeeCell> Employees { get; set; }
+   }
+   public class EmployeeCell
+   {
+      public Employee Employee { get; set; }
+      public Stop Stop { get; set; }
+      public DateTime Date { get; set; }
+   }
 }
