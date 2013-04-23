@@ -339,7 +339,8 @@ namespace TransportationService.Utility
             var coll = _database.GetCollection(_driverCollectionName);
             var query = Query.EQ("DriverId", driverId);
             Driver driver = coll.FindOneAs<Driver>(query);
-            if (driver == null) {
+            if (driver == null)
+            {
                 driver = new Driver()
                 {
                     DriverId = -1
@@ -541,34 +542,53 @@ namespace TransportationService.Utility
             }
         }
 
-
-        public IEnumerable<Employee> GetEmployeesAssignedToRoute(int routeId, bool isToWork)
-        {
-           var coll = _database.GetCollection(_employeeCollectionName);
-           string varName = isToWork ? "MorningAssignedTo" : "EveningAssignedTo";
-           var query = Query.EQ(varName, routeId);
-           return coll.FindAs<Employee>(query);
+        public int GetTotalCapacity(int routeId)
+        {            
+            int total = 0;
+            if (GetRouteByRouteId(routeId).IsActive)//return 0 if the route is inactive
+            {
+                bool isToWork = routeId < 500;
+                foreach (Bus bus in GetBusesAssignedToRoute(routeId))
+                {
+                    //only count active buses
+                    if ((isToWork && bus.MorningIsActive) || (!isToWork && bus.EveningIsActive))
+                        total += bus.Capacity;
+                }
+            }
+            return total;
         }
 
-        public IEnumerable<Stop> GetStopsAssignedToRoute(int routeId)
+        public IEnumerable<Employee> GetEmployeesAssignedToRoute(int routeId)
         {
-           var coll = _database.GetCollection(_stopCollectionName);
-           var query = Query.EQ("AssignedTo", routeId);
-           return coll.FindAs<Stop>(query);
+            var coll = _database.GetCollection(_employeeCollectionName);
+            string varName = routeId < 500 ? "MorningAssignedTo" : "EveningAssignedTo";
+            var query = Query.EQ(varName, routeId);
+            return coll.FindAs<Employee>(query);
         }
 
-        public IEnumerable<Bus> GetBusesAssignedToRoute(int routeId, bool isToWork)
+        public List<Stop> GetStopsAssignedToRoute(int routeId)
         {
-           var coll = _database.GetCollection(_busCollectionName);
-           string varName = isToWork ? "MorningAssignedTo" : "EveningAssignedTo";
-           var query = Query.EQ(varName, routeId);
-           return coll.FindAs<Bus>(query);
+            Route route = GetRouteByRouteId(routeId);
+            List<Stop> stops = new List<Stop>();
+            foreach (Stop s in route.Stops)
+            {
+                stops.Add(s);
+            }
+            return stops;
+        }
+
+        public IEnumerable<Bus> GetBusesAssignedToRoute(int routeId)
+        {
+            var coll = _database.GetCollection(_busCollectionName);
+            string varName = routeId < 500 ? "MorningAssignedTo" : "EveningAssignedTo";
+            var query = Query.EQ(varName, routeId);
+            return coll.FindAs<Bus>(query);
         }
 
         public void SaveEmployeeInstance(EmployeeInstance instance)
         {
-           var coll = _database.GetCollection(_instanceCollectionName);
-           coll.Save(instance);
+            var coll = _database.GetCollection(_instanceCollectionName);
+            coll.Save(instance);
         }
     }
 }

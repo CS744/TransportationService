@@ -89,6 +89,8 @@ function updateRoute(routeId) {
         if (data.success == "true") {
             $("#view-tr-" + data.id + " > td:nth-child(2)").text(request.routeName);
             $("#view-tr-" + data.id + " > td:nth-child(4)").text(request.isActive ? "Active" : "Inactive");
+            $("#view-tr-" + data.id + " > td:nth-child(5)").text(data.stops);
+            $("#view-tr-" + data.id + " > td:nth-child(6)").text(data.assigned + "/" + data.capacity);
             $.notify.addMessage("The route was successfully updated!", { type: "success", time: 6000 });
             $("#modal").modal('hide');
             $("#view-item-table").trigger("update");

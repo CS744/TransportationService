@@ -99,15 +99,19 @@
                 <option value="--Route--">--Route--</option>
                 @foreach (TransportationService.Utility.Route route in Model.AvailableRoutes)
                 {
-                    if(route.RouteId<500)
+                    if (route.RouteId < 500)
                     {
                         if (Model.UpdatingEmployee && Model.MorningAssignedTo == route.RouteId)
                         {
-                        <option value="@route.RouteId" selected="selected">Route @route.RouteId (@route.Name )</option>
+                    <option value="@route.RouteId" selected="selected">Route @route.RouteId (@route.Name )</option>
                         }
                         else
                         {
-                        <option value="@route.RouteId">Route @route.RouteId (@route.Name )</option>
+                            TransportationService.Utility.DatabaseInterface db = new TransportationService.Utility.DatabaseInterface();
+                            if (db.GetTotalCapacity(route.RouteId) > db.GetEmployeesAssignedToRoute(route.RouteId).Count())
+                            {
+                    <option value="@route.RouteId">Route @route.RouteId (@route.Name )</option>
+                            }
                         }
                     }
                 }
@@ -117,15 +121,19 @@
                 <option value="--Route--">--Route--</option>
                 @foreach (TransportationService.Utility.Route route in Model.AvailableRoutes)
                 {
-                    if(route.RouteId>=500)
+                    if (route.RouteId >= 500)
                     {
                         if (Model.UpdatingEmployee && Model.EveningAssignedTo == route.RouteId)
                         {
-                        <option value="@route.RouteId" selected="selected">Route @route.RouteId (@route.Name )</option>
+                    <option value="@route.RouteId" selected="selected">Route @route.RouteId (@route.Name )</option>
                         }
                         else
                         {
-                        <option value="@route.RouteId">Route @route.RouteId (@route.Name )</option>
+                            TransportationService.Utility.DatabaseInterface db = new TransportationService.Utility.DatabaseInterface();
+                            if (db.GetTotalCapacity(route.RouteId) > db.GetEmployeesAssignedToRoute(route.RouteId).Count())
+                            {
+                    <option value="@route.RouteId">Route @route.RouteId (@route.Name )</option>
+                            }
                         }
                     }
                 }

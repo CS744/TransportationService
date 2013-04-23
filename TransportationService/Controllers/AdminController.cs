@@ -349,7 +349,13 @@ namespace TransportationService.Controllers
                 DriverBusList = driverBusList
             };
             db.UpdateRoute(route);
-            return Json(new { success = "true" });
+            return Json(new
+            {
+                success = "true",
+                assigned = db.GetEmployeesAssignedToRoute(routeId).Count().ToString(),
+                capacity = db.GetTotalCapacity(routeId),
+                stops = db.GetStopsAssignedToRoute(routeId).Count().ToString()
+            });
         }
 
         public ActionResult DeleteRoute(string id)
@@ -780,7 +786,9 @@ namespace TransportationService.Controllers
                "ID",
                "Name",
                "Time of Day",
-               "Status"
+               "Status",
+               "# of Stops",
+               "# Assigned/Capacity"
                },
                 Rows = routes.Select(r => new CustomRow()
                 {
@@ -791,7 +799,9 @@ namespace TransportationService.Controllers
                         r.RouteId.ToString(),
                         r.Name,
                         (r.RouteId < 500) ? "Morning" : "Evening",
-                        r.IsActive? "Active" : "Inactive"
+                        r.IsActive? "Active" : "Inactive",
+                        db.GetStopsAssignedToRoute(r.RouteId).Count().ToString(),
+                        db.GetEmployeesAssignedToRoute(r.RouteId).Count().ToString() + "/" + db.GetTotalCapacity(r.RouteId)
                     }
                 }).ToList()
             };

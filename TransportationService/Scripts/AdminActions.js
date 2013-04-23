@@ -214,6 +214,8 @@ function addDriverBus() {
 
 function removeDriverBus(editEntry) {
     var selected = $("#driverBusList option:selected");
+    if (selected == null)
+        return;
     var value = selected.val();
     var text = selected.text();
     var index = selected.index();
@@ -226,13 +228,7 @@ function removeDriverBus(editEntry) {
     var busText = textArray[0];
     var driverText = textArray[1];
 
-    //add bus and driver fields back into their lists
-    if (busValue != "None")
-        $("#busList").append("<option value=\"" + busValue + "\">" + busText + "</option>");
-    if (driverValue != "None")
-        $("#driverList").append("<option value=\"" + driverValue + "\">" + driverText + "</option>");
-    customSort("#busList");
-    customSort("#driverList");
+    
 
     if (editEntry) {
         var departureTimeValue = valueArray[2];
@@ -258,11 +254,17 @@ function removeDriverBus(editEntry) {
             counter += 5;
         }
 
-        //set fields to correct value
+        //add bus and driver fields back into their lists
         if (busValue != "None")
-            document.getElementById("busList").options[busValue].selected = true;
+            $("#busList").append("<option value=\"" + busValue + "\" selected>" + busText + "</option>");
+        else
+            $("#busList").options.selectedIndex = 0;
         if (driverValue != "None")
-            document.getElementById("driverList").options[driverValue].selected = true;
+            $("#driverList").append("<option value=\"" + driverValue + "\" selected>" + driverText + "</option>");
+        else
+            $("#driverList").options.selectedIndex = 0;
+        customSort("#busList");
+        customSort("#driverList");
         if (status == "ACTIVE") {
             $("#driverBusInactiveButton").removeClass('active');
             $("#driverBusActiveButton").addClass('active');
@@ -272,6 +274,15 @@ function removeDriverBus(editEntry) {
         }
         document.getElementById("hourList").options[hourIndex].selected = true;
         document.getElementById("minuteList").options[minuteIndex].selected = true;
+    } else {
+        //this code is in two places for a reason - leave it alone
+        //add bus and driver fields back into their lists
+        if (busValue != "None")
+            $("#busList").append("<option value=\"" + busValue + "\">" + busText + "</option>");
+        if (driverValue != "None")
+            $("#driverList").append("<option value=\"" + driverValue + "\">" + driverText + "</option>");
+        customSort("#busList");
+        customSort("#driverList");
     }
 
     var size = $("#driverBusList option").size();

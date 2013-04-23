@@ -25,8 +25,8 @@ namespace TransportationService.Controllers
          bool isToWork = route.RouteId < 500;
          ManagementModel model = new ManagementModel()
          {
-            Buses = db.GetBusesAssignedToRoute(route.RouteId, isToWork),
-            Employees = db.GetEmployeesAssignedToRoute(route.RouteId, isToWork),
+            Buses = db.GetBusesAssignedToRoute(route.RouteId),
+            Employees = db.GetEmployeesAssignedToRoute(route.RouteId),
             Stops = route.Stops
          };
 
