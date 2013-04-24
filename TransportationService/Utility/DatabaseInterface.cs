@@ -88,14 +88,14 @@ namespace TransportationService.Utility
         public Route GetRouteByRouteId(int id)
         {
             var coll = _database.GetCollection(_routeCollectionName);
-            var query = Query.EQ("RouteId", id);
+            var query = Query.And(Query.EQ("RouteId", id), Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Route>(query);
         }
 
         public Route GetRouteById(ObjectId id)
         {
             var coll = _database.GetCollection(_routeCollectionName);
-            var query = Query.EQ("_id", id);
+            var query = Query.And(Query.EQ("RouteId", id), Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Route>(query);
         }
 
@@ -120,7 +120,8 @@ namespace TransportationService.Utility
         public List<Route> GetAvailableRoutes()
         {
             var coll = _database.GetCollection(_routeCollectionName);
-            return coll.FindAllAs<Route>().SetSortOrder(SortBy.Ascending("RouteId")).ToList();
+            var query = Query.EQ("HasBeenDeleted", false);
+            return coll.FindAs<Route>(query).SetSortOrder(SortBy.Ascending("RouteId")).ToList();
         }
 
         public void AddRoute(Route route)
@@ -182,7 +183,7 @@ namespace TransportationService.Utility
         public Bus GetBusByBusId(int id)
         {
             var coll = _database.GetCollection(_busCollectionName);
-            var query = Query.EQ("BusId", id);
+            var query = Query.And(Query.EQ("BusId", id), Query.EQ("HasBeenDeleted", false));
             Bus bus = coll.FindOneAs<Bus>(query);
             if (bus == null)
             {
@@ -197,14 +198,15 @@ namespace TransportationService.Utility
         public Bus GetBusById(ObjectId id)
         {
             var coll = _database.GetCollection(_busCollectionName);
-            var query = Query.EQ("_id", id);
+            var query = Query.And(Query.EQ("_id", id), Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Bus>(query);
         }
 
         public List<Bus> GetAvailableBuses()
         {
             var coll = _database.GetCollection(_busCollectionName);
-            return coll.FindAllAs<Bus>().SetSortOrder(SortBy.Ascending("BusId")).ToList();
+            var query = Query.EQ("HasBeenDeleted", false);
+            return coll.FindAs<Bus>(query).SetSortOrder(SortBy.Ascending("BusId")).ToList();
         }
 
         public Boolean IsLicenseUnique(string license, string busId = "")
@@ -263,17 +265,24 @@ namespace TransportationService.Utility
             coll.Save(stop);
         }
 
+        public void UpdateStop(Stop stop)
+        {
+            var coll = _database.GetCollection(_stopCollectionName);
+            coll.Remove(Query.EQ("StopId", stop.StopId));
+            coll.Save(stop);
+        }
+
         public Stop GetStop(ObjectId id)
         {
             var coll = _database.GetCollection(_stopCollectionName);
-            var query = Query.EQ("_id", id);
+            var query = Query.And(Query.EQ("_id", id), Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Stop>(query);
         }
 
         public Stop GetStopByStopId(int id)
         {
             var coll = _database.GetCollection(_stopCollectionName);
-            var query = Query.EQ("StopId", id);
+            var query = Query.And(Query.EQ("StopId", id), Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Stop>(query);
         }
 
@@ -294,7 +303,8 @@ namespace TransportationService.Utility
         public List<Stop> GetAvailableStops()
         {
             var coll = _database.GetCollection(_stopCollectionName);
-            return coll.FindAllAs<Stop>().SetSortOrder(SortBy.Ascending("StopId")).ToList();
+            var query = Query.EQ("HasBeenDeleted", false);
+            return coll.FindAs<Stop>(query).SetSortOrder(SortBy.Ascending("StopId")).ToList();
         }
 
         public int GetNextStopId()
@@ -331,14 +341,14 @@ namespace TransportationService.Utility
         public Driver GetDriverByDriverLicense(string driverLicense)
         {
             var coll = _database.GetCollection(_driverCollectionName);
-            var query = Query.EQ("DriverLicense", driverLicense);
+            var query = Query.And(Query.EQ("DriverLicense", driverLicense),Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Driver>(query);
         }
 
         public Driver GetDriverById(int driverId)
         {
             var coll = _database.GetCollection(_driverCollectionName);
-            var query = Query.EQ("DriverId", driverId);
+            var query = Query.And(Query.EQ("DriverId", driverId), Query.EQ("HasBeenDeleted", false));
             Driver driver = coll.FindOneAs<Driver>(query);
             if (driver == null)
             {
@@ -353,7 +363,7 @@ namespace TransportationService.Utility
         public Driver GetDriverByobjId(ObjectId id)
         {
             var coll = _database.GetCollection(_driverCollectionName);
-            var query = Query.EQ("_id", id);
+            var query = Query.And(Query.EQ("_id", id), Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Driver>(query);
         }
 
@@ -374,7 +384,8 @@ namespace TransportationService.Utility
         public List<Driver> GetAvailableDrivers()
         {
             var coll = _database.GetCollection(_driverCollectionName);
-            return coll.FindAllAs<Driver>().SetSortOrder(SortBy.Ascending("DriverId")).ToList();
+            var query = Query.EQ("HasBeenDeleted", false);
+            return coll.FindAs<Driver>(query).SetSortOrder(SortBy.Ascending("DriverId")).ToList();
         }
 
         public Boolean IsDriverLicenseUnique(string license, string state, int driverId = -2)
@@ -425,21 +436,21 @@ namespace TransportationService.Utility
         public Employee GetEmployeeBySSN(long ssn)
         {
             var coll = _database.GetCollection(_employeeCollectionName);
-            var query = Query.EQ("SocialSecurityNumber", ssn);
+            var query = Query.And(Query.EQ("SocialSecurityNumber", ssn),Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Employee>(query);
         }
 
         public Employee GetEmployeeById(int id)
         {
             var coll = _database.GetCollection(_employeeCollectionName);
-            var query = Query.EQ("EmployeeId", id);
+            var query = Query.And(Query.EQ("EmployeeId", id), Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Employee>(query);
         }
 
         public Employee GetEmployeeById(ObjectId id)
         {
             var coll = _database.GetCollection(_employeeCollectionName);
-            var query = Query.EQ("_id", id);
+            var query = Query.And(Query.EQ("_id", id), Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Employee>(query);
         }
 
@@ -452,7 +463,8 @@ namespace TransportationService.Utility
         public List<Employee> GetAvailableEmployees()
         {
             var coll = _database.GetCollection(_employeeCollectionName);
-            return coll.FindAllAs<Employee>().SetSortOrder(SortBy.Ascending("EmployeeId")).ToList();
+            var query = Query.EQ("HasBeenDeleted", false);
+            return coll.FindAs<Employee>(query).SetSortOrder(SortBy.Ascending("EmployeeId")).ToList();
         }
 
         public Boolean IsSocialSecurityNumberUnique(long ssn)

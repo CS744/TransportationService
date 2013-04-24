@@ -264,7 +264,8 @@ namespace TransportationService.Controllers
                 RouteId = routeId,
                 Id = ObjectId.GenerateNewId(),
                 IsActive = isActive,
-                DriverBusList = driverBusList
+                DriverBusList = driverBusList,
+                HasBeenDeleted = false
             };
             db.AddRoute(route);
             return Json(new
@@ -404,7 +405,9 @@ namespace TransportationService.Controllers
                 }
             }
 
-            db.DeleteRouteByObjId(objId);
+            //db.DeleteRouteByObjId(objId);
+            r.HasBeenDeleted = true;
+            db.UpdateRoute(r);
             return null;
 
         }
@@ -441,7 +444,8 @@ namespace TransportationService.Controllers
                 Capacity = capacity,
                 State = state,
                 MorningAssignedTo = -1,
-                EveningAssignedTo = -1
+                EveningAssignedTo = -1,
+                HasBeenDeleted = false
 
             };
             db.AddBus(bus);
@@ -493,7 +497,9 @@ namespace TransportationService.Controllers
             Bus bus = db.GetBusById(objId);
             if ((bus.MorningAssignedTo == -1) && (bus.EveningAssignedTo == -1))
             {
-                db.DeleteBusByObjId(objId);
+                //db.DeleteBusByObjId(objId);
+                bus.HasBeenDeleted = true;
+                db.UpdateBus(bus);
             }
             else
             {
@@ -512,7 +518,9 @@ namespace TransportationService.Controllers
                         drbs.IsActive = false;
                         drbs.BusId = -1;
                         db.UpdateRoute(route);
-                        db.DeleteBusByObjId(objId);
+                        //db.DeleteBusByObjId(objId);
+                        bus.HasBeenDeleted = true;
+                        db.UpdateBus(bus);
                     }
                 }
             }
@@ -539,7 +547,8 @@ namespace TransportationService.Controllers
             {
                 Id = ObjectId.GenerateNewId(),
                 Location = location,
-                StopId = db.GetNextStopId()
+                StopId = db.GetNextStopId(),
+                HasBeenDeleted = false
             };
             db.SaveStop(stop);
             return Json(new { success = "true", id = stop.Id.ToString() });
@@ -565,7 +574,10 @@ namespace TransportationService.Controllers
                     db.SaveRoute(route);
                 }
             }
-            db.DeleteStopByObjId(objId);
+            //db.DeleteStopByObjId(objId);
+            Stop stop = db.GetStop(objId);
+            stop.HasBeenDeleted = true;
+            db.UpdateStop(stop);
             return Json(new { success = "true", msg = "" });
         }
         #endregion
@@ -598,7 +610,8 @@ namespace TransportationService.Controllers
                 MorningAssignedTo = -1,
                 EveningAssignedTo = -1,
                 State = state,
-                DriverId = db.GetNextDriverId()
+                DriverId = db.GetNextDriverId(),
+                HasBeenDeleted = false
             };
             db.SaveDriver(driver);
             return Json(new { success = "true", id = driver.Id.ToString(), driverId = driver.DriverId });
@@ -642,7 +655,9 @@ namespace TransportationService.Controllers
             Driver driver = db.GetDriverByobjId(objId);
             if (driver.MorningAssignedTo == -1 && driver.EveningAssignedTo == -1)
             {
-                db.DeleteDriverByObjId(objId);
+                //db.DeleteDriverByObjId(objId);
+                driver.HasBeenDeleted = true;
+                db.UpdateDriver(driver);
             }
             else
             {
@@ -661,7 +676,9 @@ namespace TransportationService.Controllers
                         drbs.IsActive = false;
                         drbs.DriverId = -1;
                         db.UpdateRoute(route);
-                        db.DeleteDriverByObjId(objId);
+                        //db.DeleteDriverByObjId(objId);
+                        driver.HasBeenDeleted = true;
+                        db.UpdateDriver(driver);
                     }
                 }
             }
@@ -713,7 +730,8 @@ namespace TransportationService.Controllers
                 Zip = zip,
                 MorningAssignedTo = morningRouteId,
                 EveningAssignedTo = eveningRouteId,
-                EmployeeId = db.GetNextEmployeeId()
+                EmployeeId = db.GetNextEmployeeId(),
+                HasBeenDeleted = false
 
             };
             db.SaveEmployee(employee);
@@ -769,7 +787,10 @@ namespace TransportationService.Controllers
         {
             DatabaseInterface db = new DatabaseInterface();
             ObjectId objId = new ObjectId(id);
-            db.DeleteEmployeeByObjId(objId);
+            //db.DeleteEmployeeByObjId(objId);
+            Employee employee = db.GetEmployeeById(objId);
+            employee.HasBeenDeleted = true;
+            db.UpdateEmployee(employee);
             return null;
         }
 

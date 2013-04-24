@@ -44,6 +44,7 @@ namespace TransportationService.Utility
         public bool EveningIsActive { get; set; }
         public int MorningAssignedTo { get; set; }
         public int EveningAssignedTo { get; set; }
+        public bool HasBeenDeleted { get; set; }
     }
 
     public class Employee
@@ -63,6 +64,7 @@ namespace TransportationService.Utility
         public int MorningAssignedTo { get; set; }
         public int EveningAssignedTo { get; set; }
         public int Zip { get; set; }
+        public bool HasBeenDeleted { get; set; }
     }
 
     public class Driver
@@ -77,6 +79,7 @@ namespace TransportationService.Utility
         public bool EveningIsActive { get; set; }
         public int MorningAssignedTo { get; set; }
         public int EveningAssignedTo { get; set; }
+        public bool HasBeenDeleted { get; set; }
     }
 
     public class Route
@@ -88,6 +91,7 @@ namespace TransportationService.Utility
         public int RouteId { get; set; }
         public bool IsActive { get; set; }
         public List<DriverBus> DriverBusList { get; set; }
+        public bool HasBeenDeleted { get; set; }
     }
 
     public class Stop
@@ -96,6 +100,7 @@ namespace TransportationService.Utility
         public ObjectId Id { get; set; }
         public string Location { get; set; }
         public int StopId { get; set; }
+        public bool HasBeenDeleted { get; set; }
     }
     public class EmployeeInstance
     {
