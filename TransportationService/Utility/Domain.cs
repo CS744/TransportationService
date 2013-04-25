@@ -112,4 +112,21 @@ namespace TransportationService.Utility
        public ObjectId BusId { get; set; }
        public DateTime Date { get; set; }
     }
+
+    public class EmployeeActivity
+    {
+        [BsonId]
+        public ObjectId Id { get; set; }
+        public int RouteId { get; set; }
+        public int EmployeeId { get; set; }
+        public int StopId { get; set; }
+        public int BusId { get; set; }
+        public DateTime Date { get; set; }
+        public int DriverId { get; set; }
+        public string RouteName { get; set; }
+        public string LicensePlate { get; set; }
+        public string DriverName { get; set; }
+        public string EmployeeName { get; set; }
+        public string StopLocation { get; set; }
+    }
 }

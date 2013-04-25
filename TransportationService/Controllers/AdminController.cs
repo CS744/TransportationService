@@ -971,5 +971,29 @@ namespace TransportationService.Controllers
             };
             return PartialView("ViewItem", model);
         }
+
+        public ActionResult ViewSystemUsage()
+        {
+            DatabaseInterface db = new DatabaseInterface();
+            var stops = db.GetAvailableStops();
+            var model = new CustomTable()
+            {
+                Headers = new List<string>(){
+                    "ID",
+                    "Location",
+                },
+                Rows = stops.Select(s => new CustomRow()
+                {
+                    ObjectId = s.Id.ToString(),
+                    ModifyCall = "",
+                    DeleteCall = "deleteItemClick('stop', '" + s.Id.ToString() + "', event)",
+                    Columns = new List<string>(){
+                        s.StopId.ToString(),
+                        s.Location,
+                    }
+                }).ToList()
+            };
+            return PartialView("ViewItem", model);
+        }
     }
 }

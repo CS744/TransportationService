@@ -20,6 +20,7 @@ namespace TransportationService.Utility
         const string _driverCollectionName = "Drivers";
         const string _instanceCollectionName = "EmployeeInstance";
         const string _seedCollectionName = "Seeds";
+        const string _activityCollectionName = "EmployeeActivity";
 
         public DatabaseInterface()
         {
@@ -95,7 +96,7 @@ namespace TransportationService.Utility
         public Route GetRouteById(ObjectId id)
         {
             var coll = _database.GetCollection(_routeCollectionName);
-            var query = Query.And(Query.EQ("RouteId", id), Query.EQ("HasBeenDeleted", false));
+            var query = Query.And(Query.EQ("_id", id), Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Route>(query);
         }
 
@@ -604,10 +605,28 @@ namespace TransportationService.Utility
            coll.Save(instance);
         }
 
+        public void SaveEmployeeActivity(EmployeeActivity activity)
+        {
+            var coll = _database.GetCollection(_activityCollectionName);
+            coll.Save(activity);
+        }
+
         public IEnumerable<EmployeeInstance> GetEmployeeInstanceByRoute(ObjectId routeId)
         {
            var coll = _database.GetCollection(_instanceCollectionName);
            return coll.AsQueryable<EmployeeInstance>().Where(ei => ei.RouteId == routeId).OrderBy(ei => ei.Date);
+        }
+
+        public Driver GetDriverAssignedToRouteBus(Route route, Bus bus)
+        {
+            bool isMorning = route.RouteId < 500;
+            foreach (Models.DriverBus driverBus in route.DriverBusList)
+            {
+                if (bus.BusId == driverBus.BusId)
+                    return GetDriverById(driverBus.DriverId);
+            }
+
+            return null;
         }
     }
 }

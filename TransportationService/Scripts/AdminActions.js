@@ -177,7 +177,6 @@ function deleteItemClick(type, id, event) {
     return false;
 }
 
-
 //"driverBus" is a stupid & terrible name but I couldn't think of anything better and "busDriver" just sounds like a driver
 function addDriverBus() {
     var driverId = document.getElementById('driverList').value;
@@ -322,7 +321,10 @@ function viewRoutes() {
     });
 }
 
-function viewEmployees() {
+function viewEmployeesTable() {//renamed because otherwise this wasn't getting called - I have absolutely no idea why it doesn't work
+    //when it's named viewEmployees() since there's nothing else named that except in AdminController which shouldn't matter
+    //I spent well over an hour trying to figure this out and still have no idea - so I'm just going to leave it in a way that works.
+    //Sorry that it doesn't match the rest of the names.
     $.post("/Admin/ViewEmployees", {}, function (html) {
         $("#view-container").html(html);
         $("#view-item-table").tablesorter();
@@ -347,5 +349,12 @@ function viewStops() {
     $.post("/Admin/viewStops", {}, function (html) {
         $("#view-container").html(html);
         $("#view-item-table").tablesorter();
+    });
+}
+
+function viewSystemUsage() {
+    $.post("/Admin/ViewSystemUsage", {}, function (html) {
+        $("#system-usage-container").html(html);
+        //$("#view-item-table").tablesorter();
     });
 }
