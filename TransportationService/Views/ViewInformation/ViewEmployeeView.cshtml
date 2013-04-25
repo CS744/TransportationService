@@ -35,11 +35,11 @@
     <b>The Employee is from :</b>
     <div class="item-info" data-type="driverName">@Model.City, @Model.State</div>
 </div>
-@if (Model.RouteName != "")
+@if (Model.MorningRouteName != "")
 {
     <div>
         The route the bus is assigned to is:
-    <div class="item-info" data-type="routeName">@Model.RouteName</div>
+    <div class="item-info" data-type="routeName">@Model.MorningRouteName</div>
     </div>
 }
 <div>
