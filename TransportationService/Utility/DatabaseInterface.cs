@@ -342,7 +342,7 @@ namespace TransportationService.Utility
         public Driver GetDriverByDriverLicense(string driverLicense)
         {
             var coll = _database.GetCollection(_driverCollectionName);
-            var query = Query.And(Query.EQ("DriverLicense", driverLicense),Query.EQ("HasBeenDeleted", false));
+            var query = Query.And(Query.EQ("DriverLicense", driverLicense), Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Driver>(query);
         }
 
@@ -437,7 +437,7 @@ namespace TransportationService.Utility
         public Employee GetEmployeeBySSN(long ssn)
         {
             var coll = _database.GetCollection(_employeeCollectionName);
-            var query = Query.And(Query.EQ("SocialSecurityNumber", ssn),Query.EQ("HasBeenDeleted", false));
+            var query = Query.And(Query.EQ("SocialSecurityNumber", ssn), Query.EQ("HasBeenDeleted", false));
             return coll.FindOneAs<Employee>(query);
         }
 
@@ -557,7 +557,7 @@ namespace TransportationService.Utility
         }
 
         public int GetTotalCapacity(int routeId)
-        {            
+        {
             int total = 0;
             if (GetRouteByRouteId(routeId).IsActive)//return 0 if the route is inactive
             {
@@ -601,8 +601,8 @@ namespace TransportationService.Utility
 
         public void SaveEmployeeInstance(EmployeeInstance instance)
         {
-           var coll = _database.GetCollection(_instanceCollectionName);
-           coll.Save(instance);
+            var coll = _database.GetCollection(_instanceCollectionName);
+            coll.Save(instance);
         }
 
         public void SaveEmployeeActivity(EmployeeActivity activity)
@@ -611,10 +611,23 @@ namespace TransportationService.Utility
             coll.Save(activity);
         }
 
+        public List<EmployeeActivity> GetEmployeeActivity()
+        {
+            var coll = _database.GetCollection(_activityCollectionName);
+            return coll.FindAllAs<EmployeeActivity>().ToList();
+
+        }
+
+        public int GetDistinctEmployeActivityCount(string type)
+        {
+            var coll = _database.GetCollection(_activityCollectionName);
+            return coll.Distinct(type).Count();
+        }
+
         public IEnumerable<EmployeeInstance> GetEmployeeInstanceByRoute(ObjectId routeId)
         {
-           var coll = _database.GetCollection(_instanceCollectionName);
-           return coll.AsQueryable<EmployeeInstance>().Where(ei => ei.RouteId == routeId).OrderBy(ei => ei.Date);
+            var coll = _database.GetCollection(_instanceCollectionName);
+            return coll.AsQueryable<EmployeeInstance>().Where(ei => ei.RouteId == routeId).OrderBy(ei => ei.Date);
         }
 
         public Driver GetDriverAssignedToRouteBus(Route route, Bus bus)

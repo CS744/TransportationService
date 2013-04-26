@@ -18,6 +18,7 @@ namespace TransportationService.Controllers
             DatabaseInterface db = new DatabaseInterface();
             return View(db.GetAvailableRoutes());
         }
+
         public ActionResult GetEmployeeInfo(string id)
         {
             DatabaseInterface db = new DatabaseInterface();
@@ -37,6 +38,7 @@ namespace TransportationService.Controllers
                 hour = route.RouteId < 500 ? 6 : 15
             });
         }
+
         public ActionResult GetRouteInformation(string routeId)
         {
             DatabaseInterface db = new DatabaseInterface();

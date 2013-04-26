@@ -975,25 +975,47 @@ namespace TransportationService.Controllers
         public ActionResult ViewSystemUsage()
         {
             DatabaseInterface db = new DatabaseInterface();
-            var stops = db.GetAvailableStops();
+            List<EmployeeActivity> list = db.GetEmployeeActivity();
+            CustomRow row;
+            List<CustomRow> rows = new List<CustomRow>();
+            foreach (EmployeeActivity activity in list)
+            {
+                row = new CustomRow();
+                row.ObjectId = activity.Id.ToString();
+                row.Columns = new List<String>()
+                {
+                    activity.RouteId + " - " + activity.RouteName,
+                    activity.BusId + " - " + activity.LicensePlate,
+                    activity.DriverId + " - " + activity.DriverName,
+                    activity.StopId + " - " + activity.StopLocation,
+                    activity.Date.ToString(), 
+                    activity.EmployeeId + " - " + activity.EmployeeName
+                };
+                rows.Add(row);
+            }
+            row = new CustomRow();
+            row.Columns = new List<String>() {
+                db.GetDistinctEmployeActivityCount("RouteId").ToString(),
+                db.GetDistinctEmployeActivityCount("BusId").ToString(),
+                db.GetDistinctEmployeActivityCount("DriverId").ToString(),
+                db.GetDistinctEmployeActivityCount("StopId").ToString(),
+                "",
+                db.GetDistinctEmployeActivityCount("EmployeeId").ToString(),
+            };
+            rows.Add(row);
             var model = new CustomTable()
             {
                 Headers = new List<string>(){
-                    "ID",
-                    "Location",
+                    "Route",
+                    "Bus",
+                    "Driver",
+                    "Stop",
+                    "Date/Time",
+                    "Employee"
                 },
-                Rows = stops.Select(s => new CustomRow()
-                {
-                    ObjectId = s.Id.ToString(),
-                    ModifyCall = "",
-                    DeleteCall = "deleteItemClick('stop', '" + s.Id.ToString() + "', event)",
-                    Columns = new List<string>(){
-                        s.StopId.ToString(),
-                        s.Location,
-                    }
-                }).ToList()
+                Rows = rows
             };
-            return PartialView("ViewItem", model);
+            return PartialView("ViewSystemUsage", model);
         }
     }
 }

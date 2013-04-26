@@ -354,7 +354,7 @@ function viewStops() {
 
 function viewSystemUsage() {
     $.post("/Admin/ViewSystemUsage", {}, function (html) {
-        $("#system-usage-container").html(html);
-        //$("#view-item-table").tablesorter();
+        $("#view-container").html(html);
+        $("#system-usage-table").tablesorter();
     });
 }
