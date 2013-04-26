@@ -91,5 +91,6 @@ namespace TransportationService.Models
     {
        public List<string> Headers { get; set; }
        public List<CustomRow> Rows { get; set; }
+       public List<string> Totals { get; set; }
     }
 }

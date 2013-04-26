@@ -993,16 +993,6 @@ namespace TransportationService.Controllers
                 };
                 rows.Add(row);
             }
-            row = new CustomRow();
-            row.Columns = new List<String>() {
-                db.GetDistinctEmployeActivityCount("RouteId").ToString(),
-                db.GetDistinctEmployeActivityCount("BusId").ToString(),
-                db.GetDistinctEmployeActivityCount("DriverId").ToString(),
-                db.GetDistinctEmployeActivityCount("StopId").ToString(),
-                "",
-                db.GetDistinctEmployeActivityCount("EmployeeId").ToString(),
-            };
-            rows.Add(row);
             var model = new CustomTable()
             {
                 Headers = new List<string>(){
@@ -1013,7 +1003,16 @@ namespace TransportationService.Controllers
                     "Date/Time",
                     "Employee"
                 },
-                Rows = rows
+                Rows = rows,
+                Totals = new List<string>()
+                {
+                    db.GetDistinctEmployeActivityCount("RouteId").ToString(),
+                    db.GetDistinctEmployeActivityCount("BusId").ToString(),
+                    db.GetDistinctEmployeActivityCount("DriverId").ToString(),
+                    db.GetDistinctEmployeActivityCount("StopId").ToString(),
+                    "",
+                    db.GetDistinctEmployeActivityCount("EmployeeId").ToString()
+                }
             };
             return PartialView("ViewSystemUsage", model);
         }

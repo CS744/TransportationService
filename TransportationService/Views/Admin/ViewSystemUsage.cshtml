@@ -23,4 +23,12 @@
             </tr>
         }
     </tbody>
+    <tfoot>
+        <tr style="border-top: 2px solid black; padding: 10px;">
+            @foreach (var total in Model.Totals)
+            {
+                <td>@total</td>
+            }
+        </tr>
+    </tfoot>
 </table>
