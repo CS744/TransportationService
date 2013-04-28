@@ -43,21 +43,21 @@ namespace TransportationService.Controllers
         {
             DatabaseInterface db = new DatabaseInterface();
             ObjectId rId = new ObjectId(routeId);
-            IEnumerable<EmployeeInstance> instances = db.GetEmployeeInstanceByRoute(rId);
+            IEnumerable<EmployeeActivity> instances = db.GetEmployeeActivityByRoute(rId);
             ViewInstanceModel model = new ViewInstanceModel()
             {
                 Route = db.GetRouteById(rId),
                 Rows = new List<InstanceRow>()
             };
-            instances.Aggregate<EmployeeInstance, ViewInstanceModel>(model, (vi, instance) =>
+            instances.Aggregate<EmployeeActivity, ViewInstanceModel>(model, (vi, instance) =>
             {
                 instance.Date = TimeZoneInfo.ConvertTimeFromUtc(instance.Date, TimeZoneInfo.Local);
-                InstanceRow row = vi.Rows.FirstOrDefault(r => r.Bus.Id == instance.BusId && r.Date.Date == instance.Date.Date);
+                InstanceRow row = vi.Rows.FirstOrDefault(r => r.Bus.Id == instance.Bus.Id && r.Date.Date == instance.Date.Date);
                 if (row == null)
                 {
                     row = new InstanceRow()
                     {
-                        Bus = db.GetBusById(instance.BusId),
+                        Bus = instance.Bus,
                         Date = instance.Date.Date,
                         Employees = new List<EmployeeCell>()
                     };
@@ -65,8 +65,8 @@ namespace TransportationService.Controllers
                 }
                 row.Employees.Add(new EmployeeCell()
                 {
-                    Employee = db.GetEmployeeById(instance.EmployeeId),
-                    Stop = db.GetStop(instance.StopId),
+                    Employee = instance.Employee,
+                    Stop = instance.Stop,
                     Date = instance.Date
                 });
                 return model;
@@ -79,42 +79,23 @@ namespace TransportationService.Controllers
         {
             Dictionary<string, Dictionary<string, object>> employeeDict = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(employees);
             DatabaseInterface db = new DatabaseInterface();
+            Route route = db.GetRouteById(new ObjectId(routeId));
             foreach (string employeeId in employeeDict.Keys)
             {
                 Dictionary<string, object> inner = employeeDict[employeeId];
-                EmployeeInstance instance = new EmployeeInstance()
+                Bus bus = db.GetBusById(new ObjectId((string)inner["bus"]));
+                Driver driver = db.GetDriverById(route.DriverBusList.First(bd => bd.BusId == bus.BusId).DriverId);
+                EmployeeActivity instance = new EmployeeActivity()
                 {
                     Id = ObjectId.GenerateNewId(),
-                    RouteId = new ObjectId(routeId),
-                    EmployeeId = new ObjectId(employeeId),
-                    StopId = new ObjectId((string)inner["stop"]),
-                    BusId = new ObjectId((string)inner["bus"]),
+                    Route = route,
+                    Employee = db.GetEmployeeById(new ObjectId(employeeId)),
+                    Stop = db.GetStop(new ObjectId((string)inner["stop"])),
+                    Bus = bus,
+                    Driver = driver,
                     Date = (DateTime)inner["date"]
                 };
-                db.SaveEmployeeInstance(instance);
-
-
-                Route route = db.GetRouteById(instance.RouteId);
-                Bus bus = db.GetBusById(instance.BusId);
-                Driver driver = db.GetDriverAssignedToRouteBus(route, bus);
-                Stop stop = db.GetStop(instance.StopId);
-                Employee employee = db.GetEmployeeById(instance.EmployeeId);
-                EmployeeActivity activity = new EmployeeActivity()
-                {
-                    Id = ObjectId.GenerateNewId(),
-                    RouteId = route.RouteId,
-                    EmployeeId = employee.EmployeeId,
-                    StopId = stop.StopId,
-                    BusId = bus.BusId,
-                    Date = (DateTime)inner["date"],
-                    DriverId = driver.DriverId,
-                    LicensePlate = bus.LicensePlate,
-                    DriverName = driver.Name,
-                    RouteName = route.Name,
-                    StopLocation = stop.Location,
-                    EmployeeName = employee.Name
-                };
-                db.SaveEmployeeActivity(activity);
+                db.SaveEmployeeActivity(instance);
             }
             return null;
         }

@@ -2,7 +2,7 @@
 @{
     Layout = null;
 }
-
+<input id="filterUsage" class="input" type="text" onkeyup="processFilter(this, event)" placeholder="Filter" />
 <table id="system-usage-table" class="good-style">
     <thead>
         <tr style="border-bottom: 1px solid black; padding: 5px;">
@@ -15,7 +15,7 @@
     <tbody>
         @foreach (var row in Model.Rows)
         {
-            <tr id="view-tr-@row.ObjectId" data-id="@row.ObjectId">
+            <tr class="activity-row">
                 @foreach (var col in row.Columns)
                 {
                     <td>@col</td>

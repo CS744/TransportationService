@@ -82,8 +82,9 @@
 .hidden {
 	opacity: 0 !important;
 }
+
 .no-opacity {
-	opacity: 0
+	opacity: 0;
 }
 
 /* Log in Style. */
@@ -246,4 +247,18 @@ td > select {
 .btn.icon-plus {
 	line-height: inherit;
 	vertical-align: inherit;
+}
+
+.employee-inner, .employee-inner * {
+	cursor: default;
+}
+
+#filterUsage {
+	display: block;
+	margin-left: calc(50% - 120px);
+	margin-left: -webkit-calc(50% - 120px);
+}
+
+.activity-row {
+	cursor: default;
 }

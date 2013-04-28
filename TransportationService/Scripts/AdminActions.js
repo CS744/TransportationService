@@ -258,11 +258,11 @@ function removeDriverBus(editEntry) {
         if (busValue != "None")
             $("#busList").append("<option value=\"" + busValue + "\" selected>" + busText + "</option>");
         else
-            $("#busList").options.selectedIndex = 0;
+            $("#busList")[0].selectedIndex = 0
         if (driverValue != "None")
             $("#driverList").append("<option value=\"" + driverValue + "\" selected>" + driverText + "</option>");
         else
-            $("#driverList").options.selectedIndex = 0;
+            $("#driverList")[0].selectedIndex = 0
         customSort("#busList");
         customSort("#driverList");
         if (status == "ACTIVE") {
@@ -287,9 +287,10 @@ function removeDriverBus(editEntry) {
 
     var size = $("#driverBusList option").size();
     $("#driverBusList option:selected").remove();
-    if (index == size - 1 && size > 1)
+    if (index == size - 1 && size > 1) {
         index--;
-    $('#driverBusList option')[index].selected = true;
+        $('#driverBusList option')[index].selected = true;
+    }
     $('#driverBusList').focus();
 }
 
@@ -318,13 +319,11 @@ function viewRoutes() {
         $("#view-item-table tr").click(function (event) {
             viewRouteInformation(this.dataset.id);
         });
+        $("#view-item-table").find("tbody > tr").css("cursor", "pointer");
     });
 }
 
-function viewEmployeesTable() {//renamed because otherwise this wasn't getting called - I have absolutely no idea why it doesn't work
-    //when it's named viewEmployees() since there's nothing else named that except in AdminController which shouldn't matter
-    //I spent well over an hour trying to figure this out and still have no idea - so I'm just going to leave it in a way that works.
-    //Sorry that it doesn't match the rest of the names.
+function viewEmployeesTable() {
     $.post("/Admin/ViewEmployees", {}, function (html) {
         $("#view-container").html(html);
         $("#view-item-table").tablesorter();
@@ -356,5 +355,6 @@ function viewSystemUsage() {
     $.post("/Admin/ViewSystemUsage", {}, function (html) {
         $("#view-container").html(html);
         $("#system-usage-table").tablesorter();
+        calculateActivityAmounts();
     });
 }

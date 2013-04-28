@@ -155,7 +155,7 @@ function updateBus(busId) {
             $("#modal").modal('hide');
             $("#view-item-table").trigger("update");
         } else {
-            $("#busFailureMessage > .error-text").text("The license plate already exists. Please enter a unique license plate.");
+            $("#busFailureMessage > .error-text").text(data.reason);
             rollDown($("#busFailureMessage"));
             setTimeout(function () {
                 rollUp($("#busFailureMessage"));

@@ -18,7 +18,6 @@ namespace TransportationService.Utility
         const string _busCollectionName = "Buses";
         const string _routeCollectionName = "Routes";
         const string _driverCollectionName = "Drivers";
-        const string _instanceCollectionName = "EmployeeInstance";
         const string _seedCollectionName = "Seeds";
         const string _activityCollectionName = "EmployeeActivity";
 
@@ -599,12 +598,6 @@ namespace TransportationService.Utility
             return coll.FindAs<Bus>(query);
         }
 
-        public void SaveEmployeeInstance(EmployeeInstance instance)
-        {
-            var coll = _database.GetCollection(_instanceCollectionName);
-            coll.Save(instance);
-        }
-
         public void SaveEmployeeActivity(EmployeeActivity activity)
         {
             var coll = _database.GetCollection(_activityCollectionName);
@@ -624,10 +617,10 @@ namespace TransportationService.Utility
             return coll.Distinct(type).Count();
         }
 
-        public IEnumerable<EmployeeInstance> GetEmployeeInstanceByRoute(ObjectId routeId)
+        public IEnumerable<EmployeeActivity> GetEmployeeActivityByRoute(ObjectId routeId)
         {
-            var coll = _database.GetCollection(_instanceCollectionName);
-            return coll.AsQueryable<EmployeeInstance>().Where(ei => ei.RouteId == routeId).OrderBy(ei => ei.Date);
+           var coll = _database.GetCollection(_activityCollectionName);
+           return coll.AsQueryable<EmployeeActivity>().Where(ei => ei.Route.Id == routeId).OrderBy(ei => ei.Date);
         }
 
         public Driver GetDriverAssignedToRouteBus(Route route, Bus bus)

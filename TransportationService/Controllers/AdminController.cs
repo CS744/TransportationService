@@ -478,9 +478,17 @@ namespace TransportationService.Controllers
         public ActionResult UpdateBus(string busId, int capacity, string license, string state)
         {
             DatabaseInterface db = new DatabaseInterface();
+            license = license.ToUpper();
             if (!db.IsLicenseUnique(license, busId))
-                return Json("false");
+               return Json(new { success = "false", reason = "The license plate already exists. Please enter a unique license plate" });
             Bus bus = db.GetBusByBusId(int.Parse(busId));
+            int diff = capacity - bus.Capacity;
+            Route morning = db.GetRouteByRouteId(bus.MorningAssignedTo);
+            Route evening = db.GetRouteByRouteId(bus.EveningAssignedTo);
+            int minCapMorning = morning == null ? 100 : db.GetTotalCapacity(morning.RouteId) - db.GetEmployeesAssignedToRoute(morning.RouteId).Count();
+            int minCapEvening = evening == null ? 100 : db.GetTotalCapacity(evening.RouteId) - db.GetEmployeesAssignedToRoute(evening.RouteId).Count();
+            if (minCapMorning + diff < 0 || minCapEvening + diff < 0)
+               return Json(new { success = "false", reason = "Capacity is too low" });
             bus.LicensePlate = license;
             bus.BusId = int.Parse(busId);
             bus.Capacity = capacity;
@@ -982,14 +990,19 @@ namespace TransportationService.Controllers
             {
                 row = new CustomRow();
                 row.ObjectId = activity.Id.ToString();
+                Route route = activity.Route;
+                Driver driver = activity.Driver;
+                Bus bus = activity.Bus;
+                Employee employee = activity.Employee;
+                Stop stop = activity.Stop;
                 row.Columns = new List<String>()
                 {
-                    activity.RouteId + " - " + activity.RouteName,
-                    activity.BusId + " - " + activity.LicensePlate,
-                    activity.DriverId + " - " + activity.DriverName,
-                    activity.StopId + " - " + activity.StopLocation,
-                    activity.Date.ToString(), 
-                    activity.EmployeeId + " - " + activity.EmployeeName
+                    route.RouteId + " - " + route.Name,
+                    bus.BusId + " - " + bus.LicensePlate,
+                    driver.DriverId + " - " + driver.Name,
+                    stop.StopId + " - " + stop.Location,
+                    TimeZoneInfo.ConvertTimeFromUtc(activity.Date, TimeZoneInfo.Local).ToString(), 
+                    employee.EmployeeId + " - " + employee.Name
                 };
                 rows.Add(row);
             }
@@ -1006,12 +1019,12 @@ namespace TransportationService.Controllers
                 Rows = rows,
                 Totals = new List<string>()
                 {
-                    db.GetDistinctEmployeActivityCount("RouteId").ToString(),
-                    db.GetDistinctEmployeActivityCount("BusId").ToString(),
-                    db.GetDistinctEmployeActivityCount("DriverId").ToString(),
-                    db.GetDistinctEmployeActivityCount("StopId").ToString(),
-                    "",
-                    db.GetDistinctEmployeActivityCount("EmployeeId").ToString()
+                    "0",//db.GetDistinctEmployeActivityCount("RouteId").ToString(),
+                    "0",//db.GetDistinctEmployeActivityCount("BusId").ToString(),
+                    "0",//db.GetDistinctEmployeActivityCount("DriverId").ToString(),
+                    "0",//db.GetDistinctEmployeActivityCount("StopId").ToString(),
+                    "-",
+                    "0",//db.GetDistinctEmployeActivityCount("EmployeeId").ToString()
                 }
             };
             return PartialView("ViewSystemUsage", model);

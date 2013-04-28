@@ -102,31 +102,16 @@ namespace TransportationService.Utility
         public int StopId { get; set; }
         public bool HasBeenDeleted { get; set; }
     }
-    public class EmployeeInstance
-    {
-       [BsonId]
-       public ObjectId Id { get; set; }
-       public ObjectId RouteId { get; set; }
-       public ObjectId EmployeeId { get; set; }
-       public ObjectId StopId { get; set; }
-       public ObjectId BusId { get; set; }
-       public DateTime Date { get; set; }
-    }
 
     public class EmployeeActivity
     {
         [BsonId]
         public ObjectId Id { get; set; }
-        public int RouteId { get; set; }
-        public int EmployeeId { get; set; }
-        public int StopId { get; set; }
-        public int BusId { get; set; }
         public DateTime Date { get; set; }
-        public int DriverId { get; set; }
-        public string RouteName { get; set; }
-        public string LicensePlate { get; set; }
-        public string DriverName { get; set; }
-        public string EmployeeName { get; set; }
-        public string StopLocation { get; set; }
+        public Route Route { get; set; }
+        public Bus Bus{ get; set; }
+        public Stop Stop { get; set; }
+        public Employee Employee { get; set; }
+        public Driver Driver { get; set; }
     }
 }

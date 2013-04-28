@@ -85,7 +85,7 @@ table.good-style > tbody > tr {
 	}
 
 table.good-style > tbody > tr {
-	cursor: pointer;
+	/*cursor: pointer;*/
 }
 
 	table.good-style > tbody > tr > td {

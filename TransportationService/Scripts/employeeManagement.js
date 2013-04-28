@@ -10,8 +10,10 @@
                     $this = $(this);
                     var stopSelect = $this.find(".select-stop")[0];
                     stopSelect.selectedIndex = Math.floor(Math.random() * (stopSelect.length - 1)) + 1;
+                    if (stopSelect.selectedIndex == -1) stopSelect.selectedIndex = 0;
                     var busSelect = $this.find(".select-bus")[0];
                     busSelect.selectedIndex = Math.floor(Math.random() * (busSelect.length - 1)) + 1;
+                    if (busSelect.selectedIndex == -1) busSelect.selectedIndexs = 0;
 
                     var hourSelect = $this.find(".hourList")[0];
                     hourSelect.selectedIndex = data.hour;
@@ -93,6 +95,7 @@ function viewRouteInformation(routeId) {
         function (html) {
             $("#view-container").html(html);
             $("table table").tablesorter();
+            $("#route-information").find("tbody > tr").css("cursor", "pointer");
         });
 }
 function viewEmployees(employeeRowId) {
@@ -102,5 +105,45 @@ function viewEmployees(employeeRowId) {
         row.removeClass("hide");
     } else {
         row.addClass("hide");
+    }
+}
+function processFilter(elem, event) {
+    var text = elem.value;
+    $(".activity-row").each(function () {
+        var isHidden = true;
+        $(this).children("td").each(function () {
+            if (-1 !== this.innerHTML.toLowerCase().indexOf(text.toLowerCase())) {
+                isHidden = false;
+            }
+        });
+        if (isHidden) {
+            $(this).addClass("hide");
+        }
+        else {
+            $(this).removeClass("hide");
+        }
+    });
+    calculateActivityAmounts();
+}
+function calculateActivityAmounts() {
+    var tbl = $("#system-usage-table");
+    var arrs = [[], [], [], [], [], [], []];
+    $(".activity-row:not('.hide')").each(function () {
+        for (var i = 1; i < 7; i++) {
+            if (i == 5)
+                continue;
+            $(this).find("td:nth-child(" + i + ")").each(function () {
+                var s = this.innerHTML;
+                var val = Number(s.substring(0, s.indexOf("-") - 1));
+                if (arrs[i - 1].indexOf(val) == -1) {
+                    arrs[i - 1].push(val);
+                }
+            });
+        }
+    });
+    for (var i = 1; i < 7; i++) {
+        if (i == 5)
+            continue;
+        tbl.find("tfoot > tr > td:nth-child(" + i + ")").text(arrs[i - 1].length);
     }
 }
