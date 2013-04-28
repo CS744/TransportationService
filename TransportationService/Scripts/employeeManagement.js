@@ -20,7 +20,22 @@
                     var minuteSelect = $this.find(".minuteList")[0];
                     minuteSelect.selectedIndex = 6;
                 });
-                $("#employee-table").tablesorter();
+                $("#employee-table").tablesorter({
+                    headers: {
+                        0: {
+                            sorter: false
+                        },
+                        2: {
+                            sorter: false
+                        },
+                        3: {
+                            sorter: false
+                        },
+                        4: {
+                            sorter: false
+                        }
+                    }
+                });
             });
         }
         else {
@@ -44,28 +59,30 @@ function submitRouteData() {
     var validSelection = true;
     $("#employee-table").find("tr.employee-row").each(function () {
         $this = $(this);
-        var stopSelect = $this.find(".select-stop")[0];
-        var busSelect = $this.find(".select-bus")[0];
+        if ($this.find(".checkbox-sub")[0].checked) {
+            var stopSelect = $this.find(".select-stop")[0];
+            var busSelect = $this.find(".select-bus")[0];
 
-        var hourSelect = $this.find(".hourList")[0];
-        var minuteSelect = $this.find(".minuteList")[0];
+            var hourSelect = $this.find(".hourList")[0];
+            var minuteSelect = $this.find(".minuteList")[0];
 
-        var strDate = $("#datepicker").data("date").split("-");
-        var date = new Date(strDate[2],
-            Number(strDate[0]) - 1,
-            strDate[1],
-            hourSelect[hourSelect.selectedIndex].value,
-            minuteSelect[minuteSelect.selectedIndex].value);
-        var entry = {
-            stop: stopSelect[stopSelect.selectedIndex].value,
-            bus: busSelect[busSelect.selectedIndex].value,
-            date: date
-        };
-        if (entry.bus == "" || entry.stop == "") {
-            validSelection = false;
-        }
-        else {
-            employeeDict[this.dataset.id] = entry;
+            var strDate = $("#datepicker").data("date").split("-");
+            var date = new Date(strDate[2],
+                Number(strDate[0]) - 1,
+                strDate[1],
+                hourSelect[hourSelect.selectedIndex].value,
+                minuteSelect[minuteSelect.selectedIndex].value);
+            var entry = {
+                stop: stopSelect[stopSelect.selectedIndex].value,
+                bus: busSelect[busSelect.selectedIndex].value,
+                date: date
+            };
+            if (entry.bus == "" || entry.stop == "") {
+                validSelection = false;
+            }
+            else {
+                employeeDict[this.dataset.id] = entry;
+            }
         }
     });
     if (validSelection) {
@@ -120,15 +137,12 @@ function processFilter() {
             });
         } else {
             var length = text.length;
-            var columnIndex = 0;
-            //I couldn't figure out how to get the nth-child thing to work here. Tried, failed. So please live with this inferior code. I'm sorry
-            $(this).children("td").each(function () {
-                if (columnIndex == filterByColumn) {
+            $(this).children("td").each(function (ndx) {
+                if (ndx == filterByColumn) {
                     if (this.innerHTML.substring(0, length + 3) == text + " - " || text == "") {
                         isHidden = false;
                     }
                 }
-                columnIndex++;
             });
         }
         if (isHidden) {
@@ -161,5 +175,12 @@ function calculateActivityAmounts() {
         if (i == 5)
             continue;
         tbl.find("tfoot > tr > td:nth-child(" + i + ")").text(arrs[i - 1].length);
+    }
+}
+
+function toggleAll(source) {
+    checkboxes = document.getElementsByClassName('checkbox-sub');
+    for (var i = 0, n = checkboxes.length; i < n; i++) {
+        checkboxes[i].checked = source.checked;
     }
 }

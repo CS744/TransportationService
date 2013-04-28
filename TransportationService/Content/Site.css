@@ -253,10 +253,8 @@ td > select {
 	cursor: default;
 }
 
-#filterUsage {
-	display: block;
-	margin-left: calc(50% - 120px);
-	margin-left: -webkit-calc(50% - 120px);
+#filterUsage, #filterType {
+	display: inline-block;
 }
 
 .activity-row {
