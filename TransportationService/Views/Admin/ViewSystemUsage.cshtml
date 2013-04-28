@@ -2,7 +2,15 @@
 @{
     Layout = null;
 }
-<input id="filterUsage" class="input" type="text" onkeyup="processFilter(this, event)" placeholder="Filter" />
+<select id="filterType" style="width: 150px;" onchange="processFilter()">
+    <option value="-1">-- Filter By --</option>
+    <option value="0">RouteId</option>
+    <option value="1">BusId</option>
+    <option value="2">DriverId</option>
+    <option value="3">StopId</option>
+    <option value="5">EmployeeId</option>
+</select>
+<input id="filterUsage" class="input" type="text" onkeyup="processFilter()" placeholder="Filter" />
 <table id="system-usage-table" class="good-style">
     <thead>
         <tr style="border-bottom: 1px solid black; padding: 5px;">

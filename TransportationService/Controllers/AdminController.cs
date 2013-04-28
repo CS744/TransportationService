@@ -482,13 +482,6 @@ namespace TransportationService.Controllers
             if (!db.IsLicenseUnique(license, busId))
                return Json(new { success = "false", reason = "The license plate already exists. Please enter a unique license plate" });
             Bus bus = db.GetBusByBusId(int.Parse(busId));
-            int diff = capacity - bus.Capacity;
-            Route morning = db.GetRouteByRouteId(bus.MorningAssignedTo);
-            Route evening = db.GetRouteByRouteId(bus.EveningAssignedTo);
-            int minCapMorning = morning == null ? 100 : db.GetTotalCapacity(morning.RouteId) - db.GetEmployeesAssignedToRoute(morning.RouteId).Count();
-            int minCapEvening = evening == null ? 100 : db.GetTotalCapacity(evening.RouteId) - db.GetEmployeesAssignedToRoute(evening.RouteId).Count();
-            if (minCapMorning + diff < 0 || minCapEvening + diff < 0)
-               return Json(new { success = "false", reason = "Capacity is too low" });
             bus.LicensePlate = license;
             bus.BusId = int.Parse(busId);
             bus.Capacity = capacity;

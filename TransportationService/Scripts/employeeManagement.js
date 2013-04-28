@@ -107,15 +107,30 @@ function viewEmployees(employeeRowId) {
         row.addClass("hide");
     }
 }
-function processFilter(elem, event) {
-    var text = elem.value;
+function processFilter() {
+    var filterByColumn = $("#filterType").val();
+    var text = document.getElementById('filterUsage').value;
     $(".activity-row").each(function () {
         var isHidden = true;
-        $(this).children("td").each(function () {
-            if (-1 !== this.innerHTML.toLowerCase().indexOf(text.toLowerCase())) {
-                isHidden = false;
-            }
-        });
+        if (filterByColumn == -1) {
+            $(this).children("td").each(function () {
+                if (-1 !== this.innerHTML.toLowerCase().indexOf(text.toLowerCase())) {
+                    isHidden = false;
+                }
+            });
+        } else {
+            var length = text.length;
+            var columnIndex = 0;
+            //I couldn't figure out how to get the nth-child thing to work here. Tried, failed. So please live with this inferior code. I'm sorry
+            $(this).children("td").each(function () {
+                if (columnIndex == filterByColumn) {
+                    if (this.innerHTML.substring(0, length + 3) == text + " - " || text == "") {
+                        isHidden = false;
+                    }
+                }
+                columnIndex++;
+            });
+        }
         if (isHidden) {
             $(this).addClass("hide");
         }
@@ -125,6 +140,7 @@ function processFilter(elem, event) {
     });
     calculateActivityAmounts();
 }
+
 function calculateActivityAmounts() {
     var tbl = $("#system-usage-table");
     var arrs = [[], [], [], [], [], [], []];
