@@ -6,7 +6,10 @@
 <table id="employee-table" class="good-style">
     <thead>
         <tr style="border-bottom: 1px solid black; padding: 5px;">
-            <th style="font-weight: bold; padding: 7px 0px;">Employee</th>
+            <th style="font-weight: bold; padding: 7px 0px;">
+                <input id="toggle-all-box" type="checkbox" checked onclick="toggleAll(this)"/>
+            </th>
+            <th style="font-weight: bold; padding: 7px 0px;">Employee<i class=" no-opacity"></i></th>
             <th style="font-weight: bold; padding: 7px 0px;">Stop</th>
             <th style="font-weight: bold; padding: 7px 0px;">Bus</th>
             <th style="font-weight: bold; padding: 7px 0px;" colspan="2">Time (military)</th>
@@ -16,6 +19,9 @@
         @foreach (TransportationService.Utility.Employee employee in Model.Employees)
         {
             <tr id="tr-@employee.Id.ToString()" class="employee-row" data-id="@employee.Id.ToString()">
+            <td style="font-weight: bold; padding: 7px 0px;">
+                <input class="checkbox-sub" type="checkbox" checked />
+            </td>
                 <td>@employee.Name</td>
                 <td>
                     <select class="table-select select-stop">
