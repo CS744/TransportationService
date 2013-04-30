@@ -192,8 +192,14 @@ function addDriverBus() {
 
     var departureTime = $("#hourList option:selected").text() + ":" + $("#minuteList option:selected").text() + " " + $("#ampmLabel").text();
     var status = $("#driverBusActiveButton").hasClass('active') ? "ACTIVE" : "INACTIVE";
-    if (driverId == "None" && busId == "None")
+    if (driverId == "None" || busId == "None") {
+        $("#routeFailureMessage > .error-text").text("Need a Bus and a Driver to be active, switched to inactive.");
+        rollDown($("#routeFailureMessage"));
+        setTimeout(function () {
+            rollUp($("#routeFailureMessage"));
+        }, 5000);
         status = "INACTIVE";
+    }
 
     var value = busId + ";" + driverId + ";" + departureTime + ";" + status;
     var text = busDetail + "; " + driverDetail + "; Departs: " + departureTime + "; " + status;

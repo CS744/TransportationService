@@ -368,27 +368,8 @@ namespace TransportationService.Controllers
             IEnumerable<Employee> employees = db.GetAvailableEmployees();
 
             //unassign buses and drivers
-            db.UnassignBusesDriversFromRoute(r.RouteId);
             db.SetInactiveBusesDriversFromRoute(r.RouteId);
-            //foreach (DriverBus drbs in drbss)
-            //{
-            //    if (isToWork)
-            //    {
-            //        drbs.Bus.MorningAssignedTo = -1;
-            //        drbs.Bus.MorningIsActive = false;
-            //        drbs.Driver.MorningAssignedTo = -1;
-            //        drbs.Driver.MorningIsActive = false;
-            //    }
-            //    else
-            //    {
-            //        drbs.Bus.EveningAssignedTo = -1;
-            //        drbs.Bus.EveningIsActive = false;
-            //        drbs.Driver.EveningAssignedTo = -1;
-            //        drbs.Driver.EveningIsActive = false;
-            //    }
-            //    db.UpdateBus(drbs.Bus);
-            //    db.UpdateDriver(drbs.Driver);
-            //}
+            db.UnassignBusesDriversFromRoute(r.RouteId);
 
             //unassign employees
             foreach (Employee employee in employees)

@@ -26,7 +26,7 @@ namespace TransportationService.Controllers
 
             ManagementModel model = new ManagementModel()
             {
-                Buses = db.GetBusesAssignedToRoute(route.RouteId),
+               Buses = db.GetBusesAssignedToRoute(route.RouteId).Where(b => (b.EveningIsActive && route.RouteId > 500) || ((b.MorningIsActive && route.RouteId < 500))),
                 Employees = db.GetEmployeesAssignedToRoute(route.RouteId),
                 Stops = route.Stops
             };
