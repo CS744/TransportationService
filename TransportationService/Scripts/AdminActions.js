@@ -100,6 +100,8 @@ function removeStop() {
 function addStopToRoute() {
     var stops = document.getElementById('selectedStops');
     var stopId = document.getElementById('stops').value;
+    if (stopId == "")
+        return false;
     var location = $("#stops option:selected").text();
     stops.options[stops.options.length] = new Option(location, stopId);
     var select = document.getElementById('stops');
