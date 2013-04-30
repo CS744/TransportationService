@@ -550,8 +550,8 @@ namespace TransportationService.Utility
             }
             else
             {
-                _database.GetCollection(_busCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningIsActive", false));
-                _database.GetCollection(_driverCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningIsActive", false));
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("EveningAssignedTo", routeId), Update.Set("EveningIsActive", false));
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("EveningAssignedTo", routeId), Update.Set("EveningIsActive", false));
             }
         }
 
