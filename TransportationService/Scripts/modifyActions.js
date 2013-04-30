@@ -311,8 +311,8 @@ function updateEmployee(employeeId) {
             //gender
             $("#view-tr-" + data.id + " > td:nth-child(7)").text(request.phone);
             $("#view-tr-" + data.id + " > td:nth-child(8)").text(request.address + ", " + request.city + ", " + request.state + " " + request.zip);
-            $("#view-tr-" + data.id + " > td:nth-child(9)").text(request.morningRouteId == -1 ? "none" : request.morningRouteId);
-            $("#view-tr-" + data.id + " > td:nth-child(10)").text(request.eveningRouteId == -1 ? "none" : request.eveningRouteId);
+            $("#view-tr-" + data.id + " > td:nth-child(9)").text(request.morningRouteId == -1 ? "none" : request.morningRouteId + data.morningRouteName);
+            $("#view-tr-" + data.id + " > td:nth-child(10)").text(request.eveningRouteId == -1 ? "none" : request.eveningRouteId + data.eveningRouteName);
 
             //$(".item-info[data-type='morningAssignedTo']").text(request.morningAssignedTo);
             //$(".item-info[data-type='eveningAssignedTo']").text(request.eveningAssignedTo);

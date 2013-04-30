@@ -781,7 +781,9 @@ namespace TransportationService.Controllers
             e.State = state;
             e.Zip = zip;
             db.UpdateEmployee(e);
-            return Json(new { success = "true", id = e.Id.ToString() });
+            string mRouteName = morningRouteId == -1 ? "" : " - " + db.GetRouteByRouteId(morningRouteId).Name;
+            string eRouteName = eveningRouteId == -1 ? "" : " - " + db.GetRouteByRouteId(eveningRouteId).Name;
+            return Json(new { success = "true", id = e.Id.ToString(), morningRouteName = mRouteName, eveningRouteName = eRouteName });
         }
 
         public ActionResult DeleteEmployee(string id)
