@@ -54,6 +54,132 @@ namespace TransportationService.Utility
             coll.Save(seed);
         }
 
+        public void PreloadEmployees()
+        {
+            string line = "";
+            string[] array;
+            Employee e;
+            System.IO.StreamReader file = new System.IO.StreamReader("C:\\Users\\Mariah\\Documents\\GitHub\\Data\\Employees.txt");
+            try
+            {
+                
+                while ((line = file.ReadLine()) != null)
+                {
+                    line = line.Replace(" \t", "\t");
+                    line = line.Replace("\t\t\t", "\t");
+                    line = line.Replace("\t\t", "\t");
+                    array = line.Split('\t');
+                    e = new Employee()
+                    {
+                        Name = array[0] + " " + array[1],
+                        IsMale = array[2].Equals("M") ? true : false,
+                        SocialSecurityNumber = long.Parse(array[3]),
+                        Position = array[4],
+                        Phone = array[5].Replace("-", ""),
+                        Address = array[6],
+                        City = array[7],
+                        State = array[8],
+                        Zip = int.Parse(array[9]),
+                        Email = array[10],
+                        MorningAssignedTo = int.Parse(array[11]),
+                        EveningAssignedTo = int.Parse(array[12]),
+                        EmployeeId = GetNextEmployeeId(),
+                        HasBeenDeleted = false,
+                        Id = ObjectId.GenerateNewId()
+                    };
+                    SaveEmployee(e);
+                }
+            }
+            finally
+            {
+                file.Close();
+            }
+        }
+
+        public void PreloadStops()
+        {
+            string line = "";
+            string[] array;
+            Stop s;
+            System.IO.StreamReader file = new System.IO.StreamReader("C:\\Users\\Mariah\\Documents\\GitHub\\Data\\Stops.txt");
+            while ((line = file.ReadLine()) != null)
+            {
+                array = line.Split('\t');
+                s = new Stop()
+                {
+                    Location = array[1],
+                    StopId = GetNextStopId(),
+                    HasBeenDeleted = false,
+                    Id = ObjectId.GenerateNewId()
+                };
+                SaveStop(s);
+            }
+
+            file.Close();
+        }
+
+        public void PreloadDrivers()
+        {
+            string line = "";
+            string[] array;
+            Driver d;
+            System.IO.StreamReader file = new System.IO.StreamReader("C:\\Users\\Mariah\\Documents\\GitHub\\Data\\Drivers.txt");
+            while ((line = file.ReadLine()) != null)
+            {
+                line = line.Replace(" \t", "\t");
+                line = line.Replace("\t\t\t", "\t");
+                line = line.Replace("\t\t", "\t");
+                array = line.Split('\t');
+                d = new Driver()
+                {
+                    Name = array[0] + " " + array[1],
+                    DriverLicense = array[2],
+                    State = array[3],
+                    MorningAssignedTo = -1,
+                    MorningIsActive = false,
+                    EveningAssignedTo = -1,
+                    EveningIsActive = false,
+                    DriverId = GetNextDriverId(),
+                    HasBeenDeleted = false,
+                    Id = ObjectId.GenerateNewId()
+                };
+                SaveDriver(d);
+            }
+
+            file.Close();
+        }
+
+        public void PreloadBuses()
+        {
+            string line = "";
+            string[] array;
+            Bus b;
+            System.IO.StreamReader file = new System.IO.StreamReader("C:\\Users\\Mariah\\Documents\\GitHub\\Data\\Buses.txt");
+            while ((line = file.ReadLine()) != null)
+            {
+                line = line.Replace(" \t", "\t");
+                line = line.Replace("\t\t\t", "\t");
+                line = line.Replace("\t\t", "\t");
+                array = line.Split('\t');
+                b = new Bus()
+                {
+                    LicensePlate = array[1],
+                    Capacity = 10,
+                    State = array[2],
+                    MorningAssignedTo = -1,
+                    MorningIsActive = false,
+                    EveningAssignedTo = -1,
+                    EveningIsActive = false,
+                    BusId = GetNextBusId(),
+                    HasBeenDeleted = false,
+                    Id = ObjectId.GenerateNewId()
+                };
+                AddBus(b);
+            }
+
+            file.Close();
+        }
+
         #region USER
         public void SaveUser(User user)
         {
@@ -249,9 +375,9 @@ namespace TransportationService.Utility
         public void BusSetActive(int busId, bool isActive, int routeId)
         {
             if (routeId < 500)
-               _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("MorningIsActive", isActive), UpdateFlags.Multi);
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("MorningIsActive", isActive), UpdateFlags.Multi);
             else
-               _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("EveningIsActive", isActive), UpdateFlags.Multi);
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("EveningIsActive", isActive), UpdateFlags.Multi);
         }
 
         #endregion
@@ -423,9 +549,9 @@ namespace TransportationService.Utility
         public void DriverSetActive(int driverId, bool isActive, int routeId)
         {
             if (routeId < 500)
-               _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("MorningIsActive", isActive), UpdateFlags.Multi);
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("MorningIsActive", isActive), UpdateFlags.Multi);
             else
-               _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("EveningIsActive", isActive), UpdateFlags.Multi);
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("EveningIsActive", isActive), UpdateFlags.Multi);
         }
 
         #endregion
@@ -514,29 +640,29 @@ namespace TransportationService.Utility
         public void AssignBusToRoute(int busId, int routeId)
         {
             if (routeId < 500)
-               _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("MorningAssignedTo", routeId), UpdateFlags.Multi);
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("MorningAssignedTo", routeId), UpdateFlags.Multi);
             else
-               _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("EveningAssignedTo", routeId), UpdateFlags.Multi);
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("BusId", busId), Update.Set("EveningAssignedTo", routeId), UpdateFlags.Multi);
         }
 
         public void AssignDriverToRoute(int driverId, int routeId)
         {
             if (routeId < 500)
-               _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("MorningAssignedTo", routeId), UpdateFlags.Multi);
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("MorningAssignedTo", routeId), UpdateFlags.Multi);
             else
-               _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("EveningAssignedTo", routeId), UpdateFlags.Multi);
+                _database.GetCollection(_driverCollectionName).Update(Query.EQ("DriverId", driverId), Update.Set("EveningAssignedTo", routeId), UpdateFlags.Multi);
         }
 
         public void UnassignBusesDriversFromRoute(int routeId)
         {
             if (routeId < 500)
             {
-               _database.GetCollection(_busCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningAssignedTo", -1), UpdateFlags.Multi);
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningAssignedTo", -1), UpdateFlags.Multi);
                 _database.GetCollection(_driverCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningAssignedTo", -1), UpdateFlags.Multi);
             }
             else
             {
-               _database.GetCollection(_busCollectionName).Update(Query.EQ("EveningAssignedTo", routeId), Update.Set("EveningAssignedTo", -1), UpdateFlags.Multi);
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("EveningAssignedTo", routeId), Update.Set("EveningAssignedTo", -1), UpdateFlags.Multi);
                 _database.GetCollection(_driverCollectionName).Update(Query.EQ("EveningAssignedTo", routeId), Update.Set("EveningAssignedTo", -1), UpdateFlags.Multi);
             }
         }
@@ -545,7 +671,7 @@ namespace TransportationService.Utility
         {
             if (routeId < 500)
             {
-               _database.GetCollection(_busCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningIsActive", false), UpdateFlags.Multi);
+                _database.GetCollection(_busCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningIsActive", false), UpdateFlags.Multi);
                 _database.GetCollection(_driverCollectionName).Update(Query.EQ("MorningAssignedTo", routeId), Update.Set("MorningIsActive", false), UpdateFlags.Multi);
             }
             else
@@ -619,8 +745,8 @@ namespace TransportationService.Utility
 
         public IEnumerable<EmployeeActivity> GetEmployeeActivityByRoute(ObjectId routeId)
         {
-           var coll = _database.GetCollection(_activityCollectionName);
-           return coll.AsQueryable<EmployeeActivity>().Where(ei => ei.Route.Id == routeId).OrderBy(ei => ei.Date);
+            var coll = _database.GetCollection(_activityCollectionName);
+            return coll.AsQueryable<EmployeeActivity>().Where(ei => ei.Route.Id == routeId).OrderBy(ei => ei.Date);
         }
 
         public Driver GetDriverAssignedToRouteBus(Route route, Bus bus)

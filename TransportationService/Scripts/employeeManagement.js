@@ -124,9 +124,11 @@ function viewEmployees(employeeRowId) {
         row.addClass("hide");
     }
 }
+
 function processFilter() {
     var filterByColumn = $("#filterType").val();
     var text = document.getElementById('filterUsage').value;
+    var date = document.getElementById('filterDateUsage').value;
     $(".activity-row").each(function () {
         var isHidden = true;
         if (filterByColumn == -1) {
@@ -141,6 +143,15 @@ function processFilter() {
                 if (ndx == filterByColumn) {
                     if (this.innerHTML.substring(0, length + 3) == text + " - " || text == "") {
                         isHidden = false;
+                    }
+                }
+            });
+        }
+        if (!isHidden && date != "") {
+            $(this).children("td").each(function (ndx) {
+                if (ndx == 4) {
+                    if (-1 == this.innerHTML.toLowerCase().indexOf(date.toLowerCase())) {
+                        isHidden = true;
                     }
                 }
             });

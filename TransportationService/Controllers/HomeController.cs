@@ -39,6 +39,10 @@ namespace TransportationService.Controllers
          {
             Username = user.Username
          };
+         //db.PreloadEmployees();
+         //db.PreloadBuses();
+         //db.PreloadDrivers();
+         //db.PreloadStops();
 
          return Json(new
          {
