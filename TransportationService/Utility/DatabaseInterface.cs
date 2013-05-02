@@ -701,7 +701,7 @@ namespace TransportationService.Utility
         {
             var coll = _database.GetCollection(_employeeCollectionName);
             string varName = routeId < 500 ? "MorningAssignedTo" : "EveningAssignedTo";
-            var query = Query.EQ(varName, routeId);
+            var query = Query.And(Query.EQ(varName, routeId), Query.EQ("HasBeenDeleted", false));
             return coll.FindAs<Employee>(query);
         }
 
@@ -720,7 +720,7 @@ namespace TransportationService.Utility
         {
             var coll = _database.GetCollection(_busCollectionName);
             string varName = routeId < 500 ? "MorningAssignedTo" : "EveningAssignedTo";
-            var query = Query.EQ(varName, routeId);
+            var query = Query.And(Query.EQ(varName, routeId), Query.EQ("HasBeenDeleted", false));
             return coll.FindAs<Bus>(query);
         }
 
