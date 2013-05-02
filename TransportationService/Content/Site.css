@@ -24,7 +24,7 @@
 	font-size: 15px;
 	margin: 9px;
 	margin-left: 20px;
-	position: fixed;
+	position: absolute;
 	top: 0px;
 	left: 80px;
 	color: #eee;
