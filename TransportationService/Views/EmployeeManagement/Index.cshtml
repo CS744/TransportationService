@@ -8,7 +8,7 @@
             <option value="">--Route--</option>
             @foreach (TransportationService.Utility.Route route in Model)
             {
-                <option value="@route.Id.ToString()">@route.Name</option>
+                <option value="@route.Id.ToString()">@route.RouteId - @route.Name</option>
             }
         </select>
         <div id="datepicker" class="input-append date" data-date-format="mm-dd-yyyy">

@@ -22,13 +22,13 @@
             <td style="font-weight: bold; padding: 7px 0px;">
                 <input class="checkbox-sub" type="checkbox" checked />
             </td>
-                <td>@employee.Name</td>
+                <td>@employee.EmployeeId - @employee.Name</td>
                 <td>
                     <select class="table-select select-stop">
                         <option value="">--Stop--</option>
                         @foreach (TransportationService.Utility.Stop stop in Model.Stops)
                         {
-                            <option value="@stop.Id.ToString()">@stop.Location</option>
+                            <option value="@stop.Id.ToString()">@stop.StopId - @stop.Location</option>
                         }
                     </select>
                 </td>
@@ -37,7 +37,7 @@
                         <option value="">--Bus--</option>
                         @foreach (TransportationService.Utility.Bus bus in Model.Buses)
                         {
-                            <option value="@bus.Id.ToString()">@bus.LicensePlate</option>
+                            <option value="@bus.Id.ToString()">@bus.BusId - @bus.LicensePlate</option>
                         }
                     </select>
                 </td>
