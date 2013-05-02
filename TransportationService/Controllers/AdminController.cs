@@ -336,7 +336,7 @@ namespace TransportationService.Controllers
                         DriverId = driverId,
                         Hour = hour,
                         Minute = minute,
-                        IsActive = entryIsActive
+                        IsActive = entryIsActive && isActive
                     });
                 }
             }
