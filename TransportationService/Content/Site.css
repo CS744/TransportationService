@@ -260,3 +260,7 @@ td > select {
 .activity-row {
 	cursor: default;
 }
+
+.select-stop {
+	width: 275px;
+}
