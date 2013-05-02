@@ -13,7 +13,7 @@
                     if (stopSelect.selectedIndex == -1) stopSelect.selectedIndex = 0;
                     var busSelect = $this.find(".select-bus")[0];
                     busSelect.selectedIndex = Math.floor(Math.random() * (busSelect.length - 1)) + 1;
-                    if (busSelect.selectedIndex == -1) busSelect.selectedIndexs = 0;
+                    if (busSelect.selectedIndex == -1) busSelect.selectedIndex = 0;
 
                     var hourSelect = $this.find(".hourList")[0];
                     hourSelect.selectedIndex = data.hour;
