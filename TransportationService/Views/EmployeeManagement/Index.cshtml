@@ -6,7 +6,7 @@
     <div>
         <select id="route-select">
             <option value="">--Route--</option>
-            @foreach (TransportationService.Utility.Route route in Model)
+            @foreach (TransportationService.Utility.Route route in Model.Where(r => r.IsActive))
             {
                 <option value="@route.Id.ToString()">@route.RouteId - @route.Name</option>
             }
