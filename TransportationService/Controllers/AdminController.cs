@@ -554,6 +554,7 @@ namespace TransportationService.Controllers
                 if (route.Stops.RemoveAll(s => s.Id == objId) > 0)
                 {
                     db.SaveRoute(route);
+                    db.SetInactiveBusesDriversFromRoute(route.RouteId);
                 }
             }
             //db.DeleteStopByObjId(objId);
