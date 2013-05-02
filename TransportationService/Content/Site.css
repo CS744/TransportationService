@@ -32,7 +32,7 @@
 
 #sign-out-text {
 	-webkit-transition: opacity linear .5s;
-	position: fixed;
+	position: absolute;
 	top: 0px;
 	right: 0px;
 	margin: 10px;
