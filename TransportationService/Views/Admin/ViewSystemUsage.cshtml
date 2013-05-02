@@ -12,6 +12,16 @@
 </select>
 <input id="filterUsage" class="input" type="text" onkeyup="processFilter()" placeholder="Filter" />
 <br />
+<select id="filterType2" style="width: 150px;" onchange="processFilter()">
+    <option value="-1">-- Filter By --</option>
+    <option value="0">RouteId</option>
+    <option value="1">BusId</option>
+    <option value="2">DriverId</option>
+    <option value="3">StopId</option>
+    <option value="5">EmployeeId</option>
+</select>
+<input id="filterUsage2" class="input" type="text" onkeyup="processFilter()" placeholder="Filter" />
+<br />
 <input id="filterDateUsage" class="input" type="text" onkeyup="processFilter()" placeholder="Filter by Date/Time" />
 <table id="system-usage-table" class="good-style">
     <thead>

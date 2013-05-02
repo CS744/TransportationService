@@ -128,9 +128,14 @@ function viewEmployees(employeeRowId) {
 function processFilter() {
     var filterByColumn = $("#filterType").val();
     var text = document.getElementById('filterUsage').value;
+    var filterByColumn2 = $("#filterType2").val();
+    var text2 = document.getElementById('filterUsage2').value;
     var date = document.getElementById('filterDateUsage').value;
     $(".activity-row").each(function () {
         var isHidden = true;
+        var isHidden2 = true;
+        var isHiddenDate = true;
+        //check first filter
         if (filterByColumn == -1) {
             $(this).children("td").each(function () {
                 if (-1 !== this.innerHTML.toLowerCase().indexOf(text.toLowerCase())) {
@@ -147,16 +152,34 @@ function processFilter() {
                 }
             });
         }
-        if (!isHidden && date != "") {
+        //check date
+        $(this).children("td").each(function (ndx) {
+            if (ndx == 4) {
+                if (-1 !== this.innerHTML.toLowerCase().indexOf(date.toLowerCase())) {
+                    isHiddenDate = false;
+                }
+            }
+        });
+        //check 2nd filter
+        if (filterByColumn2 == -1) {
+            $(this).children("td").each(function () {
+                if (-1 !== this.innerHTML.toLowerCase().indexOf(text2.toLowerCase())) {
+                    isHidden2 = false;
+                }
+            });
+        } else {
+            var length = text2.length;
             $(this).children("td").each(function (ndx) {
-                if (ndx == 4) {
-                    if (-1 == this.innerHTML.toLowerCase().indexOf(date.toLowerCase())) {
-                        isHidden = true;
+                if (ndx == filterByColumn2) {
+                    if (this.innerHTML.substring(0, length + 3) == text2 + " - " || text2 == "") {
+                        isHidden2 = false;
                     }
                 }
             });
         }
-        if (isHidden) {
+
+        var hideColumn = isHidden || isHidden2 || isHiddenDate;
+        if (hideColumn) {
             $(this).addClass("hide");
         }
         else {
