@@ -489,18 +489,28 @@ namespace TransportationService.Controllers
                 {
                     if (route.DriverBusList.Exists(s => s.BusId == bus.BusId))
                     {
-                        if (route.DriverBusList.Count == 1)
-                        {
-                            //the bus is the only bus of the route
-                            db.RouteSetInactive(route);
-                        }
-
                         //Set the driverbus to inactive
                         DriverBus drbs = route.DriverBusList.Find(s => s.BusId == bus.BusId);
                         drbs.IsActive = false;
                         drbs.BusId = -1;
+                        //set the driver to inactive
+                        db.DriverSetActive(drbs.DriverId, false, route.RouteId);
                         db.UpdateRoute(route);
-                        //db.DeleteBusByObjId(objId);
+                        bool foundActive = false;
+                        foreach (DriverBus dbs in route.DriverBusList)
+                        {
+                            if (dbs.IsActive)
+                            {
+                                foundActive = true;
+                                break;
+                            }
+                        }
+                        //set the route to inactive if there are no active driver/bus tuples
+                        if (!foundActive)
+                        {
+                            db.RouteSetInactive(route);
+                            db.UpdateRoute(route);
+                        }
                         bus.HasBeenDeleted = true;
                         db.UpdateBus(bus);
                     }
@@ -547,17 +557,24 @@ namespace TransportationService.Controllers
                 if (route.Stops.Exists(s => s.Id == objId) && route.Stops.Count == 1)
                 {
                     db.RouteSetInactive(route);
+                    foreach (var driverbus in route.DriverBusList)
+                    {
+                        driverbus.IsActive = false;
+                    }
+                    db.SaveRoute(route);
+                    db.SetInactiveBusesDriversFromRoute(route.RouteId);
                 }
             }
             foreach (Route route in routes)
             {
                 if (route.Stops.RemoveAll(s => s.Id == objId) > 0)
                 {
-                    foreach(var driverbus in route.DriverBusList){
-                       driverbus.IsActive = false;
-                    }
+                    //foreach (var driverbus in route.DriverBusList)
+                    //{
+                    //    driverbus.IsActive = false;
+                    //}
                     db.SaveRoute(route);
-                    db.SetInactiveBusesDriversFromRoute(route.RouteId);
+                    //db.SetInactiveBusesDriversFromRoute(route.RouteId);
                 }
             }
             //db.DeleteStopByObjId(objId);
@@ -641,7 +658,6 @@ namespace TransportationService.Controllers
             Driver driver = db.GetDriverByobjId(objId);
             if (driver.MorningAssignedTo == -1 && driver.EveningAssignedTo == -1)
             {
-                //db.DeleteDriverByObjId(objId);
                 driver.HasBeenDeleted = true;
                 db.UpdateDriver(driver);
             }
@@ -649,20 +665,30 @@ namespace TransportationService.Controllers
             {
                 foreach (Route route in routes)
                 {
-                    if (route.DriverBusList.Exists(s => s.DriverId == driver.DriverId))//TODO this also needs to check if 
+                    if (route.DriverBusList.Exists(s => s.DriverId == driver.DriverId)) 
                     {
-                        if (route.DriverBusList.Count == 1)
-                        {
-                            //the bus is the only bus of the route
-                            db.RouteSetInactive(route);
-                        }
-
                         //Set the driverbus to inactive
                         DriverBus drbs = route.DriverBusList.Find(s => s.DriverId == driver.DriverId);
                         drbs.IsActive = false;
                         drbs.DriverId = -1;
+                        //set the bus to inactive
+                        db.BusSetActive(drbs.BusId, false, route.RouteId);
                         db.UpdateRoute(route);
-                        //db.DeleteDriverByObjId(objId);
+                        bool foundActive = false;
+                        foreach (DriverBus dbs in route.DriverBusList)
+                        {
+                            if (dbs.IsActive)
+                            {
+                                foundActive = true;
+                                break;
+                            }
+                        }
+                        //set the route to inactive if there are no active driver/bus tuples
+                        if (!foundActive)
+                        {
+                            db.RouteSetInactive(route);
+                            db.UpdateRoute(route);
+                        }
                         driver.HasBeenDeleted = true;
                         db.UpdateDriver(driver);
                     }
